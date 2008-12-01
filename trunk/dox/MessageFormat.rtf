@@ -1,0 +1,252 @@
+{\rtf1\ansi\ansicpg1252\cocoartf949\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fmodern\fcharset0 CourierNewPSMT;\f2\fnil\fcharset0 Monaco;
+}
+{\colortbl;\red255\green255\blue255;\red255\green0\blue0;}
+\vieww9000\viewh8400\viewkind0
+\pard\qc
+
+\f0\b\fs28 \cf0 The WOMessageFormatter WebObjects Component\
+Gavin Eadie | Jan30/06 | v1.2\
+\pard\ql\qnatural
+
+\b0\fs24 \cf0 \
+I wrote a small component that could be very useful in other places.  In the course of working on it, I hit a problem that Matt Firlik eventually solved for me.  The result is a nicely reusable component that is worth sharing.\
+\
+The component, like WOString, emits text into the page or component that contains it.  However, it uses the 
+\f1 java.text.MessageFormatter.format()
+\f0  method to construct the emitted text which allows the string generation to be parameterized.\
+\
+Crudely speaking, MessageFormatter takes a marked up string, and substitutes parameters into the places indicated therein, for example, the string "
+\f1 The \{0\} sat on the \{1\}.
+\f0 " along with an java.util.Array of values wherein A[0] = "
+\f1 cat
+\f0 " and A[1] = "
+\f1 mat
+\f0 " would place the values from the Array into the string, like this: "
+\f1 The cat sat on the mat.
+\f0 "\
+\
+The MessageFormatter WebObjects component, which uses this method, simply takes bindings for the base format string and the substitution parameters.  The above example would be represented in a .wod file as:\
+\pard\li720\ql\qnatural
+
+\f1 \cf0 \
+MF1: MessageFormatter \{
+\f2 \uc0\u8232 
+\f1    value = "The \{0\} sat on the \{1\}.";
+\f2 \uc0\u8232 
+\f1    param0 = "cat";
+\f2 \uc0\u8232 
+\f1    param1 = "mat";
+\f2 \uc0\u8232 
+\f1 \}\
+\pard\ql\qnatural
+
+\f0 \cf0 \
+That is, the 
+\i value
+\i0  binding\'92s value should be the base string, and the substitutions should be bound to 
+\i param0
+\i0  through 
+\i paramN
+\i0  (for Java 1.3.x, N = 10; for Java 1.4.x, it is at least 20).\
+\
+Note that a usage of WOMessageFormatter such as the following, with NO substitutions:\
+\
+\pard\li720\ql\qnatural
+
+\f1 \cf0 MF2: WOMessageFormatter \{
+\f2 \uc0\u8232 
+\f1    value = "The dog sat on the chair.";
+\f2 \uc0\u8232 
+\f1 \}\
+\pard\ql\qnatural
+
+\f0 \cf0 \
+... is identical in behavior to a use of WOString, like this:\
+\
+\pard\li720\ql\qnatural
+
+\f1 \cf0 ST1: WOString \{
+\f2 \uc0\u8232 
+\f1    value = "The dog sat on the chair.";
+\f2 \uc0\u8232 
+\f1 \}\
+\pard\ql\qnatural
+
+\f0 \cf0 \
+\pard\ql\qnatural
+
+\i \cf0 Sneaky Tricks (not really, just using WOMessageFormatter's capability)
+\i0 \
+\
+It's possible to declare more about the substitutions than just where they should show up in the base string.  The 'substitution marks' can also provide type and formatting information -- the substitution can be a string (as shown above), a number (with formatting options), a date (with short, medium, long and full formats), and an interesting "choice" type that is truly powerful.\
+\
+\pard\ql\qnatural
+
+\b \cf0 Number
+\b0 : One use of the number option is simply to use an integer for the binding value -- it will be converted to a string in the expansion:\
+\
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+
+\f1 \cf0 \CocoaLigature0 	MF03: WOMessageFormatter \{\
+		value = "Substitute number: 12=\{0\}.";\
+		param0 = 12;\
+	\}\
+\
+
+\f0 \cf2 [Beware of the WebObjects Builder bug which thinks a negative binding is an error -- param0 = -12, above would get complaints, though it does work OK at run rime.]\
+\cf0 \
+\pard\ql\qnatural
+\cf0 \CocoaLigature1 More interesting is applying formatting specifications, the following places a comma after thousands:  
+\f1 \CocoaLigature0 \
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+\cf0 \
+	MF04: WOMessageFormatter \{\
+		value = "Like 1000.0 : \{0,number,#,###\}.";\
+		param0 = 5;\
+	\}\
+\pard\ql\qnatural
+
+\f0 \cf0 \CocoaLigature1 \
+Note that this is similar to WOString's capability, except that WOString can convert only one Number to a String via its 
+\i numberformat
+\i0   binding, and WOMessageFormatter not only allows the conversion of multiple numbers, but also allows expansion within an embedding string.\
+\
+Also available are currency and percent presentations:  
+\f1 \CocoaLigature0 \
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+\cf0 \
+	MF04: WOMessageFormatter \{\
+		value = "Spaced out \{0,number,currency\}, \{0,number,percent\}.";\
+		param0 = 5;\
+	\}\
+\pard\ql\qnatural
+
+\f0 \cf0 \CocoaLigature1 \
+\pard\ql\qnatural
+
+\b \cf0 Date
+\b0 : The date option will take a Date value for a parameter binding and expand it:\
+\
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+
+\f1 \cf0 \CocoaLigature0 	MF05: WOMessageFormatter \{\
+		value = "... and it is \{0,date\} at \{0,time\}.";\
+		param0 = timeNow;\
+	\}\
+\pard\ql\qnatural
+
+\f0 \cf0 \CocoaLigature1 \
+The date option can be further specified as short, medium, long, and full like this:\
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+
+\f1 \cf0 \CocoaLigature0 \
+	MF07: WOMessageFormatter \{\
+		value = "... date:short \{0,date,short\};\
+                         medium \{0,date, medium\};\
+                           long \{0,date, long\};\
+                           full \{0,date, full\}; .";\
+    	param0 = timeNow;\
+	\}\
+\pard\ql\qnatural
+
+\f0 \cf0 \CocoaLigature1 \
+\pard\ql\qnatural
+
+\b \cf0 Choice
+\b0 : This is appears complicated but is pretty simple and very useful -- I think it's a lot easier to understand than describe! It operates to select one string from alternatives, depending on the numeric value of a parameter binding.  The alternatives are all presented in the 
+\i value
+\i0  binding, after the "choice" option, as strings separated with vertical bars, as seen below.  In the example, the selector which causes a selection of one of the strings is the value of the 
+\i param0
+\i0  binding.\
+\
+Each string is associated with a range of values of the parameter binding.  The end points of that range are deduced from the numeric information on the front of each string -- in the case below the first string (
+\f1 \CocoaLigature0 are no files
+\f0 ) is associated with a\CocoaLigature1  range from negative 'infinity' [the beginning of the entire possible range] to 0, the second string's range is from 0 to 1, and the third string's range is from 1 to positive 'infinity'.\
+\
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+
+\f1 \cf0 \CocoaLigature0 	MF10: WOMessageFormatter \{\
+		value = "There \{0,choice,0#are no files|\
+                                 1#is one file|\
+                                 1<are \{0,number,integer\} files\}.";\
+		param0 = 1;\
+	\}\
+\pard\ql\qnatural
+\cf0 \CocoaLigature1 \
+
+\f0 The next example uses the 
+\i param0
+\i0  binding value to select a day of the week to print -- with the value 2, as below, the WOMessageFormatter component will emit "Tue".  Note that values less than 0 will associate with "Sun" and values over 6 with "Sat" -- fixing this is left as an exercise!\
+
+\f1 \
+\pard\tx480\tx960\tx1440\tx1920\tx2400\tx2880\tx3360\tx3840\tx4320\tx4800\tx5280\tx5760\tx6240\tx6720\tx7200\tx7680\tx8160\tx8640\tx9120\tx9600\tx10080\tx10560\tx11040\tx11520\tx12000\tx12480\tx12960\tx13440\tx13920\tx14400\tx14880\tx15360\tx15840\tx16320\tx16800\tx17280\tx17760\tx18240\tx18720\tx19200\tx19680\tx20160\tx20640\tx21120\tx21600\tx22080\tx22560\tx23040\tx23520\tx24000\tx24480\tx24960\tx25440\tx25920\tx26400\tx26880\tx27360\tx27840\tx28320\tx28800\tx29280\tx29760\tx30240\tx30720\tx31200\tx31680\tx32160\tx32640\tx33120\tx33600\tx34080\tx34560\tx35040\tx35520\tx36000\tx36480\tx36960\tx37440\tx37920\tx38400\tx38880\tx39360\tx39840\tx40320\tx40800\tx41280\tx41760\tx42240\tx42720\tx43200\tx43680\tx44160\tx44640\tx45120\tx45600\tx46080\tx46560\tx47040\tx47520\tx48000\ql\qnatural
+\cf0 \CocoaLigature0 	MF12: WOMessageFormatter \{\
+		value = "Day \{0,number\} is\
+                 \{0,choice,0#Sun|1#Mon|2#Tue|3#Wed|4#Thu|5#Fri|6#Sat\}.";\
+		param0 = 2;\
+	\}\
+\pard\ql\qnatural
+
+\f0 \cf0 \CocoaLigature1 \
+\pard\ql\qnatural
+
+\i \cf0 ... just one more thing
+\i0 \
+\
+The use I had for the WOMessageFormatter component was in a banner, but I didn't want the banner component to be aware of the bindings to pass into WOMessageFormatter; I wanted the page that the banner was on to establish the base string and substitutions -- in other words, WOMessageFormatter's bindings should come from its grandparent, not its parent.\
+\
+WOMessageFormatter deals with this by having one more binding that specifies where to look for the bindings to use!  This was the clever part that Matt helped me figure out.  The binding 
+\i source
+\i0  can be used to specify which component to obtain the 
+\i value
+\i0  and 
+\i param0
+\i0  through 
+\i param9
+\i0  binding values from.  For example, if the banner contained a WOMessageFormatter component with binding:\
+\
+\pard\li720\ql\qnatural
+
+\f1 \cf0 MF3: WOMessageFormatter \{\
+   source = self;
+\f2 \uc0\u8232 
+\f1 \}\
+\pard\ql\qnatural
+
+\f0 \cf0 \
+... then WOMessageFormatter would look in the banner's (self) bindings for the values for 
+\i value
+\i0  and 
+\i param0
+\i0  through 
+\i param9
+\i0 .  Of course, the banner component would then have to be given those bindings, so the main page's .wod file would provide them like:\
+\
+\pard\li720\ql\qnatural
+
+\f1 \cf0 Banner: MiniHeader \{\
+   value = "The \{0\} sat on the \{1\}.";
+\f2 \uc0\u8232 
+\f1    param0 = "cat";
+\f2 \uc0\u8232 
+\f1    param1 = "mat";\
+   ...
+\f2 \uc0\u8232 
+\f1 \}\
+\pard\ql\qnatural
+
+\f0 \cf0 \
+... note that MiniHeader doesn't act on these bindings, it just holds them for WOMessageFormatter to access.\
+\
+___\
+\
+This component is in the UMFoundation framework.\
+\
+v1.2:\
+  Change "format" binding to "value" so it more resembles WOString by default\
+  This component is in the CoreFramework framework.\
+\
+v1.3:\
+  rename to WOMessageFormatter\
+  now resident in CoreFramework}

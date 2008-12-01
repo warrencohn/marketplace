@@ -1,0 +1,8 @@
+        DateTimeFormatter		timeFormat = DateTimeFormat.forPattern("HH:mm");
+        String watchWindowStart = validated24HourTimeProperty(DEADLOCK_WATCH_WINDOW_START, DEFAULT_DEADLOCK_WATCH_WINDOW_START);
+        DateTime				watchStart = timeFormat.parseDateTime(watchWindowStart);
+        logger.info("DateTime : Start " + watchStart);
+
+        String watchWindowEnd = validated24HourTimeProperty(DEADLOCK_WATCH_WINDOW_END, DEFAULT_DEADLOCK_WATCH_WINDOW_END);
+        DateTime				watchEnd = timeFormat.parseDateTime(watchWindowEnd);
+        logger.info("DateTime :   End " + watchEnd);
