@@ -12,8 +12,3 @@ Library/Java/Extensions/mail.jar
 Library/Java/Extensions/mysql-connector-java-5.1.5-bin.jar
 Library/Java/Extensions/ojdbc14.jar
 Library/Java/Extensions/OpenBaseJDBC.jar
-Library/Frameworks/CoreFramework.framework
-Library/Frameworks/ERExtensions.framework
-Library/Frameworks/ERJars.framework
-Library/Frameworks/ERPrototypes.framework
-Library/Frameworks/JavaWOExtensions.framework
