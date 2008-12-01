@@ -1,0 +1,25 @@
+<wo:MarketplacePanel panelTitle="email" 
+                   alertMessage="[alertMessage]" 
+                  bodyComponent="[thisComponent]" 
+                      panelType="edit">
+  <wo:form multipleSubmit="true" action="[previewMessage]" >
+    <wo:AdvertListView list = "[selectedAd]" showPostToAuthor = "false"/>
+    <table cellspacing = "0" cellpadding = "1" border = "0" width = "100%">
+      <tr><td align = "left" valign = "top">
+          <b>email's subject:</b> <wo:string value="[emailSubject]" /><br /></td></tr>
+      <tr>
+        <td>
+          <b>your message:</b><br />
+          <wo:if condition="[previewMode]" >
+            <table cellspacing = "0" cellpadding = "5" border = "0" width = "80%" bgcolor = "#ffffff"><tr><td>
+              <wo:if condition="[messageBody.length]" ><wo:string value="[messageBody]" escapeHTML="false" />
+                                              <wo:else>(no message)</wo:else></wo:if></td></tr></table>
+          <wo:else><wo:text value="[messageBody]" rows = "7" cols = "80" wrap = "virtual" /></wo:else></wo:if>
+          <br />
+          <wo:if condition="[previewMode]" negate="true" ><br /></wo:if>
+          <wo:submit action="[cancelMessage]" value="cancel message" name="cancel"/>
+          &nbsp;
+          <wo:if condition="[previewMode]" ><wo:submit action="[editMessage]" value="edit message" name="edit"/>&nbsp;</wo:if>
+          <wo:if condition="[previewMode]" ><wo:submit action="[sendMessage]" value="send message" />
+                                   <wo:else><wo:submit action="[previewMessage]" value="preview message"/>&nbsp;</wo:else></wo:if>
+        </td></tr></table></wo:form></wo:MarketplacePanel>

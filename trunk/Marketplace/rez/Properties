@@ -1,0 +1,60 @@
+WOSMTPHost                      mail-relay.itd.umich.edu
+WOStatisticsPassword            XXX
+WODirectConnectEnabled          FALSE
+
+SeppukuPollingInterval          0
+SeppukuDeadlockedInterval       180000
+
+# application.trace.requests    TRUE
+# application.trace.responses   TRUE
+
+# NSDebugLevel                  NSLog.DebugLevelDetailed
+# NSDebugGroups                 1:24
+# NSPrivateDebuggingEnabled     true
+
+# LOGGING SETTINGS #########################################################
+
+# log4j.debug=true
+#             fatal,error,warn,info,debug,trace
+
+log4j.rootLogger                            trace, A1
+log4j.appender.A1                           er.extensions.logging.ERXConsoleAppender
+# log4j.appender.A1                         org.apache.log4j.ConsoleAppender
+log4j.appender.A1.layout                    org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern  [%d{ISO8601} %15.15t] %5.5p %24.24c : %m%n
+
+# WONDER SETTINGS ##########################################################
+
+er.extensions.stackTrace.cleanup=true
+
+er.extensions.ERXApplication.useEditingContextUnlocker=true
+er.extensions.ERXEC.defaultAutomaticLockUnlock=true
+er.extensions.ERXEC.useSharedEditingContext=false
+er.extensions.ERXEC.defaultCoalesceAutoLocks=true
+er.extensions.ERXEC.safeLocking=true
+er.extensions.ERXEnterpriseObject.applyRestrictingQualifierOnInsert=true
+er.extensions.ERXNSLogLog4jBridge=INFO
+
+er.extensions.ERXFileNotificationCenter.CheckFilesPeriod=0
+er.extensions.ERXApplication.DefaultEncoding=UTF-8
+
+log4j.loggerFactory=er.extensions.ERXLogger$Factory
+
+log4j.logger.er=INFO
+log4j.logger.er.transaction.adaptor.EOAdaptorDebugEnabled=DEBUG
+log4j.logger.er.extensions.fixes.ERSharedEOLoader=INFO
+log4j.logger.er.eo.ERXGenericRecord=DEBUG
+log4j.logger.er.validation.ERXEntityClassDescription=DEBUG
+log4j.logger.er.default.ERXEntityClassDescription=DEBUG
+log4j.logger.er.extensions.ERXDatabaseContextDelegate=WARN
+log4j.logger.er.extensions.ERXConfigurationManager=INFO
+log4j.logger.er.extensions.ERXApplication.RequestHandling=INFO
+
+# ERJGroupsSynchronizer #################################################
+
+#er.extensions.remoteSynchronizer.enabled=FALSE
+#er.extensions.ERXObjectStoreCoordinatorPool.maxCoordinators=1
+#er.extensions.jgroupsNotificationCenter.postLocal=TRUE
+#er.extensions.remoteSynchronizer=er.jgroups.ERJGroupsSynchronizer
+#er.extensions.jgroupsSynchronizer.multicastAddress=230.0.0.1
+#er.extensions.jgroupsSynchronizer.multicastPort=9753

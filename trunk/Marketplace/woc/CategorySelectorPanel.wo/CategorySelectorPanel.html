@@ -1,0 +1,34 @@
+<wo:MarketplacePanel panelTitle = "Advert Categories" panelToolTip = "[toolTipText]"
+                  bodyComponent = "[thisComponent]" panelType = "side">
+
+<wo:ShowHideAllSwapper hideLabel = "hide all categories" showLabel = "show all categories" 
+                    workingItems = "[topCategories]" 
+                    visibleItems = "[shortenedTopCategories]" /><br /><br />
+
+<table cellspacing = "0" cellpadding = "1" border = "0" width = "100%">
+<wo:repeat list = "[topCategories]" item = "[thisTopCategory]">
+
+  <tr><td width="11"><wo:link action="[swapShowHideOne]" >
+      <wo:if condition="[isExpanded]" ><wo:WOImage filename="ao.png" framework="app" 
+                                                  height = "8" width = "8" border = "0" />
+                             <wo:else><wo:WOImage filename="ac.png" framework="app" 
+                                                  height = "8" width = "8" border = "0" /></wo:else></wo:if></wo:link></td>
+      <td width = "100%"><wo:link action="[swapShowHideOne]" ><wo:string value="[thisTopCategory.name]" /></wo:link>
+      <wo:if condition="[isExpanded]" negate="true">(<wo:string value="[thisTopCategory.activeAdvertCount]" />)</wo:if></td></tr>
+      
+  <wo:if condition="[isExpanded]" >
+    <tr><td width="11">&nbsp;</td>
+        <td width = "100%">
+        <table cellspacing = "0" cellpadding = "1" border = "0" width = "100%">
+        <wo:repeat list = "[thisTopCategory.subCategories]" item = "[thisEndCategory]">
+          <tr><td width="11"><wo:WOImage filename="dot.png" framework="app" height = "6" width = "6" /></td>
+              <td width = "100%">&nbsp;<wo:link action="[viewAdsForCategory]" ><wo:string value="[thisEndCategory.name]" /></wo:link>
+                  (<wo:string value="[thisEndCategory.activeAdvertCount]" />)</td></tr></wo:repeat></table> </td></tr>
+  </wo:if>
+</wo:repeat>
+</table><br />
+
+<div align = "right"><wo:link class = "btn" 
+                             action = "[sess.userSessionModel.prepareFavoriteAdvertsDisplay]">view favorites</wo:link>
+&nbsp;&nbsp;         <wo:link class = "btn"
+                             action = "[sess.userSessionModel.prepareRecentAdvertsDisplay]">view recent adverts</wo:link></div></wo:MarketplacePanel>

@@ -1,0 +1,35 @@
+{
+    endCategories = {
+        class = EOFetchSpecification; 
+        entityName = Category; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOKeyValueQualifier; 
+            key = "parent.parent.name"; 
+            selectorName = isEqualTo; 
+            value = UM; 
+        }; 
+    }; 
+    subCategories = {
+        class = EOFetchSpecification; 
+        entityName = Category; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOKeyValueQualifier; 
+            key = parent; 
+            selectorName = isEqualTo; 
+            value = {"_key" = parent; class = EOQualifierVariable; }; 
+        }; 
+    }; 
+    topCategories = {
+        class = EOFetchSpecification; 
+        entityName = Category; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOKeyValueQualifier; 
+            key = "parent.name"; 
+            selectorName = isEqualTo; 
+            value = UM; 
+        }; 
+    }; 
+}

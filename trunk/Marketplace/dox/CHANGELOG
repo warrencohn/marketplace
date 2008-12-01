@@ -1,0 +1,129 @@
+CHANGE LOG
+----------
+
+Jul12/08    ------------------------------------------------------------------------------------------------
+            
+            The database model and associated in-memory structures have been changed quite radically.
+            
+            (a) only one model now
+            (b) stopped using database [sharing] for inter-instance communication
+            
+            We now use three in-memory structures for the retention of database information:
+            
+            (a) ApplicationModel (just one) -- holds the 'unchanging' information: categories and their 
+                names, and 'active' adverts (and a list of 'recent' adverts derived directly from 'active').
+                The advert lists aren't really unchanging, but they change slowly (~100 times a day?), 
+                so are refreshed as needed.
+                 
+            (b) UserSessionModel (one per session) -- is a repository of 'session-duration' info including 
+                information about the logged in customer, as well as the adverts that they authored and the 
+                adverts in their favorites.  We also keep category advert lists when they are invoked by 
+                the user.
+            
+            The ApplicationModel and UserSessionModel are completely independent and know NOTHING about 
+            each other.  Because of this, and because the ApplicationModel editing context isn't shared (and
+            maybe it should be, but I'm scared of EOSharedEditingContext), we have two copies of the 
+            category data.  The UserSessionModel needs it to allow category relations to be established for 
+            newly created adverts.
+                 
+            (c) AdvertList (transient) -- this holds the list of adverts being displayed on screen, whatever
+                their origin (recent, favorites, category or found).
+
+Mar24/08    ================================================================================ advance to v2.0
+
+			There have been a massive number of changes to the
+			Marketplace application both internally and in how
+			it is developed and built.
+			
+			MP is now entirely built in Eclipse/WOLips ...
+			MP now makes extensive use of CSS for layout ...
+            
+Dec11/07    ------------------------------------------------ advance to v1.5.11
+
+            Do not allow Friend accounts access
+            Correct stylesheet URL in error pages (kludge)
+            Add application start time to the footer
+
+Oct01/07    ------------------------------------------------ advance to v1.5.10
+
+            Correct typo in error message
+
+Sep12/07    ------------------------------------------------ advance to v1.5.9
+
+            Change footer to show port# as "AppID"
+
+            A little cleanup of the "page < 1 2 3 >" page selector.
+            
+            But I'm really hunting for the NPE we sometimes get in the
+            code that generates this navigation.  I found an off-by-one
+            error, though I can't see how it would cause this.
+
+            Changed batching from 10, 20, 30 ... to 10, 25, 50, 100
+
+Jul11/07    ------------------------------------------------ advance to v1.5.8
+
+            no changes in application, but new UMBrowser used in ITCSSession
+            to detect if the user is using an iPhone.  We don't do anything
+            except log this so far, but we probably ought to make some of the
+            accommodations that Apple recommends.
+
+Jun14/07    ------------------------------------------------ advance to v1.5.7
+
+            several minor changes driven by framework changes.
+
+May10/07    ------------------------------------------------ advance to v1.5.6
+
+            add "probe" properties (gav)
+            'deny list', Friend accounts and reduction in use of ITCSUser class
+            marketplace now does not need the ITCSMarketplace framework -- 
+               the methods and resources have been moved into the application.
+            beginnings of category editor:  ".../wa/catEdit"
+            application init moved out of constructor to notification method
+            Marketplace has it's own MPPanel, replacing use of ITCSPanel
+            Slight change to some graphics, more anti-aliasing to come ...
+            refactor a couple of methods from "search" to "MPComponent"
+            change the RECENT ads panel title to say "up to fifty most recent"
+                (and change the number from 5 to 50)
+            
+Jan15/07    ------------------------------------------------ advance to v1.5.5
+
+            add optional bulletin in banner ("userBulletinPanelString" in
+            session-properties (gav)
+Nov14/06
+            removed phayes and ianjones from the special users (gav)
+            add code to restrict access to Friend accounts (gav)
+            begin to remove unneccessary uses of ITCSUser class (gav)
+
+Feb14/06    ------------------------------------------------ advance to v1.5.4
+
+            changed database to wodbcluster.ds.itd.umich.edu
+
+Dec22/05 	------------------------------------------------ advance to v1.5.3
+
+Dec22/05	remove gpirkola and dgs from the list of loadTestUsers
+			
+Nov28/05	advance build version to 1.5.2, write changes to this change log
+
+Nov21/05	in MPBroadcastMessages.getBroadcastPanelTitleForCategory(), add a range
+			check so that we don't get an index out of bounds error (phayes)
+			
+Nov17/05 	------------------------------------------------ advance to v1.5.1
+
+Nov17/05 	Clean up the base-application.properties as follows:
+            -- remove all logging related properties so we use WebObject's own
+               destination for logs (set in Monitor). (gav)
+
+11/14/05 	Email the developer if we get the MPFooter NullPointerException so 
+			we can try to figure out why we are getting this error.  This error 
+			occurs infrequently, but it has been occurring for a very long time.  
+			It results in the "It's not your fault" error page. (phayes)
+		 
+		 	Related change in ITCSFoundation.ITCSErrorHandler: make 
+			emailNotify() public so that other classes can use it (phayes)
+
+11/3/05		Change base-application.properties so that watsmon is watsopsmon 
+			(that was a bug) (phayes)
+
+11/1/05		Change base-application.properties to have mailToForAppErrors and 
+			mailToForDBErrors be marketplace-bugss@umich.edu and 
+			watsmon@umich.edu (phayes)

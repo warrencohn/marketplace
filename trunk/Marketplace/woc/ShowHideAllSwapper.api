@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wodefinitions>
+	<wo class="ITCSExpandCollapse" wocomponentcontent="false">
+
+		
+		
+		
+		
+
+		
+
+		
+
+		
+	<binding name="showLabel"/>
+        <binding name="hideLabel"/>
+        <binding name="visibleItems"/>
+        <validation message="'revealedItems' is a required binding.">
+            <unbound name="visibleItems"/>
+        </validation>
+    <binding name="workingItems"/>
+        <validation message="'completeItems' is a required binding.">
+            <unbound name="workingItems"/>
+        </validation>
+        <validation message="'visibleItems' must be bound to a settable value">
+            <unsettable name="visibleItems"/>
+        </validation>
+    </wo>
+</wodefinitions>

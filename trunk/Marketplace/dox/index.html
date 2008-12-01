@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title>MarketplaceNotifier</title> 
+</head>
+<body>
+
+<h3>What was a separate MPN application now run as a timer task inside Marketplace</h3> 
+<h3>How does it work ?</h3> 
+MarketplaceNotifier (MPN) is a WebObjects application, but one which runs in an unusual manner.  All the
+work of MPN is done in the Application class, which then terminates.  This means that no Sessions are
+ever created and so this isn't really a web application since it never presents any way for users to see
+a web page.  This is not a technical requirement, it's a convenience which lets us use EOModels and 
+Frameworks that the real Marketplace application uses.
+<h3>Files/Directories required for MarketplaceNotifier (MPN)</h3> 
+MPN uses two local frameworks:
+<ul>
+	<li><strong><tt>OracleDriver.framework</tt></strong> -- this framework is a convenient vehicle for 
+	       the Oracle JDBC class library.  Presently it is carrying the ojdbc14.jar library.</li>
+	<li><strong><tt>JakartaCommons.framework</tt></strong> -- this framework carries a suite of Jakarta
+	       Commons jar files.  MPN uses the commons-lang library for some methods to perform time
+	       arithmetic.</li>
+</ul>
+
+MPN uses three files/bundles in Resources:
+<ul>
+	<li><strong><tt>ITCSUser.eomodeld</tt></strong> -- trivially relates uniqname to an index that the Marketplace
+	       database uses.</li>
+	<li><strong><tt>MarketPlace.eomodeld</tt></strong> -- this is the Marketplace database.</li>
+	<li><strong><tt>Properties</tt></strong> -- allows the application to be conditioned; in particular for testing
+	       the property mpn.testApplication should be set to TRUE and the property mpn.testUser
+	       set to the uniqname of the person who should get all the notification messages.</li>
+</ul>
+
+<h3>How to Run on Mac OS X</h3> 
+    <p>To run this application from XCode just run the application.</p> 
+    <p>To run this application at the command line, just execute it from its deployed location:</p> 
+<pre>
+    /Library/WebObjects/Applications/MarketplaceNotifier.woa/MarketplaceNotifier 
+</pre>
+<h3>How to Run on Linux</h3>
+    To run this application at the command line, just execute it from its deployed location:
+<pre>
+    /opt/Apple/Local/Library/WebObjects/Applications/MPN.woa/MPN
+</pre>
+Remember that, in a Linux deployment, the frameworks are embedded in the application bundle at 
+<pre>
+    ..../MPN.woa/MPN/Contents/Frameworks/</tt>
+</pre>
+<br>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<wo:MarketplacePanel panelTitle = "You are viewing: Your favorite adverts." panelToolTip = "[toolTipText]"
+                  bodyComponent = "[thisComponent]"  panelType = "side" alertMessage = "[alertMessage]">
+<wo:WOForm multipleSubmit = "true" method = "get">
+
+<wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareAdvertCreationPanel]" value = "post a new advert" />&nbsp;
+<wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareAuthorAdvertsDisplay]" value = "change status of my adverts" /><br />
+
+<wo:AdvertListView list = "[userSessionModel.favoriteAdverts]" canPostToAuthor = "true" showCheckbox="true" showBatcher = "false"/>
+
+<wo:if condition = "[userSessionModel.favoriteAdverts.@count]"><wo:WOSubmitButton class="btn"
+                                                                                 action="[removeFromHotlist]" 
+                                                                                  value="remove checked ad(s) from favorites" />
+<wo:else>You have no adverts in your favorites list.</wo:else></wo:if></wo:WOForm></wo:MarketplacePanel>

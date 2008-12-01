@@ -1,0 +1,9 @@
+<div class = "panel">
+   <wo:if condition = "[hasPanelTitle]"><div class = "head"><wo:string value = "[^panelTitle]" /></div></wo:if>
+   <wo:if condition = "[hasHelp]"><span class = "help"><a href = "#" title="[^panelToolTip]"
+                                                         class = "tip"><wo:WOImage filename = "help.gif" framework = "app"
+                                                                                     height = "21" width = "19"  /></a></span></wo:if>
+   <wo:if condition = "[hasErrorMessage]"><div class = "fail"><wo:string value = "[errorMessage]" escapeHTML = "false" /></div></wo:if>
+   <wo:if condition = "[hasAlertMessage]"><div class = "warn"><wo:string value = "[alertMessage]" escapeHTML = "false" /></div></wo:if>
+   <div class = "body"><wo:if condition = "[isBodyComponent]"><wo:WOComponentContent />
+                       <wo:else><wo:string value = "[bodyLiteralText]" /></wo:else></wo:if></div></div>
