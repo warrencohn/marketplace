@@ -1,9 +1,0 @@
-WOVersion: WOString {
-	value = application.webObjectsVersion;
-}
-
-RestartURL: WOActiveImage {
-	directActionName = "default";
-	filename = "restart.png";
-	framework = "CoreFramework";
-}
