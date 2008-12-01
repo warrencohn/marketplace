@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wodefinitions>
+	<wo class="UserNotification" wocomponentcontent="false">
+
+		<binding name="notificationDetails"/>
+		<binding name="notificationSummary"/>
+		<binding name="notificationBackCol"/>
+		<binding name="notificationTextCol"/>
+		<binding name="notificationTextSiz"/>
+
+		<validation message="'notificationSummary' is a required binding">
+			<unbound name="notificationSummary"/>
+		</validation>
+
+		<validation message="'notificationBackCol' is a required binding">
+			<unbound name="notificationBackCol"/>
+		</validation>
+
+		<validation message="'notificationTextCol' is a required binding">
+			<unbound name="notificationTextCol"/>
+		</validation>
+
+		<validation message="'notificationTextSiz' is a required binding">
+			<unbound name="notificationTextSiz"/>
+		</validation>
+	<validation message="'notificationDetails' is a required binding">
+            <unbound name="notificationDetails"/>
+        </validation>
+    </wo>
+</wodefinitions>
