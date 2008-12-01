@@ -1,0 +1,10 @@
+<table width = "100%" border = "0" cellspacing = "0" cellpadding = "0" 
+                                                  otherTagString = "[bannerTableStyle]">
+  <tr bgcolor = "[application.bannerBgColor]"><td width = "490" align = "left" valign = "middle">
+      <wo:if condition = "[sess.userSessionModel.isAuthorAdmin]">
+        <span class = "helpHeaderText"><wo:string value = "[application.name]" /></span>
+      <wo:else>
+        <a href = "http://marketplace.umich.edu"><wo:WOImage filename = "ban.gif" framework = "app" 
+                                                  height = "55" width = "490" border = "0" /></a></wo:else></wo:if></td>
+    <td align="right" valign="middle">
+      <wo:MarketplaceNav appTitle = "[application.name]" /></td></tr></table>

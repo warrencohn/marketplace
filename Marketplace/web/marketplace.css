@@ -1,0 +1,185 @@
+body, td, p {
+	color: #006;
+	font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.panel {
+	border: solid #03c 2px;
+	position: relative;
+	background-color: #ffc;
+	-webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;
+}
+
+.fail {
+	padding: 5px;
+	font-weight: bold;
+	color: #fff;
+	background-color: red;
+	-webkit-border-top-right-radius: 4px; -moz-border-top-right-radius: 4px;
+	-webkit-border-top-left-radius: 4px; -moz-border-top-left-radius: 4px;
+}
+
+.warn {
+	padding: 5px;
+	font-weight: bold;
+	color: #fff;
+	background-color: green;
+	-webkit-border-top-right-radius: 4px; -moz-border-top-right-radius: 4px;
+	-webkit-border-top-left-radius: 4px; -moz-border-top-left-radius: 4px;
+}
+
+.head {
+	padding: 4px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #03c;
+	-webkit-border-top-right-radius: 4px; -moz-border-top-right-radius: 4px;
+	-webkit-border-top-left-radius: 4px; -moz-border-top-left-radius: 4px;
+}
+
+.help {
+	position: absolute;
+	top: -1px;
+	right: -1px;
+}
+
+.body {
+	padding: 5px;
+	background-color: #ffc;
+	-webkit-border-bottom-right-radius: 6px; -moz-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px; -moz-border-bottom-left-radius: 6px;
+}
+
+.adpanel {
+	border: solid #ddd 1px;
+	position: relative;
+	margin-bottom: 8px;
+	background-color: white;
+	-webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;
+}
+
+.adhead {
+	padding: 3px;
+	color: white;
+	background-color: #03c;
+	-webkit-border-top-right-radius: 4px; -moz-border-top-right-radius: 4px;
+	-webkit-border-top-left-radius: 4px; -moz-border-top-left-radius: 4px;
+}
+
+.adheadR {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	color: white;
+}
+
+.adbody {
+	padding: 3px;
+	background-color: white;
+	-webkit-border-bottom-right-radius: 6px; -moz-border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px; -moz-border-bottom-left-radius: 6px;
+}
+
+.navlink {
+	position: relative;
+	width: 12em;
+	padding: 5px; margin: 3px;
+	border: solid #03c 2px;
+	background-color: #ddd;
+	text-align: center;
+	vertical-align: middle;
+	-webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;
+}
+
+.pageTailText {
+	color: #513034;
+	text-align: center;
+	display: block;
+}
+
+.helpHeaderText {
+	color: white;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.smallErrorMessage {
+    color: #c00;
+}
+
+a:link {
+	color: #00f;
+}
+
+a:visited {
+	color: #93c;
+}
+
+a:hover {
+	color: #c30;
+}
+
+a:active {
+	color: #f60;
+}
+
+a.tip {
+    text-decoration: none;
+}
+
+a.tip:hover {
+    position: relative;
+}
+
+a.tip span {
+    display: none;
+}
+
+a.tip:hover span {
+    display: block; position: absolute; bottom: 0in; right: 0in;
+    font: x-small "Lucida Grande", Lucida, Verdana, sans-serif;
+    padding: 2px; margin: 10px; z-index: 100; width: 32em;
+    background: #f0f0f0; opacity: 0.9; border: 1px dotted #c0c0c0;
+}
+
+.btn {
+    text-decoration: none;
+    text-align: center; background-color: #ffc;
+    border: 1px solid orange; padding: 1px;
+    border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px;
+    color: #03c; font-weight: bold;
+    font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+a.btn {
+    text-decoration: none;
+    text-align: center; background-color: #ffc;
+    border: 1px solid orange; padding: 1px;
+    border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px;
+    color: #03c; font-weight: bold;
+    font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+a.btn:hover {
+    color: #c30; background-color: #ffb;
+}
+
+a.btnw {
+    text-decoration: none;
+    text-align: center; background-color: #fff;
+    border: 1px solid orange; padding: 1px;
+    border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px;
+    color: #03c; font-weight: bold;
+    font: 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+a.btnw:hover {
+    color: #c30; background-color: #ffe;
+}
+
+.test {
+	text-align: center;
+	border: 2px solid maroon;
+	color: blue;
+	font: x-small "Lucida Grande", Lucida, Verdana, sans-serif;
+}

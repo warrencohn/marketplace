@@ -1,0 +1,13 @@
+{
+    ByUniqname = {
+        class = EOFetchSpecification; 
+        entityName = Author; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOKeyValueQualifier; 
+            key = uniqname; 
+            selectorName = isEqualTo; 
+            value = {"_key" = uniqname; class = EOQualifierVariable; }; 
+        }; 
+    }; 
+}

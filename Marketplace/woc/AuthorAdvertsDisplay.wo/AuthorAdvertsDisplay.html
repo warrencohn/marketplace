@@ -1,0 +1,11 @@
+<wo:MarketplacePanel panelTitle = "you are viewing: all your own adverts" panelToolTip = "[toolTipText]"
+                  bodyComponent = "[thisComponent]" panelType = "side" alertMessage = "[alertMessage]">
+<wo:WOForm multipleSubmit = "true" method = "get">
+
+<wo:AdvertListView list = "[userSessionModel.authorAdverts]" canAddToFavorites = "true" showCheckbox="true" />
+      <table cellspacing = "0" cellpadding = "2" border = "0" width = "100%">
+        <tr valign = "middle">
+        <td><wo:submit action="[renewAds]" value="renew checked ad(s)" />&nbsp;&nbsp;
+            <wo:submit action="[deleteAds]" value="delete checked ad(s)" />&nbsp;&nbsp;
+        <font color = "#c00">Deleting an ad will delete it permanently.</font></td></tr></table>
+</wo:WOForm></wo:MarketplacePanel>

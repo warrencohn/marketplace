@@ -1,0 +1,6 @@
+<wo:MarketplaceSkin pageTitle = "[application.name]">
+<wo:if condition = "[sess.userSessionModel.isTwoColumns]"><td width = "35%" valign = "top">
+<wo:if condition = "[sess.userSessionModel.isAuthorAdmin]"><wo:AdminInstructionsPanel /><br /></wo:if>
+<wo:CategorySelectorPanel /><br /><wo:UsagePolicyPanel /><br /><wo:OtherResourcesPanel /></td></wo:if>
+<td width = "65%" valign = "top">
+<wo:WOSwitchComponent WOComponentName = "[sess.userSessionModel.advertViewerName]" /></td></wo:MarketplaceSkin>

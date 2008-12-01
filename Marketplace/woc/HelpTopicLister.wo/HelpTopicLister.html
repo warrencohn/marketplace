@@ -1,0 +1,7 @@
+<ul type="square">
+<wo:repeat list = "[topics]" 
+           item = "[topic]"
+          index = "[index]"><script type="text/javascript">function <wo:string value = "[topicKey]" />() {document.getElementById('TopicValue').innerHTML='<wo:string value = "[topicVal]" escapeHTML = "false" />';}</script>
+<wo:WOGenericContainer elementName = "li" 
+                    otherTagString = "[onClick]"><wo:string value = "[topic]" /></wo:WOGenericContainer></wo:repeat>
+</ul>

@@ -1,0 +1,64 @@
+<wo:if condition = "[isMoreThanOneAdvert]"><table cellspacing = "0" cellpadding = "0" border = "0" width = "100%">
+  <tr><td><b>sort by:</b>&nbsp;&nbsp;
+<wo:link class="btn" action = "[sortByDate]">date</wo:link>&nbsp;&nbsp;
+<wo:link class="btn" action = "[sortByPrice]">price</wo:link>&nbsp;&nbsp;
+<wo:link class="btn" action = "[sortByUser]">user</wo:link></td>
+  <td align = "right"><wo:if condition = "[showBatcher]"><wo:MPRangeChooser /><wo:else>&nbsp;</wo:else></wo:if></td></tr></table><br />
+
+<table cellspacing = "0" cellpadding = "0" border = "0" width = "100%"><tr>
+  <td align = "left" valign = "top">
+    <wo:ShowHideAllSwapper hideLabel = "hide all ads" showLabel = "show all ads" 
+                        workingItems = "[displayedAdverts]" visibleItems = "[shortenedAdverts]"/></td></tr></table><br/></wo:if>
+
+<wo:repeat list = "[displayedAdverts]" item = "[thisAdvert]">
+
+<div class="adpanel"><div class = "adhead">
+<wo:string value = "[thisAdvert.itemTitle]" escapeHTML = "true" />
+   <wo:if condition = "[thisAdvert.isExpired]"><font color = "yellow">[this ad has expired]</font></wo:if></div>
+   <wo:if condition = "[thisAdvert.number]"><div class = "adheadR"><wo:if condition = "[showCategoryName]"> &nbsp; &nbsp; 
+        (<wo:string value = "[thisAdvert.category.longName]" />)</wo:if></div></wo:if>
+<div class = "adbody">
+<table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
+   <tr valign = "middle">
+   <wo:if condition = "[showCheckbox]"><td align = "left" width = "1%"><wo:WOCheckBox checked = "[isAdChecked]" /></td></wo:if>
+      <td width = "1%">
+        <wo:if condition = "[isExpanded]"><wo:WOHyperlink action = "[swapShowHideOne]"><wo:WOImage filename = "ao.png" framework = "app" name = "collapse" alt = "collapse" border = "0" width = "8" height = "8" /></wo:WOHyperlink>
+                                 <wo:else><wo:WOHyperlink action = "[swapShowHideOne]"><wo:WOImage filename = "ac.png" framework = "app" name = "collapse" alt = "collapse" border = "0" width = "8" height = "8" /></wo:WOHyperlink></wo:else></wo:if></td>
+      <td>&nbsp;expires: <wo:string dateformat = "%a %b %d, %Y" value = "[thisAdvert.expiryDate]" /></td>
+      <td align = "right" colspan = "2"><wo:if condition = "[thisAdvert.hasPrice]">price: <wo:string value = "[thisAdvert.itemPrice]" numberformat="$###,##0.00" /></wo:if></td>
+      <td align = "right" width = "40%">posted by: <wo:string value = "[thisAdvert.authorUniqname]" /></td></tr>
+
+    <wo:if condition = "[isExpanded]">
+      <tr valign = "top">
+        <wo:if condition = "[showCheckbox]"><td>&nbsp;</td></wo:if>
+        <td align = "left" colspan = "5" style = "padding: 8px;"><wo:string value = "[thisAdvert.itemDescription]" escapeHTML = "true"/></td></tr>
+
+      <tr valign = "top">
+        <wo:if condition = "[showCheckbox]"><td>&nbsp;</td></wo:if>
+        <td align = "left" colspan = "2">
+          <wo:if condition = "[thisAdvert.number]">ad# <wo:string value = "[thisAdvert.number]" /></wo:if></td>
+        <td align = "right" colspan = "3">
+          <wo:if condition = "[thisAdvert.hasURL]"><a href = "[thisAdvert.itemLink]" target = "_blank">view&nbsp;web&nbsp;page</a>&nbsp;&nbsp;</wo:if>
+          <wo:if condition = "[canAddToFavorites]"><wo:link class="btnw" action = "[addToFavorites]">add&nbsp;to&nbsp;my&nbsp;hotlist</wo:link>&nbsp;&nbsp;</wo:if>
+          <wo:if condition = "[canPostToAuthor]"><wo:link class="btnw" action = "[postToAuthor]">email&nbsp;to&nbsp;<wo:string value = "[thisAdvert.authorUniqname]" /></wo:link></wo:if></td></tr></wo:if></table>
+</div>
+</div>
+</wo:repeat>
+
+<wo:if condition = "[showBatcher]">
+<table cellspacing = "0" cellpadding = "0" border = "0" width = "100%"><tr>
+  <td align = "right" width = "75%" valign = "top">&nbsp;
+    <wo:if condition = "[isBatchOverflow]">page
+      <wo:link action = "[prevBatch]" 
+             disabled = "[isNoPrevBatch]"><wo:WOImage filename = "al.png" framework = "app"/></wo:link>
+      <wo:repeat list = "[batchCursors]" item = "[batchCursor]">
+        <wo:if condition = "[isCurrentBatch]"><b><wo:link action = "[goToBatchNumber]" 
+                                                          string = "[batchCursor]" 
+                                                        disabled = "[isCurrentBatch]"/></b>
+   									    <wo:else><wo:link action = "[goToBatchNumber]" 
+							                              string = "[batchCursor]" 
+							                            disabled = "[isCurrentBatch]"/></wo:else></wo:if>
+      </wo:repeat>
+      <wo:link action = "[nextBatch]" 
+             disabled = "[isNoNextBatch]"><wo:WOImage filename = "ac.png" framework = "app"/></wo:link>
+    </wo:if></td></tr></table></wo:if>

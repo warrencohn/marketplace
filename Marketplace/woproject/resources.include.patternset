@@ -1,0 +1,9 @@
+**/*.eomodeld~/
+**/*.woa/**
+**/*.framework/**
+**/*.eogen
+**/*.eomodeld
+**/*.help
+**/*.properties
+**/Properties
+**/*.wo

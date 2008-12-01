@@ -1,0 +1,15 @@
+<wo:CategoryMessages />
+
+<wo:MarketplacePanel panelTitle = "you are viewing: the most recently posted adverts" panelToolTip = "[toolTipText]"
+                  bodyComponent = "[thisComponent]"  panelType = "side" alertMessage = "[alertMessage]">
+<wo:WOForm multipleSubmit = "true" method = "get">
+
+<wo:if condition = "[userSessionModel.isAuthorAdmin]" >
+    <wo:submit action="[userSessionModel.searchOnKeywords]" name="find" value="find" /> 
+    <wo:textfield value="[userSessionModel.searchTerms]" size="15" /></wo:if>
+
+<wo:link class="btn" action = "[userSessionModel.prepareAdvertCreationPanel]">post a new advert</wo:link>&nbsp;
+<wo:link class="btn" action = "[userSessionModel.prepareAuthorAdvertsDisplay]">change status of my adverts</wo:link><br /><br />
+
+<wo:AdvertListView list = "[application.applicationModel.recentAdverts]" canPostToAuthor = "true" canAddToFavorites = "true"/>
+</wo:WOForm></wo:MarketplacePanel>

@@ -1,0 +1,6 @@
+<table cellspacing="0" border="0" cellpadding="0"><tr>
+  <wo:if condition = "[tryToReturn]">
+  <td><wo:if condition = "[onMainPage]"><wo:WOHyperlink action = "[goToHelp]"><div class="navlink">help</div></wo:WOHyperlink>
+      <wo:else><wo:WOHyperlink action = "[returnToMain]"><div class="navlink">return to <wo:string value = "[application.name]" /></div></wo:WOHyperlink></wo:else></wo:if></td></wo:if>
+  
+  <td><wo:WOHyperlink directActionName = "logout"><div class="navlink">logout</div></wo:WOHyperlink></td></tr></table>

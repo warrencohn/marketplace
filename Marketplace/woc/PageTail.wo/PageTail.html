@@ -1,0 +1,20 @@
+<span class = "pageTailText">  
+  <wo:if condition = "[organizationName.length]">
+    <a href = "[organizationLink]" target = "_blank"><wo:string value = "[organizationName]" escapeHTML = "false"/></a></wo:if>
+    &nbsp;|&nbsp;
+    <a href = "[organizationMail]">Contact Us</a>  <br />
+    Copyright &copy; <wo:string value = "[copyrightYear]" /> The Regents of
+    <a href = "http://www.umich.edu" target = "_blank">The University of Michigan</a>
+    Ann Arbor, MI 48109 USA
+  <br />
+  <wo:WOMessageFormatter 
+        value = "Version: {0} ({7}); Built: {1}; Start: {6}; Host: {2}; AppID: {3}/{5}; uniqname: {4}"
+        param0 = "[appVersion]"
+        param1 = "[appBuildTime]"
+        param2 = "[appHostname]"
+        param3 = "[appID]"
+        param4 = "[uniqname]"
+        param5 = "[appInstance]"
+        param6 = "[appStartTime]" 
+        param7 = "[svnVersion]" />
+</span>
