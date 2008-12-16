@@ -8,7 +8,6 @@ package edu.umich.marketplace;
 //----------------------------------------------------------------------------------------------------------------
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.util.Date;
@@ -107,9 +106,9 @@ public class Application extends ITCSApplication {
 		startDayChangeTimerTask();
 		startNotifierTimerTask();
 		
-        Thread multicastReader = new MulticastReadThread();
-        multicastReader.setName("MulticastReader");
-        multicastReader.start();
+        Thread datagramReader = new DatagramReadThread();
+        datagramReader.setName("DatagramReader");
+        datagramReader.start();
 
 		logger.trace("<-- applicationWillFinishLaunching");
 	}
@@ -285,25 +284,28 @@ public class Application extends ITCSApplication {
 		return timer;
 	}
 
-    private class MulticastReadThread extends Thread {
+    private class DatagramReadThread extends Thread {
 		@Override
 		public void run() {
-			logger.trace("- - -   m u l t i c a s t   t h r e a d   - - -");
+			logger.trace("- - -   d a t a g r a m     r e a d e r     t h r e a d   - - -");
 
 	        while (true) {
 		        byte[] 		inbuf = new byte[256];
 				try {
-					MulticastSocket socket = new MulticastSocket(multiCastPort);
-		            socket.joinGroup(InetAddress.getByName(multiCastGroup));
-//			        socket.setLoopbackMode(false);
-					DatagramPacket packet = new DatagramPacket(inbuf, inbuf.length);
-					logger.error("MulticastReader before read ...");
+			        MulticastSocket socket = new MulticastSocket(multiCastPort);
+			        socket.joinGroup(InetAddress.getByName(multiCastGroup));
+
+			        DatagramPacket packet = new DatagramPacket(inbuf, inbuf.length);
 		            socket.receive(packet);
-					logger.error("MulticastReader success");
-					logger.trace("MulticastReader (packet size): " + packet.getLength());
+					logger.trace("DatagramReader success: \"" + 
+							new String(packet.getData(), 0, packet.getLength()) + "\"");
+					
+			        packet = null;
+			        socket.leaveGroup(InetAddress.getByName(multiCastGroup));
+			        socket.close();
 				}
 				catch (Exception x) {
-					logger.error("MulticastReader failure: " + x);
+					logger.error("DatagramReader failure: " + x);
 				}
 			}
 		}
