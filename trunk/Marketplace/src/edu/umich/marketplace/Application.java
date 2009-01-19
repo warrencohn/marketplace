@@ -316,7 +316,7 @@ public class Application extends ITCSApplication {
     //  are no worker threads in that version ... Aug12/06 - Gav
     //
     //TODO
-    //  Actually, we're still OK in 5.4 ...
+    //  Actually, we're still OK in 5.4 ... (time to check 5.5 in Snow Leopard!)
     
     private void joinAllThreads () {
         ThreadGroup     mainGroup = Thread.currentThread().getThreadGroup();        
