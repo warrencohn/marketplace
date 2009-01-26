@@ -1,6 +1,10 @@
 CHANGE LOG
 ----------
 
+Jan26/09    ------------------------------------------------------------------------------------------------
+
+            More buttons turned into link-like text actions.
+
 Jul12/08    ------------------------------------------------------------------------------------------------
             
             The database model and associated in-memory structures have been changed quite radically.

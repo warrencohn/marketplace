@@ -15,8 +15,8 @@ public class FavoriteAdvertsDisplay extends GenericAdvertDisplay {
         super(context);
     }
 
-    public WOComponent removeFromHotlist() {
-		logger.trace("--> removeFromHotlist()");
+    public WOComponent removeFromFavorites() {
+		logger.trace("--> removeFromFavorites()");
 
 		if ((userSessionModel.getCheckedAdverts() == null) || (userSessionModel.getCheckedAdverts().count() == 0)) {
 			setAlertMessage("Please select one or more ads to remove. You can select an ad by clicking on the box to its left.");

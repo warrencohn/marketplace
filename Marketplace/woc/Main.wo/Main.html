@@ -1,6 +1,26 @@
-<wo:MarketplaceSkin pageTitle = "[application.name]">
+<wo:MarketplaceSkin pageTitle = "[application.name]"><br/><br/>
+
 <wo:if condition = "[sess.userSessionModel.isTwoColumns]"><td width = "35%" valign = "top">
+
 <wo:if condition = "[sess.userSessionModel.isAuthorAdmin]"><wo:AdminInstructionsPanel /><br /></wo:if>
-<wo:CategorySelectorPanel /><br /><wo:UsagePolicyPanel /><br /><wo:OtherResourcesPanel /></td></wo:if>
+
+<wo:CategorySelectorPanel /><br />
+
+<wo:MarketplacePanel bodyComponent = "[thisComponent]" 
+                        panelTitle = "Appropriate Use"
+                         panelType = "side">
+  Marketplace, like all U-M computing resources, is subject to the University's Proper Use Policy.
+  That Policy can be downloaded from <a target="_blank" href="http://spg.umich.edu/pdf/601.07-0.pdf">here</a>.<br/><br/>
+  Report violations of that policy to the IT User Advocate (<a href="mailto:abuse@umich.edu">abuse@umich.edu</a>).
+</wo:MarketplacePanel><br />
+  
+<wo:MarketplacePanel bodyComponent = "[thisComponent]" 
+                        panelTitle = "Additional Resources" 
+                         panelType = "side">
+  <i>The Michigan Daily</i> offers online access to its 
+  <a target="_blank" href="http://www.michigandaily.com/classifieds/">classified ads</a>.
+</wo:MarketplacePanel>
+  
+</td></wo:if>
 <td width = "65%" valign = "top">
 <wo:WOSwitchComponent WOComponentName = "[sess.userSessionModel.advertViewerName]" /></td></wo:MarketplaceSkin>

@@ -4,8 +4,8 @@
 
 <wo:AdvertListView list = "[userSessionModel.authorAdverts]" canAddToFavorites = "true" showCheckbox="true" />
       <table cellspacing = "0" cellpadding = "2" border = "0" width = "100%">
-        <tr valign = "middle">
-        <td><wo:submit action="[renewAds]" value="renew checked ad(s)" />&nbsp;&nbsp;
-            <wo:submit action="[deleteAds]" value="delete checked ad(s)" />&nbsp;&nbsp;
-        <font color = "#c00">Deleting an ad will delete it permanently.</font></td></tr></table>
+        <tr align = "right">
+        <td><wo:submit class="btn" action="[renewAds]" value="renew checked ad(s)" />&nbsp;&nbsp;
+            <wo:submit class="btn" action="[deleteAds]" value="delete checked ad(s)" /><br/>
+            <font color = "#c00" size="-2">Deleting an ad will delete it permanently.</font></td></tr></table>
 </wo:WOForm></wo:MarketplacePanel>
