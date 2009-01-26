@@ -9,7 +9,6 @@ package edu.umich.marketplace.woc;
 
 import org.apache.log4j.Logger;
 
-import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.eoaccess.EOModelGroup;
@@ -19,30 +18,28 @@ import com.webobjects.eocontrol.EOQualifier;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 
-import edu.umich.marketplace.Application;
 import edu.umich.marketplace.eof.Category;
 import er.extensions.eof.ERXEC;
 
 public class MPCatEdit extends MPComponent {
 	private static final Logger logger = Logger.getLogger (MPCatEdit.class);
 
-    private Category              _baseCategory;              // or "domain"
-    private NSArray<Category>     _topCategories;             // upper categories only
-    private NSArray<Category>     _subCategories;             // lower categories only
+    private Category              	_baseCategory;              // or "domain"
+    private NSArray<Category>     	_topCategories;             // upper categories only
+    private NSArray<Category>     	_subCategories;             // lower categories only
 
-    public NSArray<Category>      allCategories;              // all categories, except domain
-    public Category               oneCategory;
+    public NSArray<Category> 	  	allCategories;              // all categories, except domain
+    public Category               	oneCategory;
 
-    public String                   newTopCatName;
-    public Category               iteratedTop;
-    public Category               selectedTop;
+    public String               	newTopCatName;
+    public Category              	iteratedTop;
+    public Category               	selectedTop;
 
     public String                   newSubCatName;
-    public Category               iteratedSub;
-    public Category               selectedSub;
+    public Category               	iteratedSub;
+    public Category               	selectedSub;
 
-    private final Application           	application = (Application)WOApplication.application();	//TODO
-    private final EOEditingContext        _ec = ERXEC.newEditingContext();
+    private final EOEditingContext  _ec = ERXEC.newEditingContext();
     private EOFetchSpecification    _fetchSpec;
 
     public String                   errorMessage = "";

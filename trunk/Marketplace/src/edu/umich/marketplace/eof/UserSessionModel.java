@@ -1,6 +1,5 @@
 package edu.umich.marketplace.eof;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
@@ -34,13 +33,13 @@ import er.extensions.eof.ERXEC;
  * This class provides (a) the process to log a user onto the application and (b) session level storage for this user.
  * The store contains:
  *
- * (1) _myAdverts: these are the adverts that the user authored which are still available to be renewed or deleted.
+ * (1) _myAdverts: these are the favorites that the user authored which are still available to be renewed or deleted.
  *
- * (2) _favorites: these are the adverts that the user wants to keep a note off, it is a subset of the active ads.
+ * (2) _favorites: these are the favorites that the user wants to keep a note off, it is a subset of the active ads.
  *
- * (3) _endCategories: these are the categories that adverts can be associated with. This is an unchanging set but it a
- * copy is maintained in the session store to be in the same editing context as any adverts that might be created
- * because such adverts need to be related to their category. [NOTE: This is not the proper way to do this -- much
+ * (3) _endCategories: these are the categories that favorites can be associated with. This is an unchanging set but it a
+ * copy is maintained in the session store to be in the same editing context as any favorites that might be created
+ * because such favorites need to be related to their category. [NOTE: This is not the proper way to do this -- much
  * better would be to keep the categories in the application's store and make that store a sharedEditingContext but
  * I'm nervous about how to do that, so "waste memory, save brain" ...].
  *

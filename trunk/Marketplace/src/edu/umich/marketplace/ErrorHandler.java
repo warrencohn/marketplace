@@ -6,7 +6,6 @@ package edu.umich.marketplace;
 
 import org.apache.log4j.Logger;
 
-import com.ramsayconz.wocore.CoreApplication;
 import com.ramsayconz.wocore.CoreAssistance;
 import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOContext;

@@ -8,6 +8,6 @@
 <wo:AdvertListView list = "[userSessionModel.favoriteAdverts]" canPostToAuthor = "true" showCheckbox="true" showBatcher = "false"/>
 
 <wo:if condition = "[userSessionModel.favoriteAdverts.@count]"><wo:WOSubmitButton class="btn"
-                                                                                 action="[removeFromHotlist]" 
+                                                                                 action="[removeFromFavorites]" 
                                                                                   value="remove checked ad(s) from favorites" />
 <wo:else>You have no adverts in your favorites list.</wo:else></wo:if></wo:WOForm></wo:MarketplacePanel>

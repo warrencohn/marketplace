@@ -2,8 +2,6 @@ package edu.umich.marketplace.eof;
 
 import org.apache.log4j.Logger;
 
-import com.ramsayconz.wocore.CoreApplication;
-
 public class Author extends _Author {
 	@SuppressWarnings("unused")
 	private static Logger logger = Logger.getLogger(Author.class);

@@ -8,7 +8,7 @@ import com.webobjects.appserver.WOResponse;
 public class GenericAdvertDisplay extends MPComponent {
 	private static final Logger		logger = Logger.getLogger(GenericAdvertDisplay.class);
 
-    public static final String		_EmptyHotlist    = "You currently have no ads in your hotlist.",
+    public static final String		_EmptyHotlist    = "You currently have no ads in your favorites.",
     								_EmptyMyAds      = "You do not have any currently posted ads.",
                                     _EmptyRecentAds  = "There are no recent ads.",
                                     _EmptySearch     = "Found no matches.";

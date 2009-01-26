@@ -26,6 +26,7 @@ public class MarketplaceAction {
     protected void mailActionLog() {
         String subject = "[Marketplace] Notifier log for " + _dateFormat.format(new Date());
         CoreAssistance.mailToDeveloper(subject, _actionLog.toString());
+        logger.info("Action log mailed to " + _testMailAddress);
     }
 
     /**

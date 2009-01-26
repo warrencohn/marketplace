@@ -39,7 +39,7 @@
           <wo:if condition = "[thisAdvert.number]">ad# <wo:string value = "[thisAdvert.number]" /></wo:if></td>
         <td align = "right" colspan = "3">
           <wo:if condition = "[thisAdvert.hasURL]"><a href = "[thisAdvert.itemLink]" target = "_blank">view&nbsp;web&nbsp;page</a>&nbsp;&nbsp;</wo:if>
-          <wo:if condition = "[canAddToFavorites]"><wo:link class="btnw" action = "[addToFavorites]">add&nbsp;to&nbsp;my&nbsp;hotlist</wo:link>&nbsp;&nbsp;</wo:if>
+          <wo:if condition = "[canAddToFavorites]"><wo:link class="btnw" action = "[addToFavorites]">add&nbsp;to&nbsp;my&nbsp;favorites</wo:link>&nbsp;&nbsp;</wo:if>
           <wo:if condition = "[canPostToAuthor]"><wo:link class="btnw" action = "[postToAuthor]">email&nbsp;to&nbsp;<wo:string value = "[thisAdvert.authorUniqname]" /></wo:link></wo:if></td></tr></wo:if></table>
 </div>
 </div>

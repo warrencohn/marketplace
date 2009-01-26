@@ -20,10 +20,10 @@ T02 Marketplace, like all U-M computing resources, is subject to the
 	<li><b>You may not use University resources for profit-making or fund-raising activities. This means</b></li>
  <p>
  <ul>
-	<li>It is <b>okay</b> to advertise to sell your own used textbooks.</li><br>
+	<li>It is <b>okay</b> to advertise to sell your own used textbooks.</li><br/>
 	<li>It is <b>not okay</b> to solicit business for commercial telephone service providers, herbal product 
-	    distributors, or anyone else who makes a profit on what they sell.</li><br>
-	<li>It is <b>okay</b> to place an advert to sublet your apartment.</li><br>
+	    distributors, or anyone else who makes a profit on what they sell.</li><br/>
+	<li>It is <b>okay</b> to place an advert to sublet your apartment.</li><br/>
 	<li>It is <b>not okay</b> to advertise vacancies in your (or anyone else\'s) rental property.</li></ul>
  <p>
  <li><b>You may not use University resources to violate U-M policy. That means</b></li>
@@ -33,8 +33,8 @@ T02 Marketplace, like all U-M computing resources, is subject to the
 	    student football tickets provided to family and friends must be validated for unrestricted use by paying 
 	    the difference between the student and public prices. 
 	    See the <a href="http://www.mgoblue.com/document_display.cfm?document_id=3066" target="_blank">football 
-	    ticket policy information</a> on the MGoBlue web site for details.</li><br>
-	<li>It is <b>not okay</b> to sell your tickets to U-M athletic events at a profit.</li><br>
+	    ticket policy information</a> on the MGoBlue web site for details.</li><br/>
+	<li>It is <b>not okay</b> to sell your tickets to U-M athletic events at a profit.</li><br/>
 	<li>It is <b>not okay</b> to resell U-M parking permits. These are for the use of the purchaser only.</li></ul>
  <p>
 	<li><b>You may not use University resources to break the law. This means you can\'t make false claims in your 
@@ -54,12 +54,12 @@ T03	When you open Marketplace, the five most-recently placed adverts will be dis
 			In the <b>advert categories</b> panel on the left-hand side of the page, click the triangle next to a 
 			general area name to see the categories inside it.
 		</li>
-		<br>
+		<br/>
 		<li>
 			Select a category by clicking it. (The number of adverts in that category is listed in parentheses 
 			next to the category name.) 
 		</li>
-		<br>
+		<br/>
 		<li>
 			The adverts in the category you selected will be displayed in the panel on the right-hand side of the page. 
 		</li>
@@ -100,46 +100,46 @@ T04	You can search adverts within categories.
 			and any matches will be displayed. 
 	</ol>
 	<p>
-	Also, you can keep a <b>hotlist</b> of adverts you\'ve found that you want to return to. To place any advert 
-	on your hotlist, look at the expanded view of that advert (click <b>expand</b> at the far left of the advert), 
-	then click the <b>add to hotlist</b> link. Please note that when an advert expires, it will disappear from your 
-	hotlist. Adverts expire after one week unless they are renewed. 
+	Also, you can keep a list of <b>favorite</b> adverts you\'ve found that you want to return to. To place any advert 
+	on your favorites list, look at the expanded view of that advert (click <b>expand</b> at the far left of the advert), 
+	then click the <b>add to favorites</b> link. Please note that when an advert expires, it will disappear from your 
+	favorites list. Adverts expire after one week unless they are renewed. 
 
-M05 Hotlist -- adverts you want to save
+M05 Favorites -- adverts you want to save
 
-T05	You can keep a <b>hotlist</b> of adverts you\'ve found that you want to return to. 
+T05	You can keep a <b>favorite</b> adverts you\'ve found that you want to return to. 
 	<p>
-		<b>View your hotlist</b> 
+		<b>View your favorites</b> 
 	<ol>
 		<li>
-			At the bottom of the <b>advert categories</b> panel, click <b>view hotlist.</b> Your list of saved 
-			adverts will be displayed in the <b>you are viewing: your hotlist</b> panel on the right-hand side 
+			At the bottom of the <b>advert categories</b> panel, click <b>view favorites.</b> Your list of saved 
+			adverts will be displayed in the <b>you are viewing: your favorites</b> panel on the right-hand side 
 			of the page. 
 	</ol>
 	<p>
-	<b>Add an advert to your hotlist</b> 
+	<b>Add an advert to your favorites list</b> 
 	<ol>
 	<li>
-		Look at the expanded view of the advert you want to put on your hotlist. (Click <b>expand</b> at the 
+		Look at the expanded view of the advert you want to put on your favorites list. (Click <b>expand</b> at the 
 		far left of that advert.) 
 		<p>
 	<li>
-		Click the <b>add to hotlist</b> link. Please note that when an advert expires, it will disappear from 
-		your hotlist. Adverts expire after one week unless they are renewed. 
+		Click the <b>add to favorites</b> link. Please note that when an advert expires, it will disappear from 
+		your favorites list. Adverts expire after one week unless they are renewed. 
 	</ol>
 	<p>
-	<b>Delete an advert from your hotlist</b> 
+	<b>Delete an advert from your favorites</b> 
 	<ol>
 	<li>
-		View your hotlist (see directions above). 
+		View your favorites (see directions above). 
 	</li>
-	<br>
+	<br/>
 	<li>
-		Check the checkbox to the left of the advert that you want to remove from your hotlist. 
+		Check the checkbox to the left of the advert that you want to remove from your favorites. 
 	</li>
-	<br>
+	<br/>
 	<li>
-		At the bottom of your hotlist, click <b>remove checked advert(s) from hotlist.</b>
+		At the bottom of your favorites list, click <b>remove checked advert(s) from favorites.</b>
 	</li>
 	</ol>
 
@@ -205,11 +205,11 @@ T07	Once an advert is posted, you cannot make changes to it. You can, however, r
 		<li>
 			At the top of the <b>you are viewing</b> panel, click <b>change posted advert status.</b> 
 		</li>
-		<br>
+		<br/>
 		<li>
 			Check the checkbox to the left of the advert that you want to renew. 
 		</li>
-		<br>
+		<br/>
 		<li>
 			Click <b>renew checked advert(s).</b> 
 	</ol>
@@ -220,31 +220,31 @@ M08 Renewing an advert
 T08	You can renew adverts you have posted for an additional week at a time. 
 	<p>
 	<ol>
-		<li>At the top of the <b>you are viewing</b> panel, click <b>change posted advert status.</b> </li><br>
-		<li>Check the checkbox to the left of the advert that you want to renew. </li><br>
+		<li>At the top of the <b>you are viewing</b> panel, click <b>change posted advert status.</b> </li><br/>
+		<li>Check the checkbox to the left of the advert that you want to renew. </li><br/>
 		<li>Click <b>renew checked advert(s).</b> 
 	</ol>
 
 M09 Canceling/deleting an advert
 
 T09	<ol>
-		<li>At the top of the <b>you are viewing</b> panel, click <b>change posted advert status.</b> </li><br>
-		<li>Check the checkbox to the left of the advert that you want to delete. </li><br>
+		<li>At the top of the <b>you are viewing</b> panel, click <b>change posted advert status.</b> </li><br/>
+		<li>Check the checkbox to the left of the advert that you want to delete. </li><br/>
 		<li>Click <b>delete checked advert(s).</b> Note that once an advert is deleted, it cannot be undeleted; it is gone. 
 	</ol>
 	
 M10 Responding to an advert
 	
 T10	<ol>
-		<li>Find the advert to which you want to respond. </li><br>
-		<li>Look at the expanded view of that advert by clicking <b>expand</b> at the far left side of the advert. </li><br>
+		<li>Find the advert to which you want to respond. </li><br/>
+		<li>Look at the expanded view of that advert by clicking <b>expand</b> at the far left side of the advert. </li><br/>
 		<li>Click the <b>reply to advert</b> link at the far right side of the advert. This will allow you to send 
-		    e-mail to the person who posted the advert.</li><br>
-		<li>The subject of the message will be filled in for you. </li><br>
-		<li>Type your message in the text box. </li><br>
+		    e-mail to the person who posted the advert.</li><br/>
+		<li>The subject of the message will be filled in for you. </li><br/>
+		<li>Type your message in the text box. </li><br/>
 		<li>Click <b>preview message</b>. 
 		</li>
-		<br>
+		<br/>
 		<li>Your message will be displayed. 
 		</li>
 	<ul>
@@ -275,7 +275,7 @@ AuthorAdvertsDisplay	<b>Change posted advert status:</b>
 		    Once deleted, an advert cannot be "undeleted." 
 	</ul>
 
-AdvertCreationPanel <b>How to place an advert</b><br>
+AdvertCreationPanel <b>How to place an advert</b><br/>
 	<ol>
 		<li>Select a category for your advert from the <b>category</b> pop-up menu. 
 		<li>Enter a title, description, and price. 
@@ -285,30 +285,30 @@ AdvertCreationPanel <b>How to place an advert</b><br>
 		    before posting, or <b>cancel advert</b> to cancel it. 
 	</ol>
 
-RecentAdvertsDisplay The most-recently placed adverts are displayed here.<br>
-	Select a category in the "Advert Categories" panel on the left to display the adverts for that category.
+RecentAdvertsDisplay The most-recently placed adverts are displayed here.<br/>
+	Select a category in the <i>Advert Categories</i> panel on the left to display the adverts for that category.
 
 CategorySelectorPanel <ul>
 		<li>Click the triangle next to a heading to see the categories under that heading. 
-		<li>To view adverts in a particular category, click the category name. The adverts will be displayed in the panel on the right. 
-		<li>Click <b>view hotlist</b> to open your hotlist -- the place you can save adverts of particular interest to you. 
-		<li>Click <b>view recent postings</b> to see the 50 most-recently placed adverts across all categories. 
+		<li>To view adverts in a particular category, click the category name. 
+		<li>Click <b>view favorites</b> to open your favorites list. 
+		<li>Click <b>view recent postings</b> to see the most-recently placed adverts across all categories. 
 	</ul>
 
 CategoryAdvertsDisplay <b>Viewing adverts:</b> 
 	<ul>
 		<li>Select a category in the advert categories panel at left, and the adverts in that category will be displayed here. 
-		<li>To add an advert to your hotlist, click <b>add to hotlist.</b> 
+		<li>To add an advert to your favorites list, click <b>add to favorites.</b> 
 		<li>View additional pages of adverts by clicking the page numbers in the bottom right corner of this panel. 
 	</ul>
 
-FavoriteAdvertsDisplay Ads you have added to your hotlist are displayed here. Note that adverts expire after one week, 
-                       and adverts will disappear from your hotlist when they expire. 
-	<p>To add an advert to your hotlist, look at the full view of the advert and click <b>add to hotlist.</b><p>
+FavoriteAdvertsDisplay Ads you have added to your favorites list are displayed here. Note that adverts expire after one week, 
+                       and adverts will disappear from your favorites when they expire. 
+	<p>To add an advert to your favorites list, look at the full view of the advert and click <b>add to favorites.</b><p>
 	<ul>
-		<li>Sort the adverts in your hotlist by clicking <b>date, price,</b> or <b>user</b> in the <b>sort by</b> bar. 
-		<li>To delete an advert from your hotlist, check the checkbox to its left, then click <b>remove checked 
-		    advert(s) from hotlist.</b> 
+		<li>Sort the adverts in your favorites list by clicking <b>date, price,</b> or <b>user</b> in the <b>sort by</b> bar. 
+		<li>To delete an advert from your favorites, check the checkbox to its left, then click <b>remove checked 
+		    advert(s) from favorites.</b> 
 		<li>To see a full advert, click <b>full view</b> to the right of that advert. 
 		<li>To see the full view of all the adverts you are viewing, click <b>expand all adverts</b> at the bottom of this panel. 
 	</ul>

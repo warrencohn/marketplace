@@ -6,42 +6,46 @@
 <wo:form multipleSubmit = "true">
   <wo:if condition = "[previewMode]">
       <wo:AdvertListView list = "[newAdvert]" />
-      <b>please note</b><br /><br />all ads run for 1 week from the date of posting;
-      <br />
-      you can renew an ad in &quot;edit posted ad(s)&quot;<br /><br />Use of the Classifieds service is subject to the
-      <wo:link href = "http://www.itcs.umich.edu/~policies/">U-M Proper Use Policy and Guidelines for Responsible Use.</wo:link><br />
-      <wo:submit action = "[cancelAd]" 
-                  value = "cancel ad" />&nbsp;<wo:submit action = "[editAd]" 
-                                                          value = "change ad" />&nbsp;<wo:submit action = "[postAd]" 
-                                                                                                  value = "post ad" />
+      <b>Please Note: </b>All ads run for 1 week from the date of posting;
+      you can renew an ad in &quot;edit posted ad(s)&quot;<br /><br />
+      Use of the Marketplace service is subject to the
+      <wo:link target="_blank" href = "http://www.itd.umich.edu/itpolicies/">Information Technology Policies at the University of Michigan</wo:link>.<br />
+
+    <table cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+      <tr><td align = "right" valign = "top" colspan = "3">
+      <wo:submit action = "[cancelAd]" class = "btn" value = "cancel advert" />&nbsp;
+      <wo:submit action = "[editAd]" class = "btn" value = "re-edit advert" />
+      <wo:submit action = "[postAd]" class = "btn" value = "post advert" />
+      </td></tr></table>
   <wo:else>
     <table cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
-      <tr><td align = "left" valign = "top" colspan = "3">category<br />
+      <tr><td align = "left" valign = "top" colspan = "3">category:
           <wo:WOPopUpButton displayString = "[iteratedCategory.longName]" list = "[userSessionModel.endCategories]"
                                      item = "[iteratedCategory]" selection = "[selectedCategory]" 
                         noSelectionString = "- Please select a category -" /><br /></td></tr>
-      <tr><td align = "left" valign = "top" colspan = "3">title<br />
+      <tr><td align = "left" valign = "top" colspan = "3">title:
           <wo:if condition = "[isValidTitle]" negate = "true">
             <span class = "smallErrorMessage">your ad must have a title</span><br /></wo:if>
           <wo:WOTextField value = "[newAdvert.itemTitle]" 
                       maxlength = "90" size = "50" /><br /></td></tr>
-      <tr><td align = "left" valign = "top">price&nbsp;(optional)<br /><wo:if condition = "[isPriceValid]" negate = "true"><span class = "smallErrorMessage">the price must be positive!</span><br /></wo:if>
+      <tr><td align = "left" valign = "top" colspan = "2">price&nbsp;(optional): <wo:if condition = "[isPriceValid]" negate = "true"><span class = "smallErrorMessage">the price must be positive!</span><br /></wo:if>
           <wo:WOTextField value = "[newAdvert.itemPrice]" 
-                      maxlength = "15" size = "10" numberformat = "$###,##0.00" /></td>
-          <td align = "left" valign = "top">url&nbsp;(optional)<br />
+                      maxlength = "15" size = "10" numberformat = "$###,##0.00" />
+          url&nbsp;(optional):
           <wo:if condition = "[isURLValid]" negate = "true">
             <span class = "smallErrorMessage">your URL must be less than 100 characters long and have a valid URL format</span><br /></wo:if>
           <wo:WOTextField value = "[newAdvert.itemLink]" maxlength = "90" size = "25" /></td>
-          <td align = "left" valign = "top">post<br />
+          <td align = "left" valign = "top">post:
           <wo:WOPopUpButton list = "[postWhenPopupList]" item = "[iteratedPostWhen]" selection = "[selectedPostWhen]" /></td></tr>
-      <tr><td align = "left" valign = "top" colspan = "3">description<br />
+      <tr><td align = "left" valign = "top" colspan = "3">description (up to 2000 characters):<br />
           <wo:if condition = "[isValidBody]" negate = "true">
             <span class = "smallErrorMessage">you must have some text in your ad</span><br /></wo:if>
-          <wo:WOText value = "[newAdvert.itemDescription]" rows = "8" cols = "50" maxlength = "1999" wrap = "virtual" /></td></tr></table>
+          <wo:WOText value = "[newAdvert.itemDescription]" rows = "8" cols = "80" maxlength = "1999" wrap = "virtual" /></td></tr>
 
-      Use of the Classifieds service is subject to the
-      <wo:link href = "http://www.itcs.umich.edu/~policies/">U-M Proper Use Policy and Guidelines for Responsible Use.</wo:link><br />
-      <wo:submit action = "[cancelAd]" 
-                  value = "cancel ad" />&nbsp;<wo:submit action = "[previewAd]" 
-                                                          value = "preview ad" /></wo:else></wo:if></wo:form>
+      <tr><td align="left">Use of the Marketplace service is subject to the
+      <wo:link target="_blank" href = "http://www.itd.umich.edu/itpolicies/">Information Technology Policies at the University of Michigan</wo:link>.</td></tr>
+      <tr><td align = "right" valign = "top" colspan = "3">
+      <wo:submit action = "[cancelAd]" class = "btn" value = "cancel advert" />&nbsp;
+      <wo:submit action = "[previewAd]" class = "btn" value = "preview advert" />
+      </td></tr></table></wo:else></wo:if></wo:form>
 </wo:MarketplacePanel>

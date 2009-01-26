@@ -20,7 +20,8 @@ public class CleanDatabase extends MarketplaceAction {
 //		for (Advert advert : adsToDelete) {
 //			_ec.deleteObject(advert);
 //		}
-//		_ec.saveChanges();
+
+		_ec.saveChanges();
 	}
 
 	public void doCleanupB() {
@@ -31,6 +32,7 @@ public class CleanDatabase extends MarketplaceAction {
 //		for (Category cat : catsToDelete) {
 //			_ec.deleteObject(cat);
 //		}
-//		_ec.saveChanges();
+		
+		_ec.saveChanges();
 	}
 }
