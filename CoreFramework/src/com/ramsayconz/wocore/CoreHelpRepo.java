@@ -93,6 +93,7 @@ public class CoreHelpRepo {
 		return _helpRepo.immutableClone();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String prettyPrint() {
 		StringBuffer 	sb = new StringBuffer("\n");
 		

@@ -34,6 +34,7 @@ import com.webobjects.foundation.NSSelector;
 public class FrameworkInitializer {
     private static final Logger     logger = Logger.getLogger(FrameworkInitializer.class);
     
+	@SuppressWarnings("unchecked")
 	protected Class					_aClass;			// The class containing the static initialization method
    	protected String 				_initializerName;	// The name of the static initialization method
 
@@ -53,6 +54,7 @@ public class FrameworkInitializer {
 	 *            <CODE>ApplicationWillFinishLaunchingNotification</CODE>
 	 *            notification.
 	 */
+	@SuppressWarnings("unchecked")
 	public FrameworkInitializer(Class aClass, String initializerName, boolean initializeAfterAppConstruction) {
 		_aClass = aClass;
 		_initializerName = initializerName;
@@ -77,6 +79,7 @@ public class FrameworkInitializer {
 	 * @param aClass The class to invoke initializeFromFramework() on when the WOApplication is fully initialized.
 	 */
    	
+	@SuppressWarnings("unchecked")
 	public FrameworkInitializer(Class aClass) {
 		this(aClass, "initializeFromFramework", false);
 	}

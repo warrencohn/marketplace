@@ -272,7 +272,8 @@ public class CoreApplication extends ERXApplication {
      *	             URL <-- "EOM.JDBC.DATABASE.";
      */
 
-    private void adjustEOModel(EOModel model) {
+    @SuppressWarnings("unchecked")
+	private void adjustEOModel(EOModel model) {
         String              eoConnStringUser, eoConnStringPass, eoConnStringJDBC;
         String				modelName = model.name().toUpperCase();
         

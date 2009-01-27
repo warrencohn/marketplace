@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import com.webobjects.appserver.WOContext;
 
 public class CoreStandardPage extends CoreComponent {
-    private static final Logger     logger = Logger.getLogger (CoreStandardPage.class);
+	private static final Logger     logger = Logger.getLogger (CoreStandardPage.class);
     
     public CoreStandardPage(WOContext context) {
         super(context);

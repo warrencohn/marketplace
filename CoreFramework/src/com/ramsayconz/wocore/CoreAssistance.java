@@ -56,7 +56,8 @@ public class CoreAssistance {
      * @return		array of Info.plist contents from all frameworks (and not application)
      */
     
-    static public NSDictionary<String, NSDictionary<String, ?>> frameworkInfoPlists() {
+    @SuppressWarnings("unchecked")
+	static public NSDictionary<String, NSDictionary<String, ?>> frameworkInfoPlists() {
         NSMutableDictionary<String, NSDictionary<String, ?>>	
         							infoPlists = new NSMutableDictionary<String, NSDictionary<String, ?>>();
         
@@ -230,6 +231,7 @@ public class CoreAssistance {
 	 * Returns an <CODE>Iterator</CODE> of all loaded <CODE>EOEntity</CODE>s. This doesn't really belong in here, 
 	 * but it's just too handy.
 	 */
+	@SuppressWarnings("unchecked")
 	public static Iterator<EOEntity> entityEnumerator(EOEditingContext ec) {
 		NSMutableArray<EOEntity> entityArray = new NSMutableArray<EOEntity>(8);
 		for (EOModel model : EOUtilities.modelGroup(ec).models()) {
@@ -269,6 +271,7 @@ public class CoreAssistance {
     }
 
 	
+	@SuppressWarnings("unchecked")
 	public static void prettyPrintEOEditingContext(EOEditingContext ec) {
 		logger.trace("+-- EOEditingContext --" + (ec.hasChanges() ? " hasChanges " : "------------") + 
 												"--------------------------------------------------");

@@ -73,7 +73,8 @@ public class WorkerThreadMonitor extends TimerTask {
     /**
      * Designated constructor
      */
-    public WorkerThreadMonitor() {
+    @SuppressWarnings("unchecked")
+	public WorkerThreadMonitor() {
         super();
         
         // Check if we should be running or not

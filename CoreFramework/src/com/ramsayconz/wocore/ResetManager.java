@@ -33,19 +33,23 @@ public class ResetManager {
 	 * A dictionary where each entry key is the name of a stateless component class and the value is an array of type
 	 * Field that should be reset automatically.
 	 */
-    protected static NSMutableDictionary    _statelessComponentFieldLibrary = new NSMutableDictionary();
+    @SuppressWarnings("unchecked")
+	protected static NSMutableDictionary    _statelessComponentFieldLibrary = new NSMutableDictionary();
     
-    public static NSMutableDictionary getStatelessComponentFieldLibrary() {
+    @SuppressWarnings("unchecked")
+	public static NSMutableDictionary getStatelessComponentFieldLibrary() {
         return _statelessComponentFieldLibrary;
     }
     
     /** Sets the NSArray of Field for the component. */
-    public static void setFieldsForComponent(NSArray fields, WOComponent component) {
+    @SuppressWarnings("unchecked")
+	public static void setFieldsForComponent(NSArray fields, WOComponent component) {
         _statelessComponentFieldLibrary.setObjectForKey(fields, component.getClass().getName());
     }
     
     /** @return NSArray of Field for the component. */
-    public static NSArray fieldsForComponent(WOComponent component) {
+    @SuppressWarnings("unchecked")
+	public static NSArray fieldsForComponent(WOComponent component) {
         NSArray array = (NSArray)_statelessComponentFieldLibrary.valueForKey( component.getClass().getName() );
         if (array == null) {
             array = fieldsToReset(component);           // Calculate the Field array
@@ -55,6 +59,7 @@ public class ResetManager {
     }
     
     /** resets ivars in the component argument */
+	@SuppressWarnings("unchecked")
 	public static void reset(WOComponent component) {
 		NSArray<Field> resettableFields = ResetManager.fieldsForComponent(component);
 		if (logger.isDebugEnabled())
@@ -86,6 +91,7 @@ public class ResetManager {
 	 *         not static 4. the field is not abstract 5. the field is not final 6. the field is not a primitive type
 	 *         The current object class hierarchy is examined for resettable fields up to and excluding this superclass
 	 */
+	@SuppressWarnings("unchecked")
 	protected static NSArray fieldsToReset(WOComponent component) {
 		NSMutableArray fieldsToReset = new NSMutableArray();
 

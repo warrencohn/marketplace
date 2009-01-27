@@ -574,7 +574,8 @@ public final class NSLog {
         return PRIVATE_DEBUGGING_ENABLED && debugLoggingAllowedForLevelAndGroups(aDebugLevel, aDebugGroups);
     }
     
-    private static void _initDebugDefaults() {
+    @SuppressWarnings("unchecked")
+	private static void _initDebugDefaults() {
         System.out.println("=== NSLog._initDebugDefaults()");
         try {
             String value = NSProperties.getProperty("NSPrivateDebuggingEnabled");
@@ -678,7 +679,8 @@ public final class NSLog {
         _inInitPhase = flag;
     }
     
-    private static int parseIntValueFromString(String aDebugLevel) {
+    @SuppressWarnings("unchecked")
+	private static int parseIntValueFromString(String aDebugLevel) {
         int parsedIntValue = DebugLevelOff;
         if (aDebugLevel.charAt(0) >= '0' && aDebugLevel.charAt(0) <= '9') {
             try {
@@ -730,7 +732,8 @@ public final class NSLog {
         return parsedIntValue;
     }
     
-    private static long parseLongValueFromString(String aDebugGroup) {
+    @SuppressWarnings("unchecked")
+	private static long parseLongValueFromString(String aDebugGroup) {
 		long parsedLongValue = 0L;
 		int rangeDelimiter = aDebugGroup.indexOf(debugGroupRangeChar);
 		if (rangeDelimiter == notFound) {
