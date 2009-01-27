@@ -21,7 +21,7 @@ import edu.umich.marketplace.woc.ErrorPageFriend;
 import edu.umich.marketplace.woc.ErrorPageWicked;
 import er.extensions.appserver.ERXBrowser;
 
-public class Session extends edu.umich.itcs.ITCSSession {
+public class Session extends edu.umich.marketplace.ITCSSession {
 	private static final Logger			logger = Logger.getLogger(Session.class);
 
 	private Application 				_app = (Application)WOApplication.application();

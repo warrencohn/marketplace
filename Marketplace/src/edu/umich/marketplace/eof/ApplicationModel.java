@@ -288,6 +288,7 @@ public class ApplicationModel {
 */
 	}
 
+	@SuppressWarnings("unused")
 	private NSArray<Advert> searchOnNumber(String term) {
 		Double number = null;
 
@@ -305,6 +306,7 @@ public class ApplicationModel {
 		return Advert.fetchForNumber(_ec, dict);
 	}
 
+	@SuppressWarnings("unused")
 	private NSArray<Advert> searchOnUniqname(String term) {
 		final NSMutableDictionary dict = new NSMutableDictionary();
 		dict.takeValueForKey(term, Advert.AUTHOR_UNIQNAME_KEY);
@@ -408,6 +410,7 @@ public class ApplicationModel {
 	private long 			_storedClickCount = 1;					// stored click count ...
 	private final int 		_actionModulusInt = CoreApplication.properties.getInt("actionRepeatFactor", "4");
 
+	@SuppressWarnings("unused")
 	private NSTimestamp 	_lastUpdatedTime = new NSTimestamp();	// and note last time we did it ...
 
 	public void refreshActiveAdverts() {

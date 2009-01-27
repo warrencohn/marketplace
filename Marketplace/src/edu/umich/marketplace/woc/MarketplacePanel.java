@@ -7,6 +7,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
 
 public class MarketplacePanel extends MPComponent {
+	@SuppressWarnings("unused")
 	private static final Logger 	logger = Logger.getLogger (MarketplacePanel.class);
 
 	public String 					aMessage;

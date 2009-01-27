@@ -26,7 +26,6 @@ import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 
-import edu.umich.itcs.ITCSApplication;
 import edu.umich.marketplace.eof.ApplicationModel;
 import er.extensions.appserver.ERXApplication;
 

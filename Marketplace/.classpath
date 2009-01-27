@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ITCSCore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CoreFramework"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JavaWOExtensions"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ERExtensions"/>

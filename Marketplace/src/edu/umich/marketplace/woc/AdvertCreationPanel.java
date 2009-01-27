@@ -14,6 +14,7 @@ import edu.umich.marketplace.eof.Category;
 public class AdvertCreationPanel extends GenericAdvertDisplay {
 	private static final Logger 	logger = Logger.getLogger(AdvertCreationPanel.class);
 
+	@SuppressWarnings("unused")
 	private boolean 				_postClickedOnce = false;
 	private boolean 				_firstTimeOnPage = true;
 	public boolean 					_pagePreviewMode = false;

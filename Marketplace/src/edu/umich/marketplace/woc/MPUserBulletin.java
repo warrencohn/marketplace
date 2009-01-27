@@ -25,7 +25,7 @@ public class MPUserBulletin extends MPComponent {
     }
 
     public boolean isUserBulletinPanelDisplay() {
-        final String      bulletinString = getUserBulletinPanelString();
+        final String      	bulletinString = getUserBulletinPanelString();
         final String		bulletinDisplay = CoreApplication.properties.getProperty("userBulletinReveal").toUpperCase();
 
         return (bulletinDisplay.startsWith("NONE")) ? false : (sess.getHitCount() < 3) &&
