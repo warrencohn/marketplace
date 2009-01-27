@@ -32,7 +32,8 @@ import com.webobjects.foundation.NSSelector;
 public class Seppuku {
     private static final Logger     logger = Logger.getLogger(Seppuku.class);
     private static final Seppuku    _singleton = new Seppuku();
-    protected static ThreadLocal	_currentRequest = new ThreadLocal();
+    @SuppressWarnings("unchecked")
+	protected static ThreadLocal	_currentRequest = new ThreadLocal();
 
     private static final long 		_kOneSecond = 1000;
     private static final long 		_kOneMinute = 60 * _kOneSecond;
@@ -60,7 +61,8 @@ public class Seppuku {
 	}
 
     // Outstanding request list management stuff.
-    public void willDispatchRequest(NSNotification notification) {
+    @SuppressWarnings("unchecked")
+	public void willDispatchRequest(NSNotification notification) {
         WORequest request = (WORequest) notification.object();
         _currentRequest.set(request);
         SeppukuMonitor.addRequest(request);

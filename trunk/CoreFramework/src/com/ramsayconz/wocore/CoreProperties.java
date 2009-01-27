@@ -35,6 +35,10 @@ import com.webobjects.foundation.NSPropertyListSerialization;
  * @author gavin
  */
 public class CoreProperties extends Properties implements NSKeyValueCodingAdditions {
+	/**
+	 * 
+	 */
+	private static final long 		serialVersionUID = -7874906029089504346L;
 	private static final Logger     logger = Logger.getLogger (CoreProperties.class);
     
     /**
@@ -152,7 +156,8 @@ public class CoreProperties extends Properties implements NSKeyValueCodingAdditi
 	 * @param def
 	 * @return NSArray<String>
 	 */
-    public NSArray<String> getNSArray(String key, String def) {
+    @SuppressWarnings("unchecked")
+	public NSArray<String> getNSArray(String key, String def) {
     	NSArray<String>					array;
     	String							propText = getProperty(key, def);
     	if (propText.length() == 0) {
@@ -170,7 +175,8 @@ public class CoreProperties extends Properties implements NSKeyValueCodingAdditi
     	}
     }
 
-    public NSDictionary<String, ?> getNSDictionary(String key, String def) {
+    @SuppressWarnings("unchecked")
+	public NSDictionary<String, ?> getNSDictionary(String key, String def) {
         return NSPropertyListSerialization.dictionaryForString (getProperty(key, def));
     }
     

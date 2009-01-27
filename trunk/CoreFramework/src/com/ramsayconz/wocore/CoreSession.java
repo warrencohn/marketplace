@@ -23,7 +23,11 @@ import er.extensions.appserver.ERXSession;
  */
 
 public class CoreSession extends ERXSession {
-    private static final Logger     logger = Logger.getLogger (CoreSession.class);
+    /**
+	 * 
+	 */
+	private static final long 		serialVersionUID = 2137928448342423580L;
+	private static final Logger     logger = Logger.getLogger (CoreSession.class);
     protected CoreApplication       application = (CoreApplication)WOApplication.application();
 
     public CoreSession () {

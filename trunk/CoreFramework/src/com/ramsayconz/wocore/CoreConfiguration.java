@@ -29,6 +29,7 @@ import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import com.webobjects.foundation.NSPropertyListSerialization;
 
+@SuppressWarnings("serial")
 public class CoreConfiguration extends CombinedConfiguration implements NSKeyValueCodingAdditions {
     private static final Logger     logger = Logger.getLogger (CoreConfiguration.class);
 
@@ -76,7 +77,8 @@ public class CoreConfiguration extends CombinedConfiguration implements NSKeyVal
         logger.info ("+-------------------------------------------------------------");    
     }
 
-    private Vector<String> keySet() {
+    @SuppressWarnings("unchecked")
+	private Vector<String> keySet() {
         Vector<String> 			newKeys = new Vector<String>();
         
         Iterator<String> 		oldKeys = getKeys();
@@ -118,11 +120,13 @@ public class CoreConfiguration extends CombinedConfiguration implements NSKeyVal
         return NSPropertyListSerialization.intForString (getString(key, def));
     }
     
-    public NSArray<String> getNSArray(String key, String def) {
+    @SuppressWarnings("unchecked")
+	public NSArray<String> getNSArray(String key, String def) {
         return NSPropertyListSerialization.arrayForString (getString(key, def));
     }
     
-    public NSDictionary<String, ?> getNSDictionary(String key, String def) {
+    @SuppressWarnings("unchecked")
+	public NSDictionary<String, ?> getNSDictionary(String key, String def) {
         return NSPropertyListSerialization.dictionaryForString (getString(key, def));
     }
 
