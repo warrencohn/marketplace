@@ -71,6 +71,7 @@ public class AuthorAdvertsDisplay extends GenericAdvertDisplay {
 	// Utilities
 	// --------------------------------------------------------------
 
+	@SuppressWarnings("unused")
 	private void constructRenewedAdAlert(NSArray<Advert> checkedAds) {
 		SimpleDateFormat sdf;
 		final Date date = checkedAds.objectAtIndex(0).expiryDate();
