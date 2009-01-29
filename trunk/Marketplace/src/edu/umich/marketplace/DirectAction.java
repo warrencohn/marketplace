@@ -47,10 +47,16 @@ public class DirectAction extends CoreDirectAction {
 		return redirect;
 	}
 
-    public WOActionResults notifyAction() {
-        logger.info("=== [[ NOTIFY ]] ======================================");
+    public WOActionResults murderAction() {
+        logger.info("=== [[ MURDER ]] ======================================");
         logger.warn("+++ terminating with System.exit(0) ...");
         System.exit(0);
+        return null;
+    }
+
+    public WOActionResults notifyAction() {
+        logger.info("=== [[ NOTIFY ]] ======================================");
+        Application.notifyPendingExpiries();
         return null;
     }
 

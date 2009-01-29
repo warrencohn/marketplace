@@ -7,9 +7,6 @@ package edu.umich.marketplace;
 //Created by phayes on Sat Jun 01 2002
 //----------------------------------------------------------------------------------------------------------------
 
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -103,12 +100,8 @@ public class Application extends ITCSApplication {
 
 		startTenMinuteTimerTask();
 		startDayChangeTimerTask();
-		startNotifierTimerTask();
+//		startNotifierTimerTask();
 		
-        Thread datagramReader = new DatagramReadThread();
-        datagramReader.setName("DatagramReader");
-        datagramReader.start();
-
 		logger.trace("<-- applicationWillFinishLaunching");
 	}
 
@@ -149,10 +142,6 @@ public class Application extends ITCSApplication {
 	public void objectsChangedInStore(NSNotification n) {
 		logger.trace("!-- objectsChangedInStore: " + n);
 	}
-	
-//	public void applicationRemoteNotify(NSNotification n) {
-//		logger.trace("!-- applicationRemoteNotify: " + n);
-//	}
 
 
 //----------------------------------------------------------------------------------------------------------------
@@ -216,9 +205,6 @@ public class Application extends ITCSApplication {
 //
 //--------------------------------------------------------------------------- http://patorjk.com/software/taag/ --
 
-	int 			multiCastPort = 4447;
-	String 			multiCastGroup = "230.0.0.1";
-
 	public Timer startTenMinuteTimerTask() {
 		logger.trace("--> startTenMinuteTimerTask()");
 		Timer timer = new Timer("TenMinuteTimer");
@@ -228,20 +214,6 @@ public class Application extends ITCSApplication {
 			public void run() {
 				logger.trace("- - -   t e n   m i n u t e   t i m e r   - - -");
 				getApplicationModel().checkClickCountChanged();
-
-				String 		message = "Hello";
-			    try {
-			        DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(),
-			        										   InetAddress.getByName(multiCastGroup), multiCastPort);
-			        MulticastSocket socket = new MulticastSocket();
-			        socket.setLoopbackMode(true);
-			        socket.send(packet);
-			        socket.close();
-					logger.trace("MulticastSender success");
-			    } 
-			    catch (Exception x) {
-					logger.error("MulticastSender failure: " + x);
-			    }
 			}
 		}, 120000, 600000); // wait two minutes, then tick every ten minutes
 
@@ -264,7 +236,7 @@ public class Application extends ITCSApplication {
 
 		return timer;
 	}
-
+/*
 	public Timer startNotifierTimerTask() {
 		DateTime			startTime = (new DateTime()).plusDays(1).withTime(3, 0, 0, 0);
 		logger.trace("-->  startNotifierTimerTask() .. will fire at: " + startTime.toString("MMMdd HH:mm:ss.SSS"));
@@ -282,34 +254,16 @@ public class Application extends ITCSApplication {
 
 		return timer;
 	}
-
-    private class DatagramReadThread extends Thread {
-		@Override
-		public void run() {
-			logger.trace("- - -   d a t a g r a m     r e a d e r     t h r e a d   - - -");
-
-	        while (true) {
-		        byte[] 		inbuf = new byte[256];
-				try {
-			        MulticastSocket socket = new MulticastSocket(multiCastPort);
-			        socket.joinGroup(InetAddress.getByName(multiCastGroup));
-
-			        DatagramPacket packet = new DatagramPacket(inbuf, inbuf.length);
-		            socket.receive(packet);
-					logger.trace("DatagramReader success: \"" + 
-							new String(packet.getData(), 0, packet.getLength()) + "\"");
-					
-			        packet = null;
-			        socket.leaveGroup(InetAddress.getByName(multiCastGroup));
-			        socket.close();
-				}
-				catch (Exception x) {
-					logger.error("DatagramReader failure: " + x);
-				}
-			}
-		}
+*/
+	/*
+	 * called from 'notify' direct action
+	 */
+	static void notifyPendingExpiries() {
+        NotifyAuthors notify = new NotifyAuthors();
+        notify.doNotify();
+        joinAllThreads();       		// wait by joining all the SMTP threads
 	}
-
+	
     //TODO
     //  This mechanism will need to be changed for WebObjects 5.4 because there
     //  are no worker threads in that version ... Aug12/06 - Gav
@@ -317,7 +271,7 @@ public class Application extends ITCSApplication {
     //TODO
     //  Actually, we're still OK in 5.4 ... (time to check 5.5 in Snow Leopard!)
     
-    private void joinAllThreads () {
+    static private void joinAllThreads () {
         ThreadGroup     mainGroup = Thread.currentThread().getThreadGroup();        
         int             numThreads = mainGroup.activeCount();
         Thread[]        threads = new Thread[numThreads*2];
@@ -337,5 +291,5 @@ public class Application extends ITCSApplication {
                 logger.info("     Interrupted: ", x);
             }
         }
-    }
+    }    
 }
