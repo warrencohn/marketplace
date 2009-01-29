@@ -111,7 +111,6 @@
         <path id="ClassPath">
             <fileset dir="${webobjects_lib}">
                 <include name="CoreFramework.jar" />
-                <include name="ITCSCore.jar" />
 
             	<include name="ERExtensions.jar" />
                 <include name="ERPrototypes.jar" />
