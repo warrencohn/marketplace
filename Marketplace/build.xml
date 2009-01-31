@@ -129,10 +129,6 @@
                 <include name="JavaWOExtensions.jar" />
                 <include name="JavaXML.jar" />
             </fileset>
-            <fileset dir="/Library/Frameworks">
-<include name="ERJGroupsSynchronizer.framework/Resources/Java/ERJGroupsSynchronizer.jar" />
-<include name="ERJGroupsSynchronizer.framework/Resources/Java/jgroups-all.jar" />
-            </fileset>
         </path>
 
         <delete dir="${classes_temp}" />
@@ -403,6 +399,8 @@
 
 APPROOT/Resources/Java/${ant.project.name}.jar
 APPROOT/Resources/Java/ojdbc14.jar
+APPROOT/Resources/Java/mail.jar
+APPROOT/Resources/Java/activation.jar
 
 </echo>
 
