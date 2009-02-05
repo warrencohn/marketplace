@@ -8,7 +8,6 @@
 
 package edu.umich.marketplace;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -29,12 +28,7 @@ public class NotifyAuthors extends MarketplaceAction {
 	private static final Logger 		logger = Logger.getLogger (NotifyAuthors.class);
 
     private EOEditingContext 			_ec = new EOEditingContext();
-    private SimpleDateFormat 			_dateFormat = 			// default format for Date string output
-        			new SimpleDateFormat(System.getProperty("mpn.dateFormat", "EEEE, MMMM d, yyyy"));
     
-    private String 						_renewAdInstructions;	// user instructions for renewal
-
-
     public NotifyAuthors() {
     }
 
@@ -200,14 +194,13 @@ public class NotifyAuthors extends MarketplaceAction {
      * Message is slightly different if author has more than one ad.
      *
      *  Aug29/05 - Gavin
-     *      Can have messages go to prop("testUser") for testing
-     *      if prop("mpn.testApplication") is TRUE (default FALSE)
+     *      Can have messages go to prop("testNotifyAddress") for testing
+     *      if prop("testingNotification") is TRUE (default FALSE)
      *
      * @param uniqueName the author to notify
      * @param ads the ads that are about to expire
      */
     private void notifyAuthor(String uniqueName, NSArray<Advert> ads) {
-		String recipient = (getTestingThisApp()) ? getTestMailAddress() : (uniqueName + "@umich.edu");
 		String bodyText;
 
 		if (ads.count() == 1) {
@@ -226,15 +219,22 @@ public class NotifyAuthors extends MarketplaceAction {
 			bodyText = mailBody.append(getRenewAdInstructions()).toString();
 		}
 
-		CoreAssistance.mailToIndividual(recipient, "[Marketplace] Your advertisement will expire soon", bodyText);
+		if (isTestingNotifications()) {
+			CoreAssistance.mailToDeveloper("[Marketplace] Your advertisement will expire soon", bodyText);
+		}
+		else {
+			CoreAssistance.mailToIndividual(uniqueName + "@umich.edu", "[Marketplace] Your advertisement will expire soon", bodyText);
+		}
 	}
 
     /**
      * @return some text about how to renew an ad in the Marketplace application
      */
+    private String 						_renewAdInstructions;	// user instructions for renewal
+
     private String getRenewAdInstructions() {
         if (_renewAdInstructions == null)
-            _renewAdInstructions = System.getProperty ("mpn.renewInstructions");
+            _renewAdInstructions = System.getProperty ("renewalInstructions");
         return _renewAdInstructions;
     }
 }
