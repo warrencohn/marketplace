@@ -310,11 +310,17 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <target name="package_extra_app" if="isApplication">
 
-        <touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
+    	<exec executable="svnversion" 
+    		         dir="." 
+          outputproperty="svnversion.property" 
+    		    logError="yes"/>
+
+    	<touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
         <echo file="${pack_rez_dir}/deploy.properties" 
               message="buildTimeString = ${timestamp}${line.separator}
- buildTimeStamp = ${timestamp}${line.separator}" />
-
+ buildTimeStamp = ${timestamp}${line.separator}
+ releaseVersion = ${svnversion.property}${line.separator}" />
+    	
         <copy file="/Developer/Makefiles/java_makefiles/WOBootstrap.jar" 
 	       	  verbose="true" preservelastmodified="true"
 		      todir="${package_temp}/${package_name}" />                              <!-- (2) -->
