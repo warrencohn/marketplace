@@ -37,11 +37,11 @@ public class PageTail extends MPComponent {
     public String organizationLink = CoreApplication.properties.getProperty ("organizationLink", "");
 
 	public String  appVersion   = CoreApplication.properties.getString("buildVersion", "N.M");
-	public String  svnVersion   = CoreApplication.properties.getString("svnVersion", "0");
-	public String  appBuildTime = CoreApplication.properties.getString("buildTimeString", "<<development>>");
-	public String  appStartTime = CoreApplication.properties.getString("startTimeString", "<<xx>>");
+	public String  svnVersion   = CoreApplication.properties.getString("svnVersion", "<<svn>>");
+	public String  appBuildTime = CoreApplication.properties.getString("buildTimeString", "<<dev>>");
+	public String  appStartTime = CoreApplication.properties.getString("startTimeString", "<<tim>>");
 	public String  appID		= CoreApplication.properties.getString("applicationPort", "0");
-	public String  appInstance  = CoreApplication.properties.getString("applicationInstance", "<<xx>>");
+	public String  appInstance  = CoreApplication.properties.getString("applicationInstance", "<<app>>");
 
     private String 		_fontColor;
 

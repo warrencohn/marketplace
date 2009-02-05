@@ -258,10 +258,13 @@ public class Application extends ITCSApplication {
 	/*
 	 * called from 'notify' direct action
 	 */
-	static void notifyPendingExpiries() {
-        NotifyAuthors notify = new NotifyAuthors();
-        notify.doNotify();
+	static String notifyPendingExpiries() {
+        NotifyAuthors	notify = new NotifyAuthors();
+        String 			responseString = notify.doNotify();
+        
         joinAllThreads();       		// wait by joining all the SMTP threads
+
+        return responseString;
 	}
 	
     //TODO

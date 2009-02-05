@@ -318,8 +318,7 @@
     	<touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
         <echo file="${pack_rez_dir}/deploy.properties" 
               message="buildTimeString = ${timestamp}${line.separator}
- buildTimeStamp = ${timestamp}${line.separator}
- releaseVersion = ${svnversion.property}${line.separator}" />
+svnVersion = ${svnversion.property}${line.separator}" />
     	
         <copy file="/Developer/Makefiles/java_makefiles/WOBootstrap.jar" 
 	       	  verbose="true" preservelastmodified="true"
