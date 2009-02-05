@@ -11,37 +11,26 @@ import com.ramsayconz.wocore.CoreAssistance;
 public class MarketplaceAction {
 	private static final Logger 		logger = Logger.getLogger (MarketplaceAction.class);
 
+    protected Boolean 					_testingThisApp;		// if TRUE, send the mail to ....
+    protected SimpleDateFormat 			_dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
     protected StringBuffer 				_actionLog = new StringBuffer();	// log aggregation
 
-    private SimpleDateFormat 			_dateFormat = 			// default format for Date string output
-        			new SimpleDateFormat(System.getProperty("mpn.dateFormat", "EEEE, MMMM d, yyyy"));
-
-    private Boolean 					_testingThisApp;		// if TRUE, send the mail to a test user
-    private String 						_testMailAddress;		// the 'test' mail notifications recipient
-    private static final String 		TEST_MAIL_ADDRESS = "gavin@umich.edu";
-
+    /**
+	 * @return true if we are testing the app and sending mail notifications to a test user instead of the real users.
+	 */
+    protected Boolean isTestingNotifications() {
+        if (_testingThisApp == null) {
+        	_testingThisApp = CoreApplication.properties.getBoolean("testingNotification", "FALSE");
+        }
+        return _testingThisApp;
+    }
+    
     /**
      * Sends a transcript (_logMailText) of this run to 'Developer'.
      */
     protected void mailActionLog() {
         String subject = "[Marketplace] Notifier log for " + _dateFormat.format(new Date());
         CoreAssistance.mailToDeveloper(subject, _actionLog.toString());
-        logger.info("Action log mailed to " + _testMailAddress);
-    }
-
-    /**
-	 * @return true if we are testing the app and sending mail notifications to a test user instead of the real users.
-	 */
-    protected Boolean getTestingThisApp() {
-        if (_testingThisApp == null) {
-        	_testingThisApp = CoreApplication.properties.getBoolean("mpn.testApplication", "FALSE");
-        }
-        return _testingThisApp;
-    }
-
-    protected String getTestMailAddress() {
-        if (_testMailAddress == null)
-            _testMailAddress = CoreApplication.properties.getString("mpn.testMailAddress", TEST_MAIL_ADDRESS);
-        return _testMailAddress;
+        logger.info("Notification log mailed to developer.");
     }
 }
