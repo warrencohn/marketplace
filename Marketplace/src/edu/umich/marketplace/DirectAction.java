@@ -20,6 +20,7 @@ import com.webobjects.foundation.NSArray;
 import edu.umich.marketplace.woc.ErrorPageDefault;
 import edu.umich.marketplace.woc.MPCatEdit;
 import edu.umich.marketplace.woc.Main;
+import edu.umich.marketplace.woc.NotifyResponse;
 
 public class DirectAction extends CoreDirectAction {
 	private static final Logger 	logger = Logger.getLogger (DirectAction.class);
@@ -56,8 +57,9 @@ public class DirectAction extends CoreDirectAction {
 
     public WOActionResults notifyAction() {
         logger.info("=== [[ NOTIFY ]] ======================================");
-        Application.notifyPendingExpiries();
-        return null;
+        NotifyResponse		notifyResponse = (NotifyResponse) pageWithName(NotifyResponse.class.getName());
+        notifyResponse.takeValueForKey(Application.notifyPendingExpiries(), "responseString");
+        return notifyResponse;
     }
 
     public WOActionResults adWatchAction() {

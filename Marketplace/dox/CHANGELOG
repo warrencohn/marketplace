@@ -1,6 +1,11 @@
 CHANGE LOG
 ----------
 
+Feb05/09    ------------------------------------------------------------------------------------------------
+
+            add 'svnVersion' to deploy.properties file (via build.xml <exec .../>
+            respond to notify direct action with meaningful string
+
 Jan30/09    ------------------------------------------------------------------------------------------------
 
             Notification e-mails sent on command by a direct action

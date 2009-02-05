@@ -43,32 +43,39 @@ public class NotifyAuthors extends MarketplaceAction {
      * about to expire.  When finished, e-mails the address in mailToForErrors a transcript of the entire 
      * application run.
      */
-    public void doNotify() {
+    public String doNotify() {
+    	String		responseString;
     	
     	if (! ((new DateTime()).getDayOfWeek() == DateTimeConstants.SATURDAY ||
     		   (new DateTime()).getDayOfWeek() == DateTimeConstants.SUNDAY)) {
             NSArray<Advert> 		adsToExpire = fetchAdsToExpire();
 
-            if (adsToExpire != null && adsToExpire.count() > 0) {
-                // aggregate ads from same author together so we can avoid sending multiple messages to the same person
+            if (adsToExpire != null && adsToExpire.count() > 0) {		// group ads to email same author together
                 NSDictionary<String, NSMutableArray<Advert>>
                 					adsByAuthor = getAdsByAuthor(adsToExpire);
 
                 try {
                     notifyAllAuthors(adsByAuthor);
+                    responseString = "success -- email sent for " + adsToExpire.count() + " notifications.";
                 }
-                catch (Exception e) { }
+                catch (Exception e) {
+                	responseString = "failure -- exception trying to send notification email.";
+                }
             }
             else {
-                _actionLog.append("Found no ads about to expire.\n");
-                logger.info("Found no ads about to expire.");
+            	responseString = "success -- found no ads about to expire.";
+                _actionLog.append(responseString + "\n");
+                logger.info(responseString);
             }
         }
         else {
-            _actionLog.append("Not running because it's Saturday or Sunday");
+        	responseString = "success -- not running because it's Saturday or Sunday.";
+            _actionLog.append(responseString);
         }
 
     	mailActionLog();
+    	
+    	return responseString;
     }
 
     /**
