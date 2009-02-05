@@ -165,17 +165,17 @@ public class CoreAssistance {
 	}
         
     static public boolean mailToDeveloper(String subject, String body) {
-		logger.info("--> mailToWatchers");
+		logger.info("--> mailToDeveloper");
 		return sendMail(getmailToForDeveloper(), getMailFromMarketplace(), "", subject, body);
 	}
 
     static public boolean mailToDeveloper(Throwable exception, String subject, String body) {
-		logger.info("--> mailToWatchers");
+		logger.info("--> mailToDeveloper");
 		return sendMail(getmailToForDeveloper(), getMailFromMarketplace(), "", subject, body);
 	}
 
     static public boolean mailToIndividual(String recipient, String subject, String body) {
-		logger.info("--> mailToWatchers");
+		logger.info("--> mailToIndividual");
 		return sendMail(new NSArray<String>(recipient), getMailFromMarketplace(), "", subject, body);
 	}
 
@@ -189,7 +189,7 @@ public class CoreAssistance {
      * @param bd the messages's body
      */
     static public boolean sendMail(NSArray<String> to, String fm, String ry, String re, String bd) {
-    	logger.trace("--> sendMail to: " + to + " and from: " + fm);
+    	logger.trace("--> sendMail to: " + to + " from: " + fm);
     	boolean					mailSuccess = false;
 		if (to != null && fm != null && to.count() > 0) {
 			try {
