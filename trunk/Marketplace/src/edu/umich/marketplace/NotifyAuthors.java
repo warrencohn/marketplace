@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import com.ramsayconz.wocore.CoreApplication;
 import com.ramsayconz.wocore.CoreAssistance;
 import com.webobjects.eocontrol.EOEditingContext;
 import com.webobjects.foundation.NSArray;
@@ -230,11 +231,11 @@ public class NotifyAuthors extends MarketplaceAction {
     /**
      * @return some text about how to renew an ad in the Marketplace application
      */
-    private String 						_renewAdInstructions;	// user instructions for renewal
+    private String 				_renewAdInstructions;	// user instructions for renewal
 
     private String getRenewAdInstructions() {
-        if (_renewAdInstructions == null)
-            _renewAdInstructions = System.getProperty ("renewalInstructions");
+        if (_renewAdInstructions == null || _renewAdInstructions.length() < 3)
+            _renewAdInstructions = CoreApplication.properties.getString("renewalInstructions");
         return _renewAdInstructions;
     }
 }
