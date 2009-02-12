@@ -1,11 +1,5 @@
 {
     attributes = (
-        {
-            allowsNull = Y; 
-            columnName = "OID_ROOT_CATEGORY"; 
-            name = domainID; 
-            prototypeName = id; 
-        }, 
         {allowsNull = N; columnName = OID; name = id; prototypeName = id; }, 
         {
             allowsNull = N; 
@@ -22,9 +16,9 @@
             prototypeName = id; 
         }
     ); 
-    attributesUsedForLocking = (id, parentID); 
+    attributesUsedForLocking = (id); 
     className = "edu.umich.marketplace.eof.Category"; 
-    classProperties = (adverts, advertsInDomain, domainID, id, name, parent, parentID); 
+    classProperties = (adverts, id, name, parent, parentID); 
     externalName = "JA_AD_CATEGORY"; 
     isReadOnly = Y; 
     name = Category; 
@@ -36,13 +30,6 @@
             joinSemantic = EOInnerJoin; 
             joins = ({destinationAttribute = categoryID; sourceAttribute = id; }); 
             name = adverts; 
-        }, 
-        {
-            destination = Advert; 
-            isToMany = Y; 
-            joinSemantic = EOInnerJoin; 
-            joins = ({destinationAttribute = domainID; sourceAttribute = id; }); 
-            name = advertsInDomain; 
         }, 
         {
             destination = Category; 

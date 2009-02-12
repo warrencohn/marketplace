@@ -1,6 +1,24 @@
 CHANGE LOG
 ----------
 
+Feb11/09    NEW CATEGORIES ---------------------------------------------------------------------------------
+
+			EMPLOYMENT
+    			BABY/CHILD SITTING
+
+			FOR SALE
+				Moving Sales ... it's tough to pick a good category when you have a ton of stuff to list.
+				Homes for Sale
+				Bicycles
+
+			SPORTS
+				Football Tickets
+				Other Sports Tickets
+			
+			RECYCLING ?
+				Used campus envelopes
+				It might be useful to include other recycling categories also.
+			
 Feb05/09    ------------------------------------------------------------------------------------------------
 
             add 'svnVersion' to deploy.properties file (via build.xml <exec .../>

@@ -13,14 +13,12 @@ public abstract class _Category extends  EOGenericRecord {
 	public static final String ENTITY_NAME = "Category";
 
 	// Attributes
-	public static final String DOMAIN_ID_KEY = "domainID";
 	public static final String ID_KEY = "id";
 	public static final String NAME_KEY = "name";
 	public static final String PARENT_ID_KEY = "parentID";
 
 	// Relationships
 	public static final String ADVERTS_KEY = "adverts";
-	public static final String ADVERTS_IN_DOMAIN_KEY = "advertsInDomain";
 	public static final String PARENT_KEY = "parent";
 
   private static Logger LOG = Logger.getLogger(_Category.class);
@@ -31,17 +29,6 @@ public abstract class _Category extends  EOGenericRecord {
       throw new IllegalStateException("You attempted to localInstance " + this + ", which has not yet committed.");
     }
     return localInstance;
-  }
-
-  public Integer domainID() {
-    return (Integer) storedValueForKey("domainID");
-  }
-
-  public void setDomainID(Integer value) {
-    if (_Category.LOG.isDebugEnabled()) {
-    	_Category.LOG.debug( "updating domainID from " + domainID() + " to " + value);
-    }
-    takeStoredValueForKey(value, "domainID");
   }
 
   public Integer id() {
@@ -171,60 +158,6 @@ public abstract class _Category extends  EOGenericRecord {
     }
   }
 
-  public NSArray<edu.umich.marketplace.eof.Advert> advertsInDomain() {
-    return (NSArray<edu.umich.marketplace.eof.Advert>)storedValueForKey("advertsInDomain");
-  }
-
-  public NSArray<edu.umich.marketplace.eof.Advert> advertsInDomain(EOQualifier qualifier) {
-    return advertsInDomain(qualifier, null);
-  }
-
-  public NSArray<edu.umich.marketplace.eof.Advert> advertsInDomain(EOQualifier qualifier, NSArray<EOSortOrdering> sortOrderings) {
-    NSArray<edu.umich.marketplace.eof.Advert> results;
-      results = advertsInDomain();
-      if (qualifier != null) {
-        results = (NSArray<edu.umich.marketplace.eof.Advert>)EOQualifier.filteredArrayWithQualifier(results, qualifier);
-      }
-      if (sortOrderings != null) {
-        results = (NSArray<edu.umich.marketplace.eof.Advert>)EOSortOrdering.sortedArrayUsingKeyOrderArray(results, sortOrderings);
-      }
-    return results;
-  }
-  
-  public void addToAdvertsInDomainRelationship(edu.umich.marketplace.eof.Advert object) {
-    if (_Category.LOG.isDebugEnabled()) {
-      _Category.LOG.debug("adding " + object + " to advertsInDomain relationship");
-    }
-    addObjectToBothSidesOfRelationshipWithKey(object, "advertsInDomain");
-  }
-
-  public void removeFromAdvertsInDomainRelationship(edu.umich.marketplace.eof.Advert object) {
-    if (_Category.LOG.isDebugEnabled()) {
-      _Category.LOG.debug("removing " + object + " from advertsInDomain relationship");
-    }
-    removeObjectFromBothSidesOfRelationshipWithKey(object, "advertsInDomain");
-  }
-
-  public edu.umich.marketplace.eof.Advert createAdvertsInDomainRelationship() {
-    EOClassDescription eoClassDesc = EOClassDescription.classDescriptionForEntityName("Advert");
-    EOEnterpriseObject eo = eoClassDesc.createInstanceWithEditingContext(editingContext(), null);
-    editingContext().insertObject(eo);
-    addObjectToBothSidesOfRelationshipWithKey(eo, "advertsInDomain");
-    return (edu.umich.marketplace.eof.Advert) eo;
-  }
-
-  public void deleteAdvertsInDomainRelationship(edu.umich.marketplace.eof.Advert object) {
-    removeObjectFromBothSidesOfRelationshipWithKey(object, "advertsInDomain");
-    editingContext().deleteObject(object);
-  }
-
-  public void deleteAllAdvertsInDomainRelationships() {
-    Enumeration objects = advertsInDomain().immutableClone().objectEnumerator();
-    while (objects.hasMoreElements()) {
-      deleteAdvertsInDomainRelationship((edu.umich.marketplace.eof.Advert)objects.nextElement());
-    }
-  }
-
 
   public static Category createCategory(EOEditingContext editingContext, Integer id
 , String name
@@ -289,18 +222,6 @@ public abstract class _Category extends  EOGenericRecord {
     }
     return localInstance;
   }
-  public static NSArray<edu.umich.marketplace.eof.Category> fetchEndCategories(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
-    EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("endCategories", "Category");
-    fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
-  }
-  
-  public static NSArray<edu.umich.marketplace.eof.Category> fetchEndCategories(EOEditingContext editingContext)
-  {
-    EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("endCategories", "Category");
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
-  }
-  
   public static NSArray<edu.umich.marketplace.eof.Category> fetchSubCategories(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("subCategories", "Category");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);

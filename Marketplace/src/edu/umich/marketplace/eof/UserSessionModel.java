@@ -86,7 +86,7 @@ public class UserSessionModel extends Object {
 		queryFavoriteAdverts();
 		logger.info("... queryFavoriteAdverts() found " + _favoriteAdverts.count() + " adverts");
 
-		queryEndCategories();						//NOTE: we need these (tho' in the app ec) for ad/cat relations
+		getEndCategories();
 		logger.info("... queryEndCategories() found " + _endCategories.count() + " categories");
 
 		CoreAssistance.prettyPrintEOEditingContext(getEditingContext());
@@ -419,21 +419,23 @@ public class UserSessionModel extends Object {
 //
 //--------------------------------------------------------------------------- http://patorjk.com/software/taag/ --
 
-	private NSArray<Category> 	_endCategories;
-
-	private void queryEndCategories() {
-		logger.trace("--> queryEndCategories()");
-		_endCategories = new NSMutableArray<Category>(Category.fetchEndCategories(_ec)).immutableClone();
-		for (Category category : _endCategories) {
-			category.setIsTopCategory(false);
-		}
-	}
+	private NSArray<Category> 	_endCategories;		// setIsTopCategory(false) is NOT called, 
+													// since the Session use is only to make
+													// the relationship with adverts.
 
 	public NSArray<Category> getEndCategories() {
 		logger.trace("--> getEndCategories()");
-		if (_endCategories == null) {
-			queryEndCategories();
+		if (_endCategories != null)
+			return _endCategories;
+
+		NSMutableArray<Category> endCategories = new NSMutableArray<Category>();
+		for (Category category : Category.fetchTopCategories(_ec)) {
+			logger.trace("--- getEndCategories() : top count = " + category.getLongName());
+			endCategories.addAll(category.fetchSubCategories(_ec));
 		}
+
+		_endCategories = endCategories.immutableClone();
+		logger.trace("<-- getEndCategories() : count = " + _endCategories.count());
 		return _endCategories;
 	}
 

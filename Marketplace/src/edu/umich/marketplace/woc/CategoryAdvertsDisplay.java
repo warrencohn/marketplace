@@ -13,6 +13,6 @@ public class CategoryAdvertsDisplay extends GenericAdvertDisplay {
 	}
 
 	public String getPanelTitle() {
-		return "you are viewing: the " + sess.getUserSessionModel().getDisplayCategory().getLongName() + " category of adverts.";
+		return "you are viewing the <" + sess.getUserSessionModel().getDisplayCategory().getLongName() + "> adverts.";
 	}
 }

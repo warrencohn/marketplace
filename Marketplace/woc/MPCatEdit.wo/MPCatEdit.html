@@ -1,25 +1,20 @@
 <wo:MarketplaceSkin pageTitle = "[application.name]"><td>
-   <wo:form multipleSubmit = "true">
-     <wo:MarketplacePanel panelTitle = "Categories and Subcategories" bodyComponent="[thisComponent]">
-<table cellspacing = "0" border = "1" width = "100%" cellpadding = "4">
-  <tr><td align = "right" width = "50%">
-        Top categories:
-        <wo:WOPopUpButton list="[topCategories]" displayString="[iteratedTop.name]" 
-             noSelectionString="------" item="[iteratedTop]" 
-                     selection="[selectedTop]"  /><wo:submit action="[selCategory]" value="Select"  />
-        <br />
-        <wo:WOTextField value="[newTopCatName]"  /> <wo:submit action="[addCategory]" value="Add"  /></td>
-     <td><wo:if condition="[isTopSelected]" >
-       <wo:string value = "[selectedTop.name]" />'s sub categories: <wo:WOPopUpButton list="[subCategories]" selection="[selectedSub]" displayString="[iteratedSub.name]" item="[iteratedSub.name]" noSelectionString="------"  />
-<br />
-       <wo:WOTextField value="[newSubCatName]"  /> <wo:submit action="[addSubcategory]" value="Add"  /></wo:if></td></tr></table>
-<hr />All Categories (Except Domain)
-     <table cellspacing = "0" cellpadding = "10" border = "1" width = "100%">
-        <wo:repeat list="[allCategories]" item="[oneCategory]" >
-        <tr><td><wo:string value = "[oneCategory.name]"/></td>
-            <td><wo:string value = "[oneCategory.oid]"/></td>
-            <td><wo:string value = "[oneCategory.parent.oid]"/></td>
-            <td><wo:string value = "[oneCategory.domain.oid]"/></td></tr></wo:repeat></table>
-    </wo:MarketplacePanel>
+<wo:MarketplacePanel panelTitle = "Category and Subcategory Editor" bodyComponent="[thisComponent]">
+
+<wo:form multipleSubmit = "true">
+  <table cellspacing = "0" cellpadding = "4" border = "1" width = "100%">
+    <wo:repeat list="[allCategories]" item="[oneCategory]" >
+    <tr><wo:if condition = "[oneCategory.isTopCategory]">
+		<td bgcolor = "yellow"><wo:string value = "[oneCategory.name]"/>
+			<wo:WOSubmitButton class="btn" action = "[addSubcategory]" value = "edit category" /></td>
+		<td bgcolor = "yellow">
+			<wo:WOSubmitButton class="btn" action = "[addSubcategory]" value = "add subcategory" /></td>
+	    <wo:else>
+	    <td><wo:string value = "[oneCategory.parent.name]"/></td>
+	    <td><wo:string value = "[oneCategory.name]"/>
+		    <wo:WOSubmitButton class="btn" action = "[addSubcategory]" value = "del subcategory" />
+		    <wo:WOSubmitButton class="btn" action = "[addSubcategory]" value = "edit subcategory" /></td></wo:else></wo:if>
+    </tr></wo:repeat></table>
   </wo:form>
+</wo:MarketplacePanel>
 </td></wo:MarketplaceSkin>

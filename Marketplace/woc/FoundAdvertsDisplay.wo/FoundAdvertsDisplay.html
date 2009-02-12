@@ -2,7 +2,8 @@
                   bodyComponent = "[thisComponent]"  panelType = "side" alertMessage = "[alertMessage]">
 <wo:WOForm multipleSubmit = "true" method = "GET">
 
-<wo:WOActiveImage action = "[userSessionModel.prepareAdvertCreationPanel]" filename = "btn-03.png" framework = "app" />&nbsp;
-<wo:WOActiveImage action = "[userSessionModel.prepareAuthorAdvertsDisplay]" filename = "btn-04.png" framework = "app" /><br />
+<wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareCategoryAdvertsDisplay]" value = "return to category" />&nbsp;
+<wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareAdvertCreationPanel]" value = "post a new advert" />&nbsp;
+<wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareAuthorAdvertsDisplay]" value = "change status of my adverts" /><br />
 
 <wo:AdvertListView list = "[userSessionModel.foundAdverts]" canAddToFavorites = "true" canPostToAuthor = "true"/></wo:WOForm></wo:MarketplacePanel>
