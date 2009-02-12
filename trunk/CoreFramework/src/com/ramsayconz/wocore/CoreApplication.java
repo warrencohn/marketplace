@@ -297,7 +297,7 @@ public class CoreApplication extends ERXApplication {
         	gotEOModelAdustment = true;
         }
      
-    	logger.trace ("--- adjustEOModel - eoConnStringPass is: " + eoConnStringPass);
+    	logger.trace ("--- adjustEOModel - eoConnStringPass is: ****");
         if (eoConnStringPass != null && eoConnStringPass.length() > 1) {
         	dict.setObjectForKey(("-NONE-".equalsIgnoreCase(eoConnStringPass)) ? "" : eoConnStringPass, JDBCAdaptor.PasswordKey);
         	gotEOModelAdustment = true;
