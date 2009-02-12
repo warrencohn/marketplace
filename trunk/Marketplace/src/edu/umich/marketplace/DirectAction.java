@@ -87,10 +87,14 @@ public class DirectAction extends CoreDirectAction {
 														MPCatEdit.class.getName(), adminGroup, context());
 
 		if (result instanceof WOComponent) {
+			logger.info("catEditAction component is instanceof WOComponent");
 			session.getUserSessionModel().setDirectActionName(CAT_EDIT_ACTION);
 			return (WOActionResults) result;
 		}
-
+		else {
+			logger.info("catEditAction component is type: " + result.getClass().getName());
+		}
+		
 		return setupErrorPage("");
 	}
 

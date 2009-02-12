@@ -92,8 +92,8 @@ public class Application extends ITCSApplication {
 	 */
 	@Override
 	public void applicationWillFinishLaunching() {
-		super.applicationWillFinishLaunching();
 		logger.trace("--> applicationWillFinishLaunching");
+		super.applicationWillFinishLaunching();
 
 		new er.extensions.jdbc.ERXJDBCConnectionAnalyzer("Marketplace2");
 		getApplicationModel().initApplicationModel();

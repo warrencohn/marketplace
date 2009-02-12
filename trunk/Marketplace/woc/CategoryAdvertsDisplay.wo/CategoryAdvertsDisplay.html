@@ -16,5 +16,5 @@
 <wo:WOSubmitButton class="btn" action = "[userSessionModel.prepareAuthorAdvertsDisplay]" value = "change status of my adverts" /><br />
 
          <wo:AdvertListView list = "[userSessionModel.categoryAdverts]" canAddToFavorites = "true" canPostToAuthor = "true"/>
-    <wo:else><b>There are no ads in <wo:string value = "[userSessionModel.displayCategory.longName]" />.</b></wo:else></wo:if>
+    <wo:else><b>There are no adverts in the &lt;<wo:string value = "[userSessionModel.displayCategory.longName]" />&gt; category.</b></wo:else></wo:if>
     </wo:WOForm></wo:MarketplacePanel>

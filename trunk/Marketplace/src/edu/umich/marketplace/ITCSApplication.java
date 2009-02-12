@@ -29,8 +29,8 @@ public class ITCSApplication extends CoreApplication {
 
 	@Override
 	public void applicationWillFinishLaunching() {
+		logger.trace("--> applicationWillFinishLaunching");
 		super.applicationWillFinishLaunching();
-		logger.trace("--> applicationWillFinishLaunching()");
 
 		CoreApplication.properties.moreProperties(ApplicationProperties.getApplicationProperties(this.name()));		
 		CoreApplication.properties.alphaDump(true);
@@ -58,7 +58,7 @@ public class ITCSApplication extends CoreApplication {
 		logger.warn(" ~ directConnectEnabled: " + isDirectConnectEnabled());
 		logger.warn(" ~       cachingEnabled: " + isCachingEnabled());
 
-		logger.trace("<-- applicationWillFinishLaunching()");
+		logger.trace("<-- applicationWillFinishLaunching");
 	}
 	
 	// -----------------------------------------------------------------------------------------------

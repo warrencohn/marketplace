@@ -1,6 +1,5 @@
 package edu.umich.marketplace.eof;
 
-
 import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
@@ -42,18 +41,24 @@ import er.extensions.eof.ERXEC;
 
 public class ApplicationModel {
 	private static final Logger 	logger = Logger.getLogger(ApplicationModel.class);
+
 	private static ApplicationModel applicationModel;
 
 	private EOEditingContext		_ec;
 
+	private NSArray<Category> 		_topCategories;		// the major categories and ...
+	private NSArray<Category> 		_endCategories;		// the minor categories from all the above
+
+	private NSArray<Advert> 		_activeAdverts;		// active : undeleted; expiry => now (and posting <= now)
+
 	private ApplicationModel() {
 		logger.trace("+++ constructor");
-		_ec = getEditingContext();
+		_ec = ERXEC.newEditingContext();
 	}
 
 	public static synchronized ApplicationModel getApplicationModel() {
 		if (applicationModel == null)
-			applicationModel = new ApplicationModel();	// it's ok, we can call this constructor
+			applicationModel = new ApplicationModel();	// it's OK, we can call this constructor
 		return applicationModel;
 	}
 
@@ -65,28 +70,14 @@ public class ApplicationModel {
 
 // ----------------------------------------------------------------------------------------------------------------
 	
-	public EOEditingContext getEditingContext() {
-		if (null == _ec) {
-//			_ec = EOSharedEditingContext.defaultSharedEditingContext();
-			_ec = ERXEC.newEditingContext();
-		}
-		return _ec;
-	}
-
 	public void initApplicationModel() {
 		logger.trace("--> initApplicationModel()");
 
-		queryTopCategories();
-		for (Category category : _topCategories) {
-			category.setIsTopCategory(true);
-		}
-		logger.trace("... queryTopCategories() found " + _topCategories.count() + " categories");
+		getTopCategories();
+		logger.trace("... found " + _topCategories.count() + " top categories");
 
-		queryEndCategories();
-		for (Category category : _endCategories) {
-			category.setIsTopCategory(false);
-		}
-		logger.trace("... queryEndCategories() found " + _endCategories.count() + " categories");
+		getEndCategories();
+		logger.trace("... found " + _endCategories.count() + " end categories");
 
 		refreshActiveAdverts();
 	}
@@ -101,17 +92,10 @@ public class ApplicationModel {
 //
 //--------------------------------------------------------------------------- http://patorjk.com/software/taag/ --
 
-	private NSArray<Advert> _activeAdverts;				// active : undeleted; expiry => now (and posting <= now)
-
-	public void queryActiveAdverts() {
-		logger.trace("--> queryActiveAdverts()");
-		_activeAdverts = new NSMutableArray<Advert>(Advert.fetchActive(_ec, new NSTimestamp())).immutableClone();
-	}
-
 	public NSArray<Advert> getActiveAdverts() {
 		logger.trace("--> getActiveAdverts()");
 		if (null == _activeAdverts) {
-			queryActiveAdverts();
+			_activeAdverts = new NSArray<Advert>(Advert.fetchActive(_ec, new NSTimestamp()));
 		}
 		return _activeAdverts;
 	}
@@ -159,41 +143,35 @@ public class ApplicationModel {
 
 
 //----------------------------------------------------------------------------------------------------------------
-//	CCC      AAA      TTTTTT     EEEE      GGG       OOO      RRRR      III     EEEE      SSS
-// C        A   A       TT       E        G         O   O     R   R      I      E        S
-// C        AAAAA       TT       EEE      G  GG     O   O     RRRR       I      EEE       SSS
-// C        A   A       TT       E        G   G     O   O     R R        I      E            S
-//  CCC     A   A       TT       EEEE      GGG       OOO      R  RR     III     EEEE     SSSS
+//  	CCC      AAA      TTTTTT     EEEE      GGG       OOO      RRRR      III     EEEE      SSS
+//     C        A   A       TT       E        G         O   O     R   R      I      E        S
+//     C        AAAAA       TT       EEE      G  GG     O   O     RRRR       I      EEE       SSS
+//     C        A   A       TT       E        G   G     O   O     R R        I      E            S
+//      CCC     A   A       TT       EEEE      GGG       OOO      R  RR     III     EEEE     SSSS
 //
 //--------------------------------------------------------------------------- http://patorjk.com/software/taag/ --
-
-	private NSArray<Category> _topCategories;
-
-	private void queryTopCategories() {
-		logger.trace("--> queryTopCategories()");
-		_topCategories = new NSMutableArray<Category>(Category.fetchTopCategories(_ec)).immutableClone();
-	}
 
 	public NSArray<Category> getTopCategories() {
 		logger.trace("--> getTopCategories()");
 		if (_topCategories == null) {
-			queryTopCategories();
+			_topCategories = new NSMutableArray<Category>(Category.fetchTopCategories(_ec)).immutableClone();
+			logger.trace("<-- getTopCategories() fetched from db");
 		}
 		return _topCategories;
 	}
 
-	private NSArray<Category> _endCategories;
-
-	private void queryEndCategories() {
-		logger.trace("--> queryEndCategories()");
-		_endCategories = new NSMutableArray<Category>(Category.fetchEndCategories(_ec)).immutableClone();
-	}
-
 	public NSArray<Category> getEndCategories() {
 		logger.trace("--> getEndCategories()");
-		if (_endCategories == null) {
-			queryEndCategories();
+		if (_endCategories != null)
+			return _endCategories;
+
+		NSMutableArray<Category> endCategories = new NSMutableArray<Category>();
+		for (Category category : getTopCategories()) {
+			endCategories.addAll(category.fetchSubCategories(_ec));
 		}
+
+		logger.trace("<-- getEndCategories() fetched from db");
+		_endCategories = endCategories.immutableClone();
 		return _endCategories;
 	}
 
@@ -207,26 +185,27 @@ public class ApplicationModel {
 
 		final NSMutableArray<Advert> advertArray = new NSMutableArray<Advert>(getActiveAdverts());
 
-		for (final Category category : getEndCategories()) {
-			final EOQualifier qualifier = EOQualifier.qualifierWithQualifierFormat("category = %@", new NSArray(category));
+		for (final Category endCategory : getEndCategories()) {
+			final EOQualifier qualifier = EOQualifier.qualifierWithQualifierFormat("category = %@", new NSArray(endCategory));
 			final NSArray<Advert> catAdverts = EOQualifier.filteredArrayWithQualifier(advertArray, qualifier);
-		//	logger.trace("... distributeCategoryAdverts: end category: '" + category.getLongName() + "' [" + catAdverts.count() + "] ads");
-			category.setEndCategoryActiveAdverts(catAdverts);
+//			logger.trace("... distributeCategoryAdverts: end category: '" + category.getLongName() + "' [" + catAdverts.count() + "] ads");
+			endCategory.setEndCategoryActiveAdverts(catAdverts);
 			advertArray.removeObjectsInArray(catAdverts);
 		}
 		if (advertArray.count() > 0) {
 			logger.error("*** distributeCategoryAdverts has " + advertArray.count() + " adverts left over after distribution");
 		}
 
-		for (final Category category : getTopCategories()) {
+		for (final Category topCategory : getTopCategories()) {
 			int			activeAdvertCount = 0;
-			for (final Category subCategory : category.fetchSubCategories(getEditingContext())) {
+			for (final Category subCategory : topCategory.fetchSubCategories(_ec)) {
 				final int		increment = subCategory.getActiveAdvertCount();
-		//		logger.trace("... distributeCategoryAdverts: sub category: '" + subCategory.getLongName() + "' adds [" + increment + "] ads");
+//				logger.trace("... distributeCategoryAdverts: sub category: '" + subCategory.getLongName() + "' adds [" + increment + "] ads");
 				activeAdvertCount = activeAdvertCount + increment;
 			}
-			category.setTopCategoryActiveAdvertCount(activeAdvertCount);
-		//	logger.trace("... distributeCategoryAdverts: top category: '" + category.getLongName() + "' [" + category.getActiveAdvertCount() + "] ads");
+			logger.trace("<-- getSubCategories() fetched from db");
+			topCategory.setTopCategoryActiveAdvertCount(activeAdvertCount);
+//			logger.trace("... distributeCategoryAdverts: top category: '" + category.getLongName() + "' [" + category.getActiveAdvertCount() + "] ads");
 		}
 	}
 
@@ -246,7 +225,7 @@ public class ApplicationModel {
 	 * caseInsensitiveLike 'term1' and title caseInsensitiveLike 'term2' and etc.) OR ((bodyText caseInsensitiveLike
 	 * 'term1' and bodyText caseInsensitiveLike 'term2' and etc.) It then filters adList in memory and returns the
 	 * results.
-	 *
+	 * 
 	 * @param terms
 	 *            a list of terms, separated by spaces
 	 * @param adList
@@ -391,11 +370,11 @@ public class ApplicationModel {
 	}
 
 // ----------------------------------------------------------------------------------------------------------------
-//	M   M      AAA      N   N      AAA       GGG      EEEE     M   M     EEEE     N   N     TTTTTT
-//	MM MM     A   A     NN  N     A   A     G         E        MM MM     E        NN  N       TT
-//	M M M     AAAAA     N N N     AAAAA     G  GG     EEE      M M M     EEE      N N N       TT
-//	M   M     A   A     N  NN     A   A     G   G     E        M   M     E        N  NN       TT
-//	M   M     A   A     N   N     A   A      GGG      EEEE     M   M     EEEE     N   N       TT
+//     M   M      AAA      N   N      AAA       GGG      EEEE     M   M     EEEE     N   N     TTTTTT
+//	   MM MM     A   A     NN  N     A   A     G         E        MM MM     E        NN  N       TT
+//	   M M M     AAAAA     N N N     AAAAA     G  GG     EEE      M M M     EEE      N N N       TT
+//	   M   M     A   A     N  NN     A   A     G   G     E        M   M     E        N  NN       TT
+//	   M   M     A   A     N   N     A   A      GGG      EEEE     M   M     EEEE     N   N       TT
 //
 //--------------------------------------------------------------------------- http://patorjk.com/software/taag/ --
 
@@ -416,8 +395,8 @@ public class ApplicationModel {
 	public void refreshActiveAdverts() {
 		logger.trace("--> refreshActiveAdverts()");
 
-		queryActiveAdverts();
-		logger.trace("... queryActiveAdverts() found " + _activeAdverts.count() + " adverts");
+		_activeAdverts = new NSArray<Advert>(Advert.fetchActive(_ec, new NSTimestamp()));
+		logger.trace("... found " + _activeAdverts.count() + " active adverts on refresh");
 
 		distributeCategoryAdverts();
 //		CoreAssistance.prettyPrintEOEditingContext(_ec);

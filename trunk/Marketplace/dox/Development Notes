@@ -1,4 +1,6 @@
    TO DO    ------------------------------------------------- 
+			   
+   			A search that operates over all active adverts.
    
           Ã can't add a 'recent' to 'favorites' (wrong ec)
             Fixed by moving the recent ad to the session ec
@@ -46,100 +48,3 @@
           Ã We are allowing negative prices !!
             
           Ã Correct footer on error page
-    
-//---------------------------
-    
-    public Advert createNewAdvertTest(Author author, Category category) {
-        
-        logger.trace("--> createNewAdvertTest()");
-//      CoreAssistance.prettyPrintEOEditingContext(_ec);
-//      logger.trace("   Advert count: " + Advert.fetchAllAdverts(getEditingContext()).count());
-        Advert          advert = Advert.createAdvert(getEditingContext(), author, category);
-        advert.setPostedDate(new NSTimestamp());
-        advert.setExpiryDate(new NSTimestamp(DateUtils.addDays(new NSTimestamp(), +7)));
-        advert.setItemTitle("TESTING");
-        advert.setItemDescription("Test Description");
-//      CoreAssistance.prettyPrintEOEditingContext(_ec);
-//      logger.trace("   Advert count: " + Advert.fetchAllAdverts(getEditingContext()).count());
-        getEditingContext().saveChanges();
-//      CoreAssistance.prettyPrintEOEditingContext(_ec);
-//      logger.trace("   Advert count: " + Advert.fetchAllAdverts(getEditingContext()).count());
-        return advert;
-    }
-
-    //---------------------------
-
-    from UserSessionModel:
-    
-    
-    /*
-        public WOComponent addThing() {
-        log.info("--> addThing(" + loopIndex + ")");
-        Favorite.createFavorite(_ec, person.id(), things.objectAtIndex(loopIndex).id());
-        _ec.saveChanges();
-        myThings = Thing.fetchPersonThings(_ec, person);        // refresh the list
-        return context().page();
-    }
-
-    public WOComponent subThing() {
-        log.info("--> subThing(" + loopIndex + ")");
-        NSArray<Favorite>   faves = Favorite.fetchByPersonAndThing(_ec, person, things.objectAtIndex(loopIndex));
-        if (faves != null && faves.count() == 1) {
-            _ec.deleteObject(faves.objectAtIndex(0));
-            _ec.saveChanges();
-            myThings = Thing.fetchPersonThings(_ec, person);    // refresh the list
-        }
-        return context().page();
-    }
-     */
-    
-    //----------------------------------------------------------------------------------------------------------------
-
-    from Session.java
-
-        {
-            edu.umich.marketplace.eof.Author    author = getUserSessionModel().getAuthor();
-            edu.umich.marketplace.eof.Advert    ad;
-            
-            getUserSessionModel().loadAuthorAdverts();
-            ad = _app.getApplicationModel().createNewAdvertTest(author ,
-                    _app.getApplicationModel().getEndCategories().objectAtIndex(0)); // TEST - VALUES CREATED IN MODEL
-            getUserSessionModel().addIntoSelectAdverts(ad);
-            getUserSessionModel().loadAuthorAdverts();
-        }
-        
-
-    //
-    
-    from AdvertsPanel.wo
-    
-    <!--
-<wo:if condition = "[session.adList.count]" negate = "true"><wo:if condition = "[modeIsCategory]" negate = "true">
-    <b><wo:string value = "[session.emptyMessage]" /></b><br /><br /></wo:if></wo:if>
-
-<wo:if condition = "[isShowSearch]"><br />
-    <wo:submit action="[searchOnKeywords]" name="find" value="find" />
-    <wo:textfield value="[searchTerms]" size="15" />
-    <wo:if condition="[session.isAdWatch]" > in <wo:string value="[session.currentCategory.parent.name]" /> : 
-                                                <wo:string value="[session.currentCategory.name]" /></wo:if><br /><br /></wo:if>
-
-<wo:if condition="[session.isAdWatch]" negate="true" >
-  <wo:if condition="[showBack]" ><br />
-    <wo:submit action="[returnToCategory]" name="returnToCat" value="return to category" /><br /><br /></wo:if></wo:if>
-
-<wo:if condition = "[showPostNewAd]"><wo:WOSubmitButton action = "[placeAd]" value = "place a new ad" />&nbsp;</wo:if>
-<wo:if condition = "[showEditMyAds]"><wo:WOSubmitButton action = "[viewMyPostedAds]" value = "change status of my ad" /><br />
-                            <wo:else><wo:if condition = "[session.adList.count]"><br /></wo:if></wo:else></wo:if>
-
--->
-<wo:if condition = "[hasAdvertsToDisplay]"><br />
-  <!--<table cellspacing = "0" cellpadding = "0" border = "0" width = "100%">
-    <tr><td><wo:MPSorter /></td>
-        <td align = "right"><wo:MPRangeChooser /></td></tr></table>--><br />
-
-  <wo:AdvertListView workingItems = "[advertsToDisplay]" list = "[advertsToDisplay]" />
-  <!-- <wo:WOComponentContent />-->
-  <wo:MPBatcher />
-</wo:if>
-    
-    
