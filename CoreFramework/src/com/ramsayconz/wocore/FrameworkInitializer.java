@@ -56,8 +56,8 @@ public class FrameworkInitializer {
 	 */
 	@SuppressWarnings("unchecked")
 	public FrameworkInitializer(Class aClass, String initializerName, boolean initializeAfterAppConstruction) {
-		_aClass = aClass;
-		_initializerName = initializerName;
+		this._aClass = aClass;
+		this._initializerName = initializerName;
 		NSNotificationCenter.defaultCenter().addObserver(this,
 					new NSSelector<Object>("initializeOnNotification", new Class[] { NSNotification.class }),
 					initializeAfterAppConstruction ? WOApplication.ApplicationDidFinishLaunchingNotification
@@ -91,7 +91,7 @@ public class FrameworkInitializer {
 					throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		Method initMethod = null;
 		try {
-			initMethod = _aClass.getMethod(_initializerName, (Class[])null);
+			initMethod = this._aClass.getMethod(this._initializerName, (Class[])null);
 		}
 		catch (NoSuchMethodException x) {
 			logger.fatal("*** initializeOnNotification ", x);
@@ -102,7 +102,7 @@ public class FrameworkInitializer {
 		}
 
 		try {
-			initMethod.invoke(_aClass, (Object[])null);
+			initMethod.invoke(this._aClass, (Object[])null);
 		}
 		catch (IllegalAccessException x1) {
 			logger.fatal("*** initializeOnNotification ", x1);
