@@ -130,14 +130,14 @@ public final class NSLog {
 
 		public _DevNullPrintStream(OutputStream os) {
 			super(os);
-			originalOutputStream = null;
-			originalOutputStream = os;
+			this.originalOutputStream = null;
+			this.originalOutputStream = os;
 		}
 
 		public _DevNullPrintStream(OutputStream os, boolean aBOOL) {
 			super(os, aBOOL);
-			originalOutputStream = null;
-			originalOutputStream = os;
+			this.originalOutputStream = null;
+			this.originalOutputStream = os;
 		}
     }
 
@@ -153,7 +153,7 @@ public final class NSLog {
         private String                      _lastTimestampText;
         
         public void _setPrefixInfo(String s) {
-            _prefixInfo = s;
+            this._prefixInfo = s;
         }
         
         protected String _verbosePrefix() {

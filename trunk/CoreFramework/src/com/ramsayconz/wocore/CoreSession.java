@@ -62,7 +62,7 @@ public class CoreSession extends ERXSession {
 		if (((WOSession)n.object()).sessionID().equals(sessionID())) {
 			logger.trace("!-- " + ERXSession.SessionWillAwakeNotification + " [" + ((WOSession)n.object()).sessionID() + "]");
 			sessionWillAwake();
-			application.addSession(this, sessionID());
+			this.application.addSession(this, sessionID());
 		}
 	}    
 
@@ -84,7 +84,7 @@ public class CoreSession extends ERXSession {
 		if (((WOSession)n.object()).sessionID().equals(sessionID())) {
 			logger.trace("!-- " + WOSession.SessionDidCreateNotification + " [" + ((WOSession)n.object()).sessionID() + "]");
 			sessionDidCreate();
-			application.addSession(this, sessionID());
+			this.application.addSession(this, sessionID());
 		}
 	}    
 
@@ -103,7 +103,7 @@ public class CoreSession extends ERXSession {
 		if (n.object().equals(sessionID())) {
 			logger.trace("!-- " + WOSession.SessionDidTimeOutNotification + " [" + n.object() + "]");
 			sessionDidTimeOut();
-			application.addSession(this, sessionID());
+			this.application.addSession(this, sessionID());
 		}
 	}    
 
@@ -114,7 +114,7 @@ public class CoreSession extends ERXSession {
     
     @Override
 	public void terminate() {
-        application.delSession(sessionID());
+        this.application.delSession(sessionID());
         super.terminate();
     }
 }

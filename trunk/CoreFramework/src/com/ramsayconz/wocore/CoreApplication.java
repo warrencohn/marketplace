@@ -108,8 +108,8 @@ public class CoreApplication extends ERXApplication {
             	configuration.alphaDump(true);
         }
         
-        _traceRequests = properties.getBoolean("application.trace.requests", "FALSE");
-        _traceResponses = properties.getBoolean("application.trace.responses", "FALSE");
+        this._traceRequests = properties.getBoolean("application.trace.requests", "FALSE");
+        this._traceResponses = properties.getBoolean("application.trace.responses", "FALSE");
         
         setSessionTimeOut(new Integer(properties.getInt("application.begin.sessionTimeoutMinutes", "5") * 60));
     }
@@ -137,20 +137,20 @@ public class CoreApplication extends ERXApplication {
         
     @Override
 	public WOResponse dispatchRequest(WORequest request) {
-    	if (_traceRequests) {
+    	if (this._traceRequests) {
     		logger.info ("+---- request/response start ---------------------------------");
     		logger.info ("Starting to dispatch URL: " + request.uri());
     		logger.info ("                 request: " + request);
     	}
 
-    	_startTime = new NSTimestamp();
+    	this._startTime = new NSTimestamp();
     	WOResponse response = super.dispatchRequest(request);
-    	_endTime = new NSTimestamp();
+    	this._endTime = new NSTimestamp();
 
-    	if (_traceResponses) {
+    	if (this._traceResponses) {
     		logger.info ("                response: " + response);
     		logger.info ("Finished dispatching URL: " + request.uri());
-    		logger.info ("        time to complete: " + (_endTime.getTime() - _startTime.getTime()));
+    		logger.info ("        time to complete: " + (this._endTime.getTime() - this._startTime.getTime()));
     	}
 
     	return response;
@@ -342,19 +342,19 @@ public class CoreApplication extends ERXApplication {
     								sessions = new NSMutableDictionary<String, CoreSession>();
 
     public NSDictionary<String, CoreSession> getSessionDictionary() {
-        return sessions;
+        return this.sessions;
     }
 
     public void addSession (CoreSession session, String sessionID) {
-        sessions.setObjectForKey(session, sessionID);
+        this.sessions.setObjectForKey(session, sessionID);
     }
     
     public void delSession (String sessionID) {
-        sessions.removeObjectForKey(sessionID);
+        this.sessions.removeObjectForKey(sessionID);
     }
     
     public CoreSession getSession (String sessionID) {
-        return sessions.objectForKey(sessionID);
+        return this.sessions.objectForKey(sessionID);
     }
 
     /* ----------------------------------------------------------------------------------- */

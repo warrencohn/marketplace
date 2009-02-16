@@ -95,29 +95,29 @@ public class WorkerThreadMonitor extends TimerTask {
         String watchWindowStart = validated24HourTimeProperty(DEADLOCK_WATCH_WINDOW_START, DEFAULT_DEADLOCK_WATCH_WINDOW_START);
 
         NSArray<String> hoursAndMinutes = NSArray.componentsSeparatedByString(watchWindowStart, ":");
-        watchWindowStartHours = Integer.parseInt(hoursAndMinutes.objectAtIndex(0));
-        watchWindowStartMinutes = Integer.parseInt(hoursAndMinutes.lastObject());
+        this.watchWindowStartHours = Integer.parseInt(hoursAndMinutes.objectAtIndex(0));
+        this.watchWindowStartMinutes = Integer.parseInt(hoursAndMinutes.lastObject());
         
         String watchWindowEnd = validated24HourTimeProperty(DEADLOCK_WATCH_WINDOW_END, DEFAULT_DEADLOCK_WATCH_WINDOW_END);
         hoursAndMinutes = NSArray.componentsSeparatedByString(watchWindowEnd, ":");
-        watchWindowEndHours = Integer.parseInt(hoursAndMinutes.objectAtIndex(0));
-        watchWindowEndMinutes = Integer.parseInt(hoursAndMinutes.lastObject());
+        this.watchWindowEndHours = Integer.parseInt(hoursAndMinutes.objectAtIndex(0));
+        this.watchWindowEndMinutes = Integer.parseInt(hoursAndMinutes.lastObject());
 
         String maxSecondsToWait = validatedIntegerProperty(SECONDS_FOR_DEADLOCK, DEFAULT_SECONDS_FOR_DEADLOCK);       
-        maximumMilliSecondsToWait = Integer.parseInt(maxSecondsToWait) * 1000;
+        this.maximumMilliSecondsToWait = Integer.parseInt(maxSecondsToWait) * 1000;
         
         String secondsBetweenChecks = validatedIntegerProperty(SECONDS_BETWEEN_CHECKS, DEFAULT_SECONDS_BETWEEN_CHECKS);
         long millisecondsBetweenChecks = Integer.parseInt(secondsBetweenChecks) * 1000;
 
-        deadlockCheckTimer = new Timer(true);
-        deadlockCheckTimer.scheduleAtFixedRate(this, STARTUP_DELAY, millisecondsBetweenChecks);
+        this.deadlockCheckTimer = new Timer(true);
+        this.deadlockCheckTimer.scheduleAtFixedRate(this, STARTUP_DELAY, millisecondsBetweenChecks);
         
         logger.info("Starting up WorkerThreadMonitor...");
         logger.info("  checking for deadlock between the hours of " + 
-                watchWindowStartHours + ":" + watchWindowStartMinutes + " and " + 
-                watchWindowEndHours + ":" + watchWindowEndMinutes);
+                this.watchWindowStartHours + ":" + this.watchWindowStartMinutes + " and " + 
+                this.watchWindowEndHours + ":" + this.watchWindowEndMinutes);
         logger.info("  checking for deadlock every " + (millisecondsBetweenChecks/1000) + " seconds");
-        logger.info("  deadlock will be assumed after " + (maximumMilliSecondsToWait/1000) + " seconds");
+        logger.info("  deadlock will be assumed after " + (this.maximumMilliSecondsToWait/1000) + " seconds");
     }
     
     /**
@@ -149,7 +149,7 @@ public class WorkerThreadMonitor extends TimerTask {
      * requests
      */
     public synchronized NSMutableDictionary<String, ?> runningThreads() {
-        return runningThreads;
+        return this.runningThreads;
         /** ensure [valid_result] Result != null;  **/
     }
     
@@ -160,7 +160,7 @@ public class WorkerThreadMonitor extends TimerTask {
     @Override
 	public void run() {
         if (withinWatchWindow()) {				// If we are in the checking window ...
-            synchronized (runningThreads) {		// inhibit collection modification while ...
+            synchronized (this.runningThreads) {		// inhibit collection modification while ...
                 long now = new NSTimestamp().getTime();
                 for (String threadName : runningThreads().keySet()) {
                     if (hasExceededCutoff(now, (NSTimestamp)runningThreads().objectForKey(threadName))) {
@@ -182,10 +182,10 @@ public class WorkerThreadMonitor extends TimerTask {
         int hourOfDay = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
         
-        boolean isAfterStart = (hourOfDay > watchWindowStartHours) || 
-                              ((hourOfDay == watchWindowStartHours) && (minute >= watchWindowStartMinutes));
-        boolean isBeforeEnd = (hourOfDay < watchWindowEndHours) || 
-                             ((hourOfDay == watchWindowEndHours) && (minute <= watchWindowEndMinutes));        
+        boolean isAfterStart = (hourOfDay > this.watchWindowStartHours) || 
+                              ((hourOfDay == this.watchWindowStartHours) && (minute >= this.watchWindowStartMinutes));
+        boolean isBeforeEnd = (hourOfDay < this.watchWindowEndHours) || 
+                             ((hourOfDay == this.watchWindowEndHours) && (minute <= this.watchWindowEndMinutes));        
         // The or might seem a bit odd but it is what works with the sliding window:
         return isAfterStart || isBeforeEnd;
     }
@@ -201,7 +201,7 @@ public class WorkerThreadMonitor extends TimerTask {
      */
     protected boolean hasExceededCutoff(long now, NSTimestamp startTime) {
         long millisecondRunning = now - startTime.getTime();
-        return (millisecondRunning > maximumMilliSecondsToWait);
+        return (millisecondRunning > this.maximumMilliSecondsToWait);
     }
     
    /** 

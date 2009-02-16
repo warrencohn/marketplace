@@ -30,7 +30,7 @@ import com.webobjects.foundation.NSSelector;
  * @author gavin
  */
 public class Seppuku {
-    private static final Logger     logger = Logger.getLogger(Seppuku.class);
+    static final Logger     		logger = Logger.getLogger(Seppuku.class);
     private static final Seppuku    _singleton = new Seppuku();
     @SuppressWarnings("unchecked")
 	protected static ThreadLocal	_currentRequest = new ThreadLocal();
