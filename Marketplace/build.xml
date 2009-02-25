@@ -1,142 +1,106 @@
-<project name="Marketplace2" default="help">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	Documentation of this build.xml file:
+	
+	This started life a long time ago as the Wonder build.xml file.  It's been transformed in several
+	ways to try and clarify its operation.
+	
+	1) the WebObjects specific ant tasks WOApplication, WOFramework, WO... have been replace by the use
+	   of core ant tasks.  This results in the xml file being more portable at the expense of making it
+	   more elaborate.
+	   
+	2) the xml files to build frameworks and applications have been unified - the same xml file should
+	   work for either bundle type.
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <property name="Embed_Libraries" value="true" />
+	<project name="Marketplace2" default="help">			<!-- default action displays usage info -->
+
+    <property name="Embed_Libraries" value="true" />		<!-- embed all Apple and Local frameworks -->
 
 	<property name="BundleVers" value="1.0" />
     <property name="javaVersion" value="1.5" />
 
-    <property name="JVMOPTS" value="" />
+    <property name="JVMOPTS" value="" />					<!-- for use in the xxxClassPath.txt file -->
     <property name="JDBOPTS" value="" />
 
     <tstamp><format property="timestamp" pattern="MMMdd/yy HH:mm" /></tstamp>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	
-	<target name="help">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	HELP: prints usage message
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<target name="help">
 		<echo message="ant [help] -- this message ..." />
 		<echo message="ant package -- builds the ${ant.project.name} package" />
         <echo message="ant install -- cleans, builds and installs the ${ant.project.name} package" />
     </target>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	INSTALL: empties and refills the bundle (application or framework) in deployment location
+	  unless we're building on Window, when this doesn't execute (better safe than sorry)
+	  depends on
+	    package : moves all the built code and other files into the package ...
+	    
+	    prepare : prepare deployment locations and removing existing deployments
+	    install_jar : [framework only]
+	    install_app : [application only]
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <target name="init" depends="determine_os, 
-                                 set_environs" unless="init" 
-            description="initialize environment and summarize to console">
-
-        <echo message="-------------------------------------------------" />
-        <echo message="  WebObjects Package: ${package_name}" />
-        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
-        <echo message="Ant Init executed at: ${timestamp}" />
-        <echo message="Run Time Environment: ${os_environment}" />
-        <echo message="Java Runtime Version: ${java.version}" />
-        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
-        <echo message="  WebObjects Library: ${webobjects_lib}" />
-        <echo message="     WebObjects Apps: ${webobjects_app}" />
-        <echo message="  Web Root Directory: ${final_webasset}" />
-        <echo message="-------------------------------------------------" />
-
+    <target name="install" unless="isWindows" depends="package,prepare,install_jar,install_app" 
+     description="empties and refills the bundle (application or framework) in deployment location">
     </target>
 
-	<target name="set_environs" depends="bunny_check_T, bunny_check_F"
-	        description="">
-
-        <property name="java_tmp_dir" value="${file.separator}tmp" />
-		<property name="package_temp" value="${java_tmp_dir}${file.separator}(tmp)" />
-        <property name="classes_temp" value="${java_tmp_dir}${file.separator}(bin)" />
-
-
-        <property name="webobjects_dir" value="${local_root}${file.separator}Library${file.separator}WebObjects" />
-		<property name="webobjects_lib" value="${webobjects_dir}${file.separator}lib" />
-		<property name="webobjects_app" value="${webobjects_dir}${file.separator}Applications" />
-		
-        <available file="${java_src_dir}" type="dir" property="source_exists" />
-        <available file="${webobjects_lib}" type="dir" property="wo_available" />
-
-
-        <pathconvert property="sourcesPath">
-            <fileset dir="${java_src_dir}" /></pathconvert>
-        <condition property="isApplication">
-            <contains string="${sourcesPath}" substring="${file.separator}Application.java" /></condition>
-
-        <condition property="package_name" value="${ant.project.name}.woa" 
-                                            else="${ant.project.name}.jar">
-            <isset property="isApplication" /></condition>
-
-        <condition property="final_codepath" value="${webobjects_app}" 
- 		                                      else="${webobjects_lib}">
-            <isset property="isApplication" />
-        </condition>
-
+    <target name="prepare" 
+            description="prepare deployment locations and removing existing deployments">
+        <delete quiet="true" dir="${final_codepath}${file.separator}${package_name}" />
+        <delete quiet="true" file="${final_codepath}${file.separator}${package_name}" />
+        <delete quiet="true" dir="${final_webasset}${file.separator}${package_name}" />
+        <delete quiet="true" file="${final_webasset}${file.separator}${package_name}" />
     </target>
-	
-    <target name="bunny_check_T" if="Fluffy_Bunnies"
-	        description="">
-	
-        <property name="java_src_dir" value=".${file.separator}Sources" />
-        <property name="java_lib_dir" value=".${file.separator}Libraries" />
-        <property name="java_rez_dir" value=".${file.separator}Resources" />
-        <property name="java_woc_dir" value=".${file.separator}Components" />
-        <property name="java_web_dir" value=".${file.separator}WebServerResources" />
-
-    </target>
-
-    <target name="bunny_check_F" unless="Fluffy_Bunnies"
-            description="">
     
-        <property name="java_src_dir" value=".${file.separator}src" />
-        <property name="java_lib_dir" value=".${file.separator}lib" />
-        <property name="java_rez_dir" value=".${file.separator}rez" />
-        <property name="java_woc_dir" value=".${file.separator}woc" />
-        <property name="java_web_dir" value=".${file.separator}web" />
+    <target name="install_jar" unless="isApplication">
+        <jar basedir="${package_temp}/${package_name}" destfile="${final_codepath}/${ant.project.name}.jar" />
 
+        <mkdir dir="${final_webasset}/Frameworks/${package_name}/WebServerResources" />
+        <copy todir="${final_webasset}/Frameworks/${package_name}/WebServerResources">
+            <fileset dir="${pack_web_dir}" />
+		</copy>
+   <!-- <delete dir="${pack_web_dir}" /> -->
+        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
     </target>
 
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <target name="install_app" if="isApplication">
+        <copy todir="${final_codepath}/${package_name}">
+            <fileset dir="${package_temp}/${package_name}" />
+        </copy>
 
-    <target name="compile" depends="init,compile_setup" if="source_exists" 
-            description="compile all java source to classes">
-            
-        <javac debug="on" deprecation="on" includeAntRuntime="no"
-                source="${javaVersion}" target="${javaVersion}"
-                srcdir="${java_src_dir}" destdir="${classes_temp}">
-            <classpath refid="ClassPath" />
-            <compilerarg value="-Xlint:unchecked" />
-        </javac>
-        
+        <mkdir dir="${final_webasset}/${package_name}${contents_dir}/WebServerResources" />
+        <copy todir="${final_webasset}/${package_name}${contents_dir}/WebServerResources">
+            <fileset dir="${pack_content}/WebServerResources" />
+		</copy>
+
+		<chmod file="${final_codepath}/${package_name}/${ant.project.name}" perm="a+x"/>
+        <echo message="--- chmod ${final_codepath}/${package_name}/${ant.project.name} a+x" />
+        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
     </target>
 
-    <target name="compile_setup">
-
-        <path id="ClassPath">
-            <fileset dir="${webobjects_lib}">
-                <include name="CoreFramework.jar" />
-
-            	<include name="ERExtensions.jar" />
-                <include name="ERPrototypes.jar" />
-                <include name="erxwo54.jar" />
-                
-            	<include name="log4j-1.2.15.jar" />
-                <include name="commons-lang-2.3.jar" />
-                <include name="commons-configuration-1.5.jar" />
-                <include name="joda-time-1.5.2.jar" />
-             
-            	<include name="JavaFoundation.jar" />
-                <include name="JavaWebObjects.jar" />
-                <include name="JavaEOControl.jar" />
-                <include name="JavaEOAccess.jar" />
-                <include name="JavaJDBCAdaptor.jar" />
-                <include name="JavaWOExtensions.jar" />
-                <include name="JavaXML.jar" />
-            </fileset>
-        </path>
-
-        <delete dir="${classes_temp}" />
-        <mkdir dir="${classes_temp}" />
-    </target>
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	PACKAGE: empties and refills the bundle (application or framework) in deployment location
+	  unless we're building on Window, when this doesn't execute (better safe than sorry)
+	  depends on
+	    compile : ...
+	    
+	    package_setup     : if app {"/Contents"   ""              "APPL"} 
+	                          else {""            "/Frameworks"   "FWRK"}
+	                           and create lots of directories (lib, rez, web)
+	                       
+	    package_build     : fill the above directories
+	    
+	    package_extra_app : copy app-only files (WOBootstrap.jar, deploy.properties, ...)
+	                        and the platform classpath.txt files, etc
+	                        
+	    package_close     : [framework] copy *.class files to bundle
+	    package_close_app : [application] copy lib jars and zips, and embeds ####
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <target name="package"
 	        depends="compile, package_setup, package_build, package_extra_app,
@@ -158,12 +122,24 @@
 
 		<!-- 
 		      this next part generates the package directory naming structure as follows:
+              
+              Application:
                 
-                App.woa/Contents/
-                App.woa/Contents/Library/               <== for embedded libraries
-                App.woa/Contents/Resources/
-                App.woa/Contents/Resources/Java/
-                App.woa/Contents/WebServerResources/
+                pack_content = (temp)/App.woa/Contents/
+                pack_lib_dir = (temp)/App.woa/Contents/Library/               <== for embedded libraries
+                pack_rez_dir = (temp)/App.woa/Contents/Resources/
+                pack_jar_dir = (temp)/App.woa/Contents/Resources/Java/
+                pack_jar_dir = (temp)/App.woa/Contents/WebServerResources/
+                package_info = (temp)/App.woa/Contents/Info.plist
+
+              Framework:
+                
+                pack_content = (temp)/Fwk.framework/
+                pack_lib_dir = (temp)/Fwk.framework/Library/                  <== never used in a framework
+                pack_rez_dir = (temp)/Fwk.framework/Resources/
+                pack_jar_dir = (temp)/Fwk.framework/Resources/Java/
+                pack_jar_dir = (temp)/Fwk.framework/WebServerResources/
+                package_info = (temp)/Fwk.framework/Resources/Info.plist
 
               the platform files are still to come:                
         -->
@@ -179,36 +155,10 @@
 		                                    else="${pack_rez_dir}${file.separator}Info.plist" >
             <isset property="isApplication" /></condition>
 
-        <patternset id="WOC">
-            <include name="*.wo/*" />
-        </patternset>
-
-        <patternset id="REZ">
-            <exclude name="build/**" />
-            <exclude name="${package_temp}/**" />
-
-            <include name="Configuration" />
-            <include name="Properties" />
-            <include name="*.properties" />
-            <include name="*.xml" />
-            <include name="*.eomodeld/*" />
-            <include name="*.help" />
-        </patternset>
-
-        <patternset id="WEB">
-            <include name="**/*.css" />
-            <include name="**/*.gif" />
-            <include name="**/*.jpg" />
-            <include name="**/*.jpeg" />
-            <include name="**/*.png" />
-            <include name="**/*.mov" />
-            <include name="**/*.js" />
-        </patternset>
-
     </target>
 
 
-	<target name="package_build" description="create the package locally.">
+	<target name="package_build" description="create the bundle/package in temporary space ...">
         <echo message="create package ${package_name} in ${package_temp}" />
 
         <delete dir="${package_temp}" />
@@ -299,7 +249,8 @@
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     package_extra_app:
-              (1) create a "deploy.properties" file in Resources with build timestamp
+             (0.5) get the subversion build number
+              (1) create a "deploy.properties" with build timestamp and svn version #
               (2) copy "WOBootstrap.jar" to *.woa directory
               (3) copy "UnixLaunch.sh" and "WinLaunch.CMD" to *.woa directory
              (3.1) permit "UnixLaunch.sh" executable
@@ -310,15 +261,14 @@
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <target name="package_extra_app" if="isApplication">
 
-    	<exec executable="svnversion" 
+    	<exec executable="svnversion"
     		         dir="." 
           outputproperty="svnversion.property" 
-    		    logError="yes"/>
+    		    logError="yes"/> 								    	 			  <!-- (0.5) -->
 
     	<touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
         <echo file="${pack_rez_dir}/deploy.properties" 
-              message="buildTimeString = ${timestamp}${line.separator}
-svnVersion = ${svnversion.property}${line.separator}" />
+              message="buildTimeString = ${timestamp}${line.separator}svnVersion = ${svnversion.property}${line.separator}" />
     	
         <copy file="/Developer/Makefiles/java_makefiles/WOBootstrap.jar" 
 	       	  verbose="true" preservelastmodified="true"
@@ -363,7 +313,7 @@ svnVersion = ${svnversion.property}${line.separator}" />
         files found in our project.  Note that this will be of the form:
                 
                 "....(bin)/edu.umich.appname.Application.class"
-                
+        
         and the mapper isolates the class name: "edu.umich.appname.Application"
         which we use to establish the "application_classname" property
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -473,48 +423,152 @@ APPROOT/Resources/Java/activation.jar
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+    <patternset id="WOC">
+        <include name="*.wo/*" />
+    </patternset>
 
+    <patternset id="REZ">
+        <exclude name="build/**" />
+        <exclude name="${package_temp}/**" />
 
-    <target name="install" depends="package,prepare,install_jar,install_app" 
-    	    unless="isWindows" description="move package to deployment location ...">
+        <include name="Configuration" />
+        <include name="Properties" />
+        <include name="*.properties" />
+        <include name="*.xml" />
+        <include name="*.eomodeld/*" />
+        <include name="*.help" />
+    </patternset>
+
+    <patternset id="WEB">
+        <include name="**/*.css" />
+        <include name="**/*.gif" />
+        <include name="**/*.jpg" />
+        <include name="**/*.jpeg" />
+        <include name="**/*.png" />
+        <include name="**/*.mov" />
+        <include name="**/*.js" />
+    </patternset>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	INIT:
+	  depends on
+	    determine_os : discover which operating system we're running on
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <target name="init" depends="determine_os, 
+                                 set_environs" unless="init" 
+            description="initialize environment and summarize to console">
+
+        <echo message="-------------------------------------------------" />
+        <echo message="  WebObjects Package: ${package_name}" />
+        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
+        <echo message="Ant Init executed at: ${timestamp}" />
+        <echo message="Run Time Environment: ${os_environment}" />
+        <echo message="Java Runtime Version: ${java.version}" />
+        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
+        <echo message="  WebObjects Library: ${webobjects_lib}" />
+        <echo message="     WebObjects Apps: ${webobjects_app}" />
+        <echo message="  Web Root Directory: ${final_webasset}" />
+        <echo message="-------------------------------------------------" />
+
     </target>
 
-    <target name="prepare" 
-            description="prepare deployment locations and removing existing deployments">
-        <delete quiet="true" dir="${final_codepath}${file.separator}${package_name}" />
-        <delete quiet="true" file="${final_codepath}${file.separator}${package_name}" />
-        <delete quiet="true" dir="${final_webasset}${file.separator}${package_name}" />
-        <delete quiet="true" file="${final_webasset}${file.separator}${package_name}" />
+	<target name="set_environs" depends="bunny_check_T, bunny_check_F" description="">
+
+        <property name="java_tmp_dir" value="${file.separator}tmp" />
+		<property name="package_temp" value="${java_tmp_dir}${file.separator}(tmp)" />
+        <property name="classes_temp" value="${java_tmp_dir}${file.separator}(bin)" />
+
+
+        <property name="webobjects_dir" value="${local_root}${file.separator}Library${file.separator}WebObjects" />
+		<property name="webobjects_lib" value="${webobjects_dir}${file.separator}lib" />
+		<property name="webobjects_app" value="${webobjects_dir}${file.separator}Applications" />
+		
+        <available file="${java_src_dir}" type="dir" property="source_exists" />
+        <available file="${webobjects_lib}" type="dir" property="wo_available" />
+
+
+        <pathconvert property="sourcesPath">
+            <fileset dir="${java_src_dir}" /></pathconvert>
+        <condition property="isApplication">
+            <contains string="${sourcesPath}" substring="${file.separator}Application.java" /></condition>
+
+        <condition property="package_name" value="${ant.project.name}.woa" 
+                                            else="${ant.project.name}.jar">
+            <isset property="isApplication" /></condition>
+
+        <condition property="final_codepath" value="${webobjects_app}" 
+ 		                                      else="${webobjects_lib}">
+            <isset property="isApplication" />
+        </condition>
+
     </target>
+	
+    <target name="bunny_check_T" if="Fluffy_Bunnies" description="">
+	
+        <property name="java_src_dir" value=".${file.separator}Sources" />
+        <property name="java_lib_dir" value=".${file.separator}Libraries" />
+        <property name="java_rez_dir" value=".${file.separator}Resources" />
+        <property name="java_woc_dir" value=".${file.separator}Components" />
+        <property name="java_web_dir" value=".${file.separator}WebServerResources" />
+
+    </target>
+
+    <target name="bunny_check_F" unless="Fluffy_Bunnies" description="">
     
-    <target name="install_jar" unless="isApplication">
-        <jar basedir="${package_temp}/${package_name}" destfile="${final_codepath}/${ant.project.name}.jar" />
+        <property name="java_src_dir" value=".${file.separator}src" />
+        <property name="java_lib_dir" value=".${file.separator}lib" />
+        <property name="java_rez_dir" value=".${file.separator}rez" />
+        <property name="java_woc_dir" value=".${file.separator}woc" />
+        <property name="java_web_dir" value=".${file.separator}web" />
 
-        <mkdir dir="${final_webasset}/Frameworks/${package_name}/WebServerResources" />
-        <copy todir="${final_webasset}/Frameworks/${package_name}/WebServerResources">
-            <fileset dir="${pack_web_dir}" />
-		</copy>
-   <!-- <delete dir="${pack_web_dir}" /> -->
-        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
     </target>
 
-    <target name="install_app" if="isApplication">
-        <copy todir="${final_codepath}/${package_name}">
-            <fileset dir="${package_temp}/${package_name}" />
-        </copy>
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-        <mkdir dir="${final_webasset}/${package_name}${contents_dir}/WebServerResources" />
-        <copy todir="${final_webasset}/${package_name}${contents_dir}/WebServerResources">
-            <fileset dir="${pack_content}/WebServerResources" />
-		</copy>
+    <target name="compile" depends="init,compile_setup" if="source_exists" 
+            description="compile all java source to classes">
+            
+        <javac debug="on" deprecation="on" includeAntRuntime="no"
+                source="${javaVersion}" target="${javaVersion}"
+                srcdir="${java_src_dir}" destdir="${classes_temp}">
+            <classpath refid="ClassPath" />
+            <compilerarg value="-Xlint:unchecked" />
+        </javac>
+        
+    </target>
 
-		<chmod file="${final_codepath}/${package_name}/${ant.project.name}" perm="a+x"/>
-        <echo message="--- chmod ${final_codepath}/${package_name}/${ant.project.name} a+x" />
-        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
+    <target name="compile_setup">
+
+        <path id="ClassPath">
+            <fileset dir="${webobjects_lib}">
+                <include name="CoreFramework.jar" />
+
+            	<include name="ERExtensions.jar" />
+                <include name="ERPrototypes.jar" />
+                <include name="erxwo54.jar" />
+             
+            	<include name="JavaFoundation.jar" />
+                <include name="JavaWebObjects.jar" />
+                <include name="JavaEOControl.jar" />
+                <include name="JavaEOAccess.jar" />
+                <include name="JavaJDBCAdaptor.jar" />
+                <include name="JavaWOExtensions.jar" />
+                <include name="JavaXML.jar" />
+                
+            	<include name="log4j-1.2.15.jar" />
+                <include name="commons-configuration-1.5.jar" />
+                <include name="commons-lang-2.3.jar" />
+                <include name="joda-time-1.5.2.jar" />
+            </fileset>
+        </path>
+
+        <delete dir="${classes_temp}" />
+        <mkdir dir="${classes_temp}" />
     </target>
 
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <target name="determine_os" 
