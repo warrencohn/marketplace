@@ -1,4 +1,11 @@
-WOSMTPHost                      mail-relay.itd.umich.edu
+derby.system.home				/Users/gavin/Library/Databases/derby-10.3.2.1/data/
+dbConnectURLGLOBAL				jdbc:derby:Marketplace
+
+WOSMTPHost                          localhost
+# WOSMTPHost                      mail-relay.itd.umich.edu
+
+mail.smtp.port                      25
+
 WOStatisticsPassword            XXX
 WODirectConnectEnabled          FALSE
 
@@ -24,6 +31,9 @@ log4j.appender.A1.layout.ConversionPattern  [%d{ISO8601} %15.15t] %5.5p %24.24c 
 
 # WONDER SETTINGS ##########################################################
 
+er.extensions.ERXApplication.useSessionStoreDeadlockDetection   true
+er.extensions.ERXApplication.StatisticsBaseLogPath              /tmp
+
 er.extensions.stackTrace.cleanup=true
 
 er.extensions.ERXApplication.useEditingContextUnlocker=true
@@ -36,6 +46,11 @@ er.extensions.ERXNSLogLog4jBridge=INFO
 
 er.extensions.ERXFileNotificationCenter.CheckFilesPeriod=0
 er.extensions.ERXApplication.DefaultEncoding=UTF-8
+
+er.migration.migrateAtStartup			true 
+er.migration.createTablesIfNecessary	true
+er.migration.modelNames					Marketplace
+Marketplace.MigrationClassPrefix		edu.umich.marketplace.migration.Marketplace
 
 log4j.loggerFactory=er.extensions.ERXLogger$Factory
 
