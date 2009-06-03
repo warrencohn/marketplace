@@ -1,1 +1,0 @@
- -destination src -java -javaTemplate _Entity.java -model rez/Marketplace2.eomodeld -packagedirs -refmodel ../../WonderSVC/Frameworks/Core/ERPrototypes/Resources/erprototypes.eomodeld -subclassDestination src -subclassJavaTemplate Entity.java -verbose -loadModelGroup
