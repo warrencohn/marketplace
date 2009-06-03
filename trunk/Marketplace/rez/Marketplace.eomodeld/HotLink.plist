@@ -1,0 +1,42 @@
+{
+    attributes = (
+        {
+            allowsNull = N; 
+            columnName = "OID_AD"; 
+            name = advertId; 
+            prototypeName = id; 
+            userInfo = {"_EntityModeler" = {generateSource = NO; }; }; 
+        }, 
+        {
+            allowsNull = N; 
+            columnName = "OID_USER"; 
+            name = authorId; 
+            prototypeName = id; 
+            userInfo = {"_EntityModeler" = {generateSource = NO; }; }; 
+        }
+    ); 
+    attributesUsedForLocking = (advertId, authorId); 
+    className = EOGenericRecord; 
+    externalName = HOTLINK; 
+    fetchSpecificationDictionary = {}; 
+    name = HotLink; 
+    primaryKeyAttributes = (advertId, authorId); 
+    relationships = (
+        {
+            destination = Advert; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = id; sourceAttribute = advertId; }); 
+            name = advert; 
+        }, 
+        {
+            destination = Author; 
+            isMandatory = Y; 
+            isToMany = N; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = id; sourceAttribute = authorId; }); 
+            name = author; 
+        }
+    ); 
+}

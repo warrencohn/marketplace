@@ -1,0 +1,45 @@
+{
+    attributes = (
+        {allowsNull = N; columnName = OID; name = id; prototypeName = id; }, 
+        {
+            allowsNull = N; 
+            columnName = "MOST_RECENT_VISIT"; 
+            name = previousVisit; 
+            prototypeName = dateTime; 
+            valueType = T; 
+        }, 
+        {
+            allowsNull = N; 
+            columnName = "UNIQUE_NAME"; 
+            name = uniqname; 
+            prototypeName = varchar50; 
+            valueType = S; 
+            width = 40; 
+        }
+    ); 
+    attributesUsedForLocking = (id); 
+    className = "edu.umich.marketplace.eof.Author"; 
+    classProperties = (adverts, favorites, previousVisit, uniqname); 
+    externalName = AUTHOR; 
+    name = Author; 
+    primaryKeyAttributes = (id); 
+    relationships = (
+        {
+            destination = Advert; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = authorID; sourceAttribute = id; }); 
+            name = adverts; 
+        }, 
+        {definition = "hotLinks.advert"; name = favorites; }, 
+        {
+            deleteRule = EODeleteRuleCascade; 
+            destination = HotLink; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = authorId; sourceAttribute = id; }); 
+            name = hotLinks; 
+            propagatesPrimaryKey = Y; 
+        }
+    ); 
+}
