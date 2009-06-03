@@ -1,0 +1,78 @@
+{
+    subCategories = {
+        class = EOFetchSpecification; 
+        entityName = Category; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOAndQualifier; 
+            qualifiers = (
+                {
+                    class = EOKeyValueQualifier; 
+                    key = parent; 
+                    selectorName = "isEqualTo:"; 
+                    value = {"_key" = parent; class = EOQualifierVariable; }; 
+                }, 
+                {
+                    class = EONotQualifier; 
+                    qualifier = {
+                        class = EOKeyValueQualifier; 
+                        key = name; 
+                        selectorName = "isEqualTo:"; 
+                        value = UM; 
+                    }; 
+                }
+            ); 
+        }; 
+    }; 
+    topCategories = {
+        class = EOFetchSpecification; 
+        entityName = Category; 
+        prefetchingRelationshipKeyPaths = (); 
+        qualifier = {
+            class = EOAndQualifier; 
+            qualifiers = (
+                {
+                    class = EOOrQualifier; 
+                    qualifiers = (
+                        {
+                            class = EOKeyValueQualifier; 
+                            key = parentID; 
+                            selectorName = "isEqualTo:"; 
+                            value = {class = NSNumber; value = 91; }; 
+                        }, 
+                        {
+                            class = EOKeyValueQualifier; 
+                            key = parentID; 
+                            selectorName = "isEqualTo:"; 
+                            value = {class = NSNumber; value = 0; }; 
+                        }, 
+                        {
+                            class = EOKeyValueQualifier; 
+                            key = parentID; 
+                            selectorName = "isEqualTo:"; 
+                            value = {class = EONull; }; 
+                        }
+                    ); 
+                }, 
+                {
+                    class = EONotQualifier; 
+                    qualifier = {
+                        class = EOKeyValueQualifier; 
+                        key = name; 
+                        selectorName = "isLike:"; 
+                        value = LAW; 
+                    }; 
+                }, 
+                {
+                    class = EONotQualifier; 
+                    qualifier = {
+                        class = EOKeyValueQualifier; 
+                        key = name; 
+                        selectorName = "isLike:"; 
+                        value = UM; 
+                    }; 
+                }
+            ); 
+        }; 
+    }; 
+}

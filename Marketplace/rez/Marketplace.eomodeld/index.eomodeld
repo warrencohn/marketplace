@@ -1,0 +1,52 @@
+{
+    EOModelVersion = "2.1"; 
+    adaptorName = JDBC; 
+    connectionDictionary = {
+        URL = "jdbc:derby:Marketplace"; 
+        driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
+        password = ""; 
+        username = ""; 
+    }; 
+    entities = (
+        {className = "edu.umich.marketplace.eof.Advert"; name = Advert; }, 
+        {className = "edu.umich.marketplace.eof.Author"; name = Author; }, 
+        {className = "edu.umich.marketplace.eof.Category"; name = Category; }, 
+        {className = EOGenericRecord; name = HotLink; }
+    ); 
+    userInfo = {
+        "_EntityModeler" = {
+            activeDatabaseConfigName = Derby; 
+            databaseConfigs = {
+                Derby = {
+                    adaptorName = JDBC; 
+                    connectionDictionary = {
+                        URL = "jdbc:derby:Marketplace"; 
+                        driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
+                        password = ""; 
+                        username = ""; 
+                    }; 
+                    prototypeEntityName = EOJDBCDerbyPrototypes; 
+                }; 
+                MySQL = {
+                    adaptorName = JDBC; 
+                    connectionDictionary = {
+                        URL = "jdbc:mysql://127.0.0.1/marketplace?capitalizeTypeNames=true"; 
+                        password = cat4snog; 
+                        username = root; 
+                    }; 
+                    prototypeEntityName = EOJDBCMySQLPrototypes; 
+                }; 
+                Oracle = {
+                    adaptorName = JDBC; 
+                    connectionDictionary = {
+                        URL = "jdbc:oracle:thin:@telugu.web.itd.umich.edu:1521:TELUGU"; 
+                        driver = ""; 
+                        password = BuyNSell; 
+                        username = marketplace; 
+                    }; 
+                    prototypeEntityName = EOJDBCOraclePrototypes; 
+                }; 
+            }; 
+        }; 
+    }; 
+}
