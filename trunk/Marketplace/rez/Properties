@@ -1,10 +1,10 @@
 derby.system.home				/Users/gavin/Library/Databases/derby-10.3.2.1/data/
 dbConnectURLGLOBAL				jdbc:derby:Marketplace
 
-WOSMTPHost                          localhost
-# WOSMTPHost                      mail-relay.itd.umich.edu
+WOSMTPHost                      localhost
+# WOSMTPHost                    mail-relay.itd.umich.edu
 
-mail.smtp.port                      25
+mail.smtp.port                  25
 
 WOStatisticsPassword            XXX
 WODirectConnectEnabled          FALSE
