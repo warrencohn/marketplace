@@ -1,3 +1,17 @@
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	Documentation of this build.xml file:
+	
+	This started life a long time ago as the Wonder build.xml file.  It's been transformed in several
+	ways to try and clarify its operation.
+	
+	1) the WebObjects specific ant tasks WOApplication, WOFramework, WO... have been replace by the use
+	   of core ant tasks.  This results in the xml file being more portable at the expense of making it
+	   more elaborate.
+	   
+	2) the xml files to build frameworks and applications have been unified - the same xml file should
+	   work for either bundle type.
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <project name="CoreFramework" default="help">
     <property name="BundleVers" value="1.0" />
     <property name="javaVersion" value="1.5" />
@@ -7,7 +21,6 @@
 
     <tstamp><format property="timestamp" pattern="MMMdd/yy HH:mm" /></tstamp>
 
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 	
 	<target name="help">
@@ -16,7 +29,11 @@
         <echo message="ant install -- cleans, builds and installs the ${ant.project.name} package" />
     </target>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	INIT:
+	  depends on
+	    determine_os : discover which operating system we're running on
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <target name="init" depends="determine_os, 
                                  set_environs" unless="init" 
@@ -36,14 +53,7 @@
 
     </target>
 
-	<target name="set_environs" 
-	        description="">
-
-        <property name="java_src_dir" value=".${file.separator}src" />
-		<property name="java_lib_dir" value=".${file.separator}lib" />
-        <property name="java_rez_dir" value=".${file.separator}rez" />
-        <property name="java_woc_dir" value=".${file.separator}woc" />
-        <property name="java_web_dir" value=".${file.separator}web" />
+	<target name="set_environs" depends="bunny_check_T, bunny_check_F" description="">
 
         <property name="java_tmp_dir" value="${file.separator}tmp" />
         <property name="package_temp" value="${java_tmp_dir}${file.separator}(tmp)" />
@@ -74,6 +84,26 @@
 
     </target>
 
+    <target name="bunny_check_T" if="Fluffy_Bunnies" description="">
+	
+        <property name="java_src_dir" value=".${file.separator}Sources" />
+        <property name="java_lib_dir" value=".${file.separator}Libraries" />
+        <property name="java_rez_dir" value=".${file.separator}Resources" />
+        <property name="java_woc_dir" value=".${file.separator}Components" />
+        <property name="java_web_dir" value=".${file.separator}WebServerResources" />
+
+    </target>
+
+    <target name="bunny_check_F" unless="Fluffy_Bunnies" description="">
+    
+        <property name="java_src_dir" value=".${file.separator}src" />
+        <property name="java_lib_dir" value=".${file.separator}lib" />
+        <property name="java_rez_dir" value=".${file.separator}rez" />
+        <property name="java_woc_dir" value=".${file.separator}woc" />
+        <property name="java_web_dir" value=".${file.separator}web" />
+
+    </target>
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <target name="compile" depends="init,compile_setup" if="source_exists" 
@@ -93,16 +123,18 @@
         <path id="ClassPath">
             <fileset dir="${webobjects_lib}">
                 <include name="ERExtensions.jar" />
-                <include name="commons-collections-3.2.jar" />
-                <include name="commons-configuration-1.5.jar" />
-                <include name="commons-lang-2.3.jar" />
-                <include name="joda-time-1.5.2.jar" />
+
                 <include name="JavaFoundation.jar" />
                 <include name="JavaWebObjects.jar" />
                 <include name="JavaEOControl.jar" />
                 <include name="JavaEOAccess.jar" />
                 <include name="JavaJDBCAdaptor.jar" />
                 <include name="JavaXML.jar" />
+
+                <include name="commons-collections-3.2.jar" />
+                <include name="commons-configuration-1.5.jar" />
+                <include name="commons-lang-2.4.jar" />
+                <include name="joda-time-1.6.jar" />
             </fileset>
         </path>
 
@@ -211,7 +243,6 @@
 <!-- %DTD% -->
 <plist version="1.0">
 <dict>
-  <key>NSExecutable</key>                       <string>%NSExecutable%</string>
   <key>CFBundleDevelopmentRegion</key>        	<string>English</string>
   <key>CFBundleExecutable</key>                 <string>%CFBundleExecutable%</string>
   <key>CFBundleGetInfoString</key>              <string>${ant.project.name} ${BundleVers} ${timestamp}</string>
@@ -235,6 +266,7 @@
     </array>
   <key>NSJavaPathClient</key>                   <string>%NSJavaPathClient%.jar</string>
   <key>NSJavaRoot</key>                         <string>Contents/Resources/Java</string>
+  <key>NSExecutable</key>                       <string>%NSExecutable%</string>
   
 <!-- application-plist -->
 
@@ -285,6 +317,11 @@
               (7) copy classpath.txt
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <target name="package_extra_app" if="isApplication">
+
+    	<exec executable="svnversion" 
+    		         dir="." 
+          outputproperty="svnversion.property" 
+    		    logError="yes"/>
 
         <touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
         <echo file="${pack_rez_dir}/deploy.properties" 
@@ -558,5 +595,7 @@ APPROOT/Resources/Java
 		<property name="local_root" value="${apple_root}/Local" />
         <property name="final_webasset" value="/Library/WebServer/Documents/WebObjects" />
 	</target>
+
+	<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
 
 </project>

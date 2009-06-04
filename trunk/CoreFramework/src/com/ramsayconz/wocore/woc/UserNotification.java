@@ -27,10 +27,12 @@ public class UserNotification extends WOComponent {
         logger.trace("+++ constructor");
     }
     
-    public boolean getNotificationDetailsExist() {
+    @SuppressWarnings("unqualified-field-access")
+	public boolean getNotificationDetailsExist() {
         return (null != notificationDetails && notificationDetails.length() > 0);
     }
 
+    @SuppressWarnings("unqualified-field-access")
     public boolean getNotificationSummaryExist() {
         return (null != notificationSummary && notificationSummary.length() > 0);
     }

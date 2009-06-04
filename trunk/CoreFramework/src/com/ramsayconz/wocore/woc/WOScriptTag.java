@@ -14,8 +14,8 @@ public class WOScriptTag extends WOHTMLURLValuedElement {
 
 	public WOScriptTag(String name, NSDictionary<String, WOAssociation> assocationsDictionary, WOElement template) {
 		super("script", assocationsDictionary, template);
-		if (_associations.objectForKey("type") == null) {
-			_associations.setObjectForKey(new WOConstantValueAssociation("application/javascript"), "type");
+		if (this._associations.objectForKey("type") == null) {
+			this._associations.setObjectForKey(new WOConstantValueAssociation("application/javascript"), "type");
 		}
 	}
 
