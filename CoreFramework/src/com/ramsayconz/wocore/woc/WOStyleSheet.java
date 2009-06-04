@@ -14,11 +14,11 @@ public class WOStyleSheet extends WOHTMLURLValuedElement {
 
 	public WOStyleSheet(String name, NSDictionary<String, WOAssociation> assocationsDictionary, WOElement template) {
 		super("link", assocationsDictionary, template);
-		if (_associations.objectForKey("rel") == null) {
-			_associations.setObjectForKey(new WOConstantValueAssociation("stylesheet"), "rel");
+		if (this._associations.objectForKey("rel") == null) {
+			this._associations.setObjectForKey(new WOConstantValueAssociation("stylesheet"), "rel");
 		}
-		if (_associations.objectForKey("type") == null) {
-			_associations.setObjectForKey(new WOConstantValueAssociation("text/css"), "type");
+		if (this._associations.objectForKey("type") == null) {
+			this._associations.setObjectForKey(new WOConstantValueAssociation("text/css"), "type");
 		}
 	}
 

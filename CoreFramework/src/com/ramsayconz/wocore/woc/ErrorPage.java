@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
 
+@SuppressWarnings("unqualified-field-access")
 public class ErrorPage extends CoreStatelessComponent {
     private static final Logger     logger = Logger.getLogger (TimeoutPage.class);
 

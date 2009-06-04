@@ -19,6 +19,7 @@ import com.webobjects.foundation._NSUtilities;
 
 // import org.apache.log4j.Level;
 
+@SuppressWarnings("unqualified-field-access")
 public final class NSLog {
     
     //------------------------------------------------------------------------
@@ -156,7 +157,7 @@ public final class NSLog {
             this._prefixInfo = s;
         }
         
-        protected String _verbosePrefix() {
+		protected String _verbosePrefix() {
             String threadName = Thread.currentThread().getName();
             NSTimestamp now = new NSTimestamp();
             long offset = now.getTime();
@@ -270,6 +271,7 @@ public final class NSLog {
     
     //------------------------------------------------------------------------
     
+	@SuppressWarnings("static-access")
     public static class Log4JLogger extends Logger {
         
         protected org.apache.log4j.Logger   logger;
@@ -290,7 +292,7 @@ public final class NSLog {
 			return;
         }
 
-        protected static int convertLog4JLevelToNSLogLevel(int aLog4JDebugLevel) {
+		protected static int convertLog4JLevelToNSLogLevel(int aLog4JDebugLevel) {
             int nsLogDebugLevel;
             switch (aLog4JDebugLevel) {
                 case org.apache.log4j.Level.OFF_INT:

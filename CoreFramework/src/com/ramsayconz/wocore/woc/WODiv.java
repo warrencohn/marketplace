@@ -35,25 +35,25 @@ public class WODiv extends WODynamicElement {
         //                title = <com.webobjects.appserver._private.WOConstantValueAssociation: value=tool tip>; }, 
         //          elem=<com.webobjects.appserver.parser.woml.WOHTMLBareStringReabable>"
         
-        _associations = new NSDictionary<String, WOAssociation>(anAssociationsDict.mutableClone());
-        _children = anElement;
+        this._associations = new NSDictionary<String, WOAssociation>(anAssociationsDict.mutableClone());
+        this._children = anElement;
 
         logger.trace((new StringBuilder()).append("name=").append(aName).
-                                           append("; dict=").append(_associations).
-                                           append("; elem=").append(_children).toString());
+                                           append("; dict=").append(this._associations).
+                                           append("; elem=").append(this._children).toString());
 
     }
     
     @Override
 	public void appendToResponse(WOResponse aResponse, WOContext aContext) {
         aResponse.appendContentString("<" + TAG);
-        if (_associations != null) {
+        if (this._associations != null) {
         //  appendAttributesToResponse(aResponse, aContext);
             appendStyleToResponse(aResponse, aContext);
         }
         aResponse.appendContentCharacter('>');
-        if (_children != null) {
-            _children.appendToResponse(aResponse, aContext);
+        if (this._children != null) {
+            this._children.appendToResponse(aResponse, aContext);
         } else {
         	logger.error("*** " + TAG + " WITH NO CONTENT -");
             aResponse.appendContentString("- " + TAG + " WITH NO CONTENT -");
@@ -80,8 +80,8 @@ public class WODiv extends WODynamicElement {
 	private void appendAttributesToResponse(WOResponse aResponse, WOContext aContext) {
         WOComponent 					aComponent = aContext.component();
 
-        for (String thisKey : _associations.keySet()) {
-        	Object 				thisVal = _associations.objectForKey(thisKey).valueInComponent(aComponent);
+        for (String thisKey : this._associations.keySet()) {
+        	Object 				thisVal = this._associations.objectForKey(thisKey).valueInComponent(aComponent);
             
             logger.trace("  KEY=" + thisKey);
             logger.trace("VALUE=" + thisVal + " (" + thisVal.getClass().getName() + ")");
@@ -96,11 +96,11 @@ public class WODiv extends WODynamicElement {
     private void appendStyleToResponse(WOResponse aResponse, WOContext aContext) {
         WOComponent 			aComponent = aContext.component();
 
-        if (_associations.containsKey(STYLE_KEY)) {
-        	String 				styleValue = _associations.objectForKey(STYLE_KEY).valueInComponent(aComponent).toString();       
+        if (this._associations.containsKey(STYLE_KEY)) {
+        	String 				styleValue = this._associations.objectForKey(STYLE_KEY).valueInComponent(aComponent).toString();       
         	Vector<Object> 		params = new Vector<Object>();
 
-        	for (String thisKey : _associations.keySet()) {
+        	for (String thisKey : this._associations.keySet()) {
             	if (thisKey.startsWith(PARAM_KEY)) {
 					int index = -1;
 
@@ -110,7 +110,7 @@ public class WODiv extends WODynamicElement {
 					catch (Exception e) { }
 
 					if (index != -1) {
-						Object 	paramValue = _associations.objectForKey(thisKey).valueInComponent(aComponent);
+						Object 	paramValue = this._associations.objectForKey(thisKey).valueInComponent(aComponent);
 						if (paramValue == null) {
 							paramValue = "";
 						}

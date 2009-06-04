@@ -154,6 +154,7 @@ public class WOMessageFormatter extends WOComponent {
 	 * @return      formatter from the bindings
 	 */
 
+	@SuppressWarnings("unchecked")
 	private Object[] _arguments() {
 		Vector arguments = new Vector(20); // Create a vector for the values
 
@@ -213,7 +214,7 @@ public class WOMessageFormatter extends WOComponent {
 	 */
 
 	private WOComponent _source() {
-		if (_source == null) { // If the value hasn't been pulled yet
+		if (this._source == null) { // If the value hasn't been pulled yet
 
 			// NOTE:  this could be changed.  Instead of passing the component as a binding,
 			// you could pass a key to use to get the component.  For example, you could pass
@@ -221,11 +222,11 @@ public class WOMessageFormatter extends WOComponent {
 			// This has the advantage of not requiring the parent component to implement a 
 			// method to return itself (to set itself into the binding).
 
-			_source = (hasBinding(_SOURCE_KEY) ? (WOComponent) valueForBinding(_SOURCE_KEY) : this);
-			logger.trace("SOURCE: " + _source.name());
+			this._source = (hasBinding(_SOURCE_KEY) ? (WOComponent) valueForBinding(_SOURCE_KEY) : this);
+			logger.trace("SOURCE: " + this._source.name());
 		}
 
-		return _source; // Return the value
+		return this._source; // Return the value
 	}
 
 	/**
@@ -261,6 +262,7 @@ public class WOMessageFormatter extends WOComponent {
 	 * @param index         the index at which to insert the binding into the array
 	 */
 
+	@SuppressWarnings("unchecked")
 	private void _insertBindingIntoArrayAtIndex (Object binding, Vector vector, int index) {
 		if ((binding != null) && (vector != null)) {				// The binding and vector cannot be null
 			int limit = index + 1;
@@ -281,7 +283,7 @@ public class WOMessageFormatter extends WOComponent {
 	@Override
 	public void reset() {
 		super.reset(); // Call super, then clear
-		_source = null;
+		this._source = null;
 	}
 
 	/** 

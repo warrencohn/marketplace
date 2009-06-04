@@ -4,6 +4,7 @@ import com.ramsayconz.wocore.CoreApplication;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
+@SuppressWarnings("unqualified-field-access")
 public class ErrorMessageComponent extends WOComponent {
 
     /** The URL for a link back into the application. */
@@ -40,7 +41,7 @@ public class ErrorMessageComponent extends WOComponent {
     }
 
     /** Returns the URL for a link back into the application. */
-    public String getAppURL() {
+	public String getAppURL() {
         if (_appURL == null) {
             if (valueForBinding ("appURL") != null) {
                 _appURL = (String)valueForBinding ("appURL");

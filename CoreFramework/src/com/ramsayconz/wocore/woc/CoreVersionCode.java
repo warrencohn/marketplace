@@ -21,6 +21,6 @@ public class CoreVersionCode extends CoreComponent {
     }
 
     public String getVersionCode () {
-    	return application.getConfProp ("application.build.version", "<< no version code >>");
+    	return this.application.getConfProp ("application.build.version", "<< no version code >>");
     }
 }
