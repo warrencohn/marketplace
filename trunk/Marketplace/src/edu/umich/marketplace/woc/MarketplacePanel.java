@@ -2,7 +2,6 @@ package edu.umich.marketplace.woc;
 
 import org.apache.log4j.Logger;
 
-import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
 
@@ -19,6 +18,7 @@ public class MarketplacePanel extends MPComponent {
 
 	public MarketplacePanel(WOContext context) {
 		super(context);
+        logger.trace ("+++ constructor");
 	}
 
 	public boolean hasPanelTitle() {
@@ -43,16 +43,13 @@ public class MarketplacePanel extends MPComponent {
 		return ((color == null) ? _SidePanelColor : color);
 	}
 
-	public boolean isBodyComponent() {
-		return (valueForBinding("bodyComponent") != null);
+	public boolean isContainer() {
+		String		literalContent = (String) valueForBinding("panelText");
+		return (literalContent == null || literalContent.length() == 0);
 	}
 
-	public WOComponent getBodyComponent() {
-		return (WOComponent) valueForBinding("bodyComponent");
-	}
-
-	public String getBodyLiteralText() {
-		return (String) valueForBinding("bodyLiteralText");
+	public String getLiteralContent() {
+		return (String) valueForBinding("panelText");
 	}
 
 // ---- Alert methods -----------------------------------------------------------------------------

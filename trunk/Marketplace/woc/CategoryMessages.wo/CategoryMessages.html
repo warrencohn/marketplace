@@ -1,6 +1,5 @@
 <wo:if condition = "[anyMessagesForActiveAdverts]">
-  <wo:MarketplacePanel bodyComponent = "[thisComponent]" 
-                   panelTitle = "Alert: Messages related to displayed categories" panelType = "side">
+  <wo:MarketplacePanel panelTitle = "Alert: Messages related to displayed categories" panelType = "side">
       <wo:repeat list = "[categoriesInAdverts]" item="[thisCategory]">
       <span style = "[messageStyleForCategory]"><wo:string value = "[messageTitleForCategory]"/></span><br/>
                                                 <wo:string value = "[messageTextForCategory]"/><br/>

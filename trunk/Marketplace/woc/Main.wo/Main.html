@@ -8,19 +8,14 @@
 
 <wo:CategorySelectorPanel /><br />
 
-<wo:MarketplacePanel bodyComponent = "[thisComponent]" 
-                        panelTitle = "Appropriate Use"
-                         panelType = "side">
-  Marketplace, like all U-M computing resources, is subject to the University's Proper Use Policy.
-  That Policy can be downloaded from <a target="_blank" href="http://spg.umich.edu/pdf/601.07-0.pdf">here</a>.<br/><br/>
-  Report violations of that policy to the IT User Advocate (<a href="mailto:abuse@umich.edu">abuse@umich.edu</a>).
+<wo:MarketplacePanel panelTitle = "[properties.appropriateUseTitle]"
+                      panelText = "[properties.appropriateUseText]"
+                      panelType = "side">
 </wo:MarketplacePanel><br />
   
-<wo:MarketplacePanel bodyComponent = "[thisComponent]" 
-                        panelTitle = "Additional Resources" 
-                         panelType = "side">
-  <i>The Michigan Daily</i> offers online access to its 
-  <a target="_blank" href="http://www.michigandaily.com/classifieds/">classified ads</a>.
+<wo:MarketplacePanel panelTitle = "[properties.additionalResourcesTitle]" 
+                      panelText = "[properties.additionalResourcesText]"
+                      panelType = "side">
 </wo:MarketplacePanel>
   
 </td></wo:if>

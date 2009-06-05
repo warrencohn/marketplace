@@ -64,12 +64,26 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 
 	public void postUpgrade(EOEditingContext editingContext, EOModel model)
 			throws Throwable {
-		Category	baseCategory = Category.createCategory(editingContext, 100, "Base Category");
+		Category	baseCategory = Category.createCategory(editingContext, 1000, "Category One");
 		editingContext.saveChanges();
-		
-		Category	sub1Category = Category.createCategory(editingContext, 1000, "Sub Category One");
+
+		Category	sub1Category = Category.createCategory(editingContext, 1010, "Sub Category One");
 		sub1Category.setParentID(baseCategory.id());
+
+		baseCategory = Category.createCategory(editingContext, 2000, "Category Two");
 		editingContext.saveChanges();
+
+		sub1Category = Category.createCategory(editingContext, 2010, "Sub Category One");
+		sub1Category.setParentID(baseCategory.id());
+		sub1Category = Category.createCategory(editingContext, 2020, "Sub Category Two");
+		sub1Category.setParentID(baseCategory.id());
+
+		baseCategory = Category.createCategory(editingContext, 3000, "Category Three");
+		editingContext.saveChanges();
+
+		baseCategory = Category.createCategory(editingContext, 4000, "Category Four");
+		editingContext.saveChanges();
+
 	}
 
 	@Override

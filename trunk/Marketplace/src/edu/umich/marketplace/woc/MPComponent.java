@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.ramsayconz.wocore.CoreApplication;
 import com.ramsayconz.wocore.CoreHelpRepo;
+import com.ramsayconz.wocore.CoreProperties;
 import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
@@ -27,6 +28,7 @@ public class MPComponent extends WOComponent {
     public Application           	app = (Application)WOApplication.application();
     public Session 		            sess = (Session)session();
     public UserSessionModel			userSessionModel = sess.getUserSessionModel();
+    public CoreProperties           properties = CoreApplication.properties;
 
     public MPComponent(WOContext context) {
         super(context);

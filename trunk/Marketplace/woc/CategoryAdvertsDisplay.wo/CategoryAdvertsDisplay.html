@@ -1,11 +1,11 @@
 <wo:if condition = "[userSessionModel.isBroadcastMessageForCategory]">
 <wo:MarketplacePanel panelTitle = "[userSessionModel.broadcastTitleForCategory]" panelToolTip = "Messages related to this category."
-                  bodyComponent = "[thisComponent]" panelType = "side">
+                  panelType = "side">
     <span style = "[userSessionModel.broadcastTextStyleForCategory]" ><wo:string value = "[userSessionModel.broadcastMessageForCategory]" /></span></wo:MarketplacePanel><br />
 </wo:if>
 
 <wo:MarketplacePanel panelTitle = "[panelTitle]" panelToolTip = "[toolTipText]"
-                  bodyComponent = "[thisComponent]"  panelType = "side" alertMessage = "[alertMessage]">
+                  panelType = "side" alertMessage = "[alertMessage]">
   <wo:WOForm multipleSubmit = "true" method = "GET">
     <wo:if condition = "[userSessionModel.categoryAdverts.count]">
        <wo:submit action="[userSessionModel.searchOnKeywords]" 
