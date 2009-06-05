@@ -5,5 +5,5 @@
                                                                                      height = "21" width = "19"  /></a></span></wo:if>
    <wo:if condition = "[hasErrorMessage]"><div class = "fail"><wo:string value = "[errorMessage]" escapeHTML = "false" /></div></wo:if>
    <wo:if condition = "[hasAlertMessage]"><div class = "warn"><wo:string value = "[alertMessage]" escapeHTML = "false" /></div></wo:if>
-   <div class = "body"><wo:if condition = "[isBodyComponent]"><wo:WOComponentContent />
-                       <wo:else><wo:string value = "[bodyLiteralText]" /></wo:else></wo:if></div></div>
+   <div class = "body"><wo:if condition = "[isContainer]"><wo:WOComponentContent />
+                       <wo:else><wo:string value = "[^panelText]" escapeHTML = "false"/></wo:else></wo:if></div></div>

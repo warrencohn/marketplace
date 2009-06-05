@@ -3,8 +3,9 @@
     <wo class="MarketplacePanel" wocomponentcontent="false">    <binding name="alertMessage"/>
         <binding name="errorMessage"/>
     <binding name="hasHelp"/>
-        <binding name="bodyComponent"/>
+        
         <binding name="panelType"/>
     
+    <binding name="panelText"/>
     </wo>
 </wodefinitions>
