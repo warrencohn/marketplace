@@ -20,7 +20,6 @@
     className = "edu.umich.marketplace.eof.Category"; 
     classProperties = (adverts, id, name, parent, parentID); 
     externalName = CATEGORY; 
-    isReadOnly = Y; 
     name = Category; 
     primaryKeyAttributes = (id); 
     relationships = (

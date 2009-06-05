@@ -2,7 +2,7 @@
     EOModelVersion = "2.1"; 
     adaptorName = JDBC; 
     connectionDictionary = {
-        URL = "jdbc:derby:Marketplace"; 
+        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace"; 
         driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
         password = ""; 
         username = ""; 
@@ -20,7 +20,7 @@
                 Derby = {
                     adaptorName = JDBC; 
                     connectionDictionary = {
-                        URL = "jdbc:derby:Marketplace"; 
+                        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace"; 
                         driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
                         password = ""; 
                         username = ""; 

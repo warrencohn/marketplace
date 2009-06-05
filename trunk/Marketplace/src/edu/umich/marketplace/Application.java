@@ -95,9 +95,6 @@ public class Application extends ITCSApplication {
 		logger.trace("--> applicationWillFinishLaunching");
 		super.applicationWillFinishLaunching();
 
-		new er.extensions.jdbc.ERXJDBCConnectionAnalyzer("Marketplace2");
-		getApplicationModel().initApplicationModel();
-
 		startTenMinuteTimerTask();
 		startDayChangeTimerTask();
 //		startNotifierTimerTask();
@@ -112,6 +109,10 @@ public class Application extends ITCSApplication {
 	@Override
 	public void applicationDidFinishLaunching() {
 		super.applicationDidFinishLaunching();
+
+		new er.extensions.jdbc.ERXJDBCConnectionAnalyzer("Marketplace");
+		getApplicationModel().initApplicationModel();
+
 		logger.trace("<-> applicationDidFinishLaunching");
 		logger.info("\n--------------------------------------------------------------------------------" +
                       "---------------------------------------------------------------------------------");

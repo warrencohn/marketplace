@@ -12,7 +12,7 @@
 	   work for either bundle type.
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<project name="Marketplace2" default="help">			<!-- default action displays usage info -->
+	<project name="Marketplace" default="help">			<!-- default action displays usage info -->
 
     <property name="Embed_Libraries" value="true" />		<!-- embed all Apple and Local frameworks -->
 

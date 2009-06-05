@@ -1,4 +1,4 @@
-// $LastChangedRevision: 5074 $ DO NOT EDIT.  Make changes to Category.java instead.
+// $LastChangedRevision: 5773 $ DO NOT EDIT.  Make changes to Category.java instead.
 package edu.umich.marketplace.eof;
 
 import com.webobjects.eoaccess.*;
@@ -225,7 +225,7 @@ public abstract class _Category extends  EOGenericRecord {
   public static NSArray<edu.umich.marketplace.eof.Category> fetchSubCategories(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("subCategories", "Category");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Category>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Category> fetchSubCategories(EOEditingContext editingContext,
@@ -235,19 +235,19 @@ public abstract class _Category extends  EOGenericRecord {
     NSMutableDictionary<String, Object> bindings = new NSMutableDictionary<String, Object>();
     bindings.takeValueForKey(parentBinding, "parent");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Category>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Category> fetchTopCategories(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("topCategories", "Category");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Category>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Category> fetchTopCategories(EOEditingContext editingContext)
   {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("topCategories", "Category");
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Category>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
 }
