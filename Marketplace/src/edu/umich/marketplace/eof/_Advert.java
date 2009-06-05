@@ -1,4 +1,4 @@
-// $LastChangedRevision: 5074 $ DO NOT EDIT.  Make changes to Advert.java instead.
+// $LastChangedRevision: 5773 $ DO NOT EDIT.  Make changes to Advert.java instead.
 package edu.umich.marketplace.eof;
 
 import com.webobjects.eoaccess.*;
@@ -14,7 +14,6 @@ public abstract class _Advert extends  EOGenericRecord {
 
 	// Attributes
 	public static final String AUTHOR_UNIQNAME_KEY = "authorUniqname";
-	public static final String DOMAIN_ID_KEY = "domainID";
 	public static final String EXPIRY_DATE_KEY = "expiryDate";
 	public static final String IS_DELETED_KEY = "isDeleted";
 	public static final String ITEM_DESCRIPTION_KEY = "itemDescription";
@@ -49,17 +48,6 @@ public abstract class _Advert extends  EOGenericRecord {
     	_Advert.LOG.debug( "updating authorUniqname from " + authorUniqname() + " to " + value);
     }
     takeStoredValueForKey(value, "authorUniqname");
-  }
-
-  public Integer domainID() {
-    return (Integer) storedValueForKey("domainID");
-  }
-
-  public void setDomainID(Integer value) {
-    if (_Advert.LOG.isDebugEnabled()) {
-    	_Advert.LOG.debug( "updating domainID from " + domainID() + " to " + value);
-    }
-    takeStoredValueForKey(value, "domainID");
   }
 
   public NSTimestamp expiryDate() {
@@ -253,12 +241,10 @@ public abstract class _Advert extends  EOGenericRecord {
 
 
   public static Advert createAdvert(EOEditingContext editingContext, String authorUniqname
-, Integer domainID
 , String isDeleted
 , edu.umich.marketplace.eof.Author author, edu.umich.marketplace.eof.Category category) {
     Advert eo = (Advert) EOUtilities.createAndInsertInstance(editingContext, _Advert.ENTITY_NAME);    
 		eo.setAuthorUniqname(authorUniqname);
-		eo.setDomainID(domainID);
 		eo.setIsDeleted(isDeleted);
     eo.setAuthorRelationship(author);
     eo.setCategoryRelationship(category);
@@ -322,7 +308,7 @@ public abstract class _Advert extends  EOGenericRecord {
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchActive(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("active", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchActive(EOEditingContext editingContext,
@@ -332,13 +318,13 @@ public abstract class _Advert extends  EOGenericRecord {
     NSMutableDictionary<String, Object> bindings = new NSMutableDictionary<String, Object>();
     bindings.takeValueForKey(expiryDateBinding, "expiryDate");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForAuthor(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("forAuthor", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForAuthor(EOEditingContext editingContext,
@@ -350,13 +336,13 @@ public abstract class _Advert extends  EOGenericRecord {
     bindings.takeValueForKey(authorBinding, "author");
     bindings.takeValueForKey(expiryDateBinding, "expiryDate");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForCategory(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("forCategory", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForCategory(EOEditingContext editingContext,
@@ -368,13 +354,13 @@ public abstract class _Advert extends  EOGenericRecord {
     bindings.takeValueForKey(categoryBinding, "category");
     bindings.takeValueForKey(expiryDateBinding, "expiryDate");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForNumber(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("forNumber", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForNumber(EOEditingContext editingContext,
@@ -384,13 +370,13 @@ public abstract class _Advert extends  EOGenericRecord {
     NSMutableDictionary<String, Object> bindings = new NSMutableDictionary<String, Object>();
     bindings.takeValueForKey(numberBinding, "number");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForUniqname(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("forUniqname", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchForUniqname(EOEditingContext editingContext,
@@ -402,13 +388,13 @@ public abstract class _Advert extends  EOGenericRecord {
     bindings.takeValueForKey(authorUniqnameBinding, "authorUniqname");
     bindings.takeValueForKey(expiryDateBinding, "expiryDate");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchToExpire(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("toExpire", "Advert");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Advert> fetchToExpire(EOEditingContext editingContext,
@@ -420,7 +406,7 @@ public abstract class _Advert extends  EOGenericRecord {
     bindings.takeValueForKey(beginDateBinding, "beginDate");
     bindings.takeValueForKey(closeDateBinding, "closeDate");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Advert>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
 }

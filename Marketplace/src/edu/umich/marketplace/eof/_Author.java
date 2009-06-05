@@ -1,4 +1,4 @@
-// $LastChangedRevision: 5074 $ DO NOT EDIT.  Make changes to Author.java instead.
+// $LastChangedRevision: 5773 $ DO NOT EDIT.  Make changes to Author.java instead.
 package edu.umich.marketplace.eof;
 
 import com.webobjects.eoaccess.*;
@@ -249,7 +249,7 @@ public abstract class _Author extends  EOGenericRecord {
   public static NSArray<edu.umich.marketplace.eof.Author> fetchByUniqname(EOEditingContext editingContext, NSDictionary<String, Object> bindings) {
     EOFetchSpecification fetchSpec = EOFetchSpecification.fetchSpecificationNamed("ByUniqname", "Author");
     fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Author>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
   public static NSArray<edu.umich.marketplace.eof.Author> fetchByUniqname(EOEditingContext editingContext,
@@ -259,7 +259,7 @@ public abstract class _Author extends  EOGenericRecord {
     NSMutableDictionary<String, Object> bindings = new NSMutableDictionary<String, Object>();
     bindings.takeValueForKey(uniqnameBinding, "uniqname");
 	fetchSpec = fetchSpec.fetchSpecificationWithQualifierBindings(bindings);
-    return editingContext.objectsWithFetchSpecification(fetchSpec);
+    return (NSArray<edu.umich.marketplace.eof.Author>)editingContext.objectsWithFetchSpecification(fetchSpec);
   }
   
 }

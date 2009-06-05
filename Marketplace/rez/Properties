@@ -1,5 +1,9 @@
-derby.system.home				/Users/gavin/Library/Databases/derby-10.3.2.1/data/
-dbConnectURLGLOBAL				jdbc:derby:Marketplace
+# dbConnectURLGLOBAL			jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace
+
+er.migration.migrateAtStartup			true 
+er.migration.createTablesIfNecessary	true
+er.migration.modelNames					Marketplace
+Marketplace.MigrationClassPrefix		edu.umich.marketplace.mig.Marketplace
 
 WOSMTPHost                      localhost
 # WOSMTPHost                    mail-relay.itd.umich.edu
@@ -46,11 +50,6 @@ er.extensions.ERXNSLogLog4jBridge=INFO
 
 er.extensions.ERXFileNotificationCenter.CheckFilesPeriod=0
 er.extensions.ERXApplication.DefaultEncoding=UTF-8
-
-er.migration.migrateAtStartup			true 
-er.migration.createTablesIfNecessary	true
-er.migration.modelNames					Marketplace
-Marketplace.MigrationClassPrefix		edu.umich.marketplace.migration.Marketplace
 
 log4j.loggerFactory=er.extensions.ERXLogger$Factory
 

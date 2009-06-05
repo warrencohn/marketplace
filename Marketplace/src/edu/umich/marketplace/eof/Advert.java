@@ -30,7 +30,7 @@ public class Advert extends _Advert {
 
 	public static Advert createAdvert(EOEditingContext editingContext, Author author, Category category) {
 		logger.trace("--> createAdvert(" + author.uniqname() + ", " + (null == category ? "null" : category.getLongName()) +")");
-		return Advert.createAdvert(editingContext, author.uniqname(), 99999, "N", author, category);
+		return Advert.createAdvert(editingContext, author.uniqname(), "N", author, category);
 	}
 
 	public boolean isExpired() {

@@ -22,12 +22,6 @@
             prototypeName = id; 
         }, 
         {
-            allowsNull = N; 
-            columnName = "OID_ROOT_AD_CATEGORY"; 
-            name = domainID; 
-            prototypeName = id; 
-        }, 
-        {
             allowsNull = Y; 
             columnName = "AD_EXP_DATE"; 
             name = expiryDate; 
@@ -60,7 +54,7 @@
             allowsNull = Y; 
             columnName = "MP_AD_PRICE"; 
             name = itemPrice; 
-            prototypeName = intNumber; 
+            prototypeName = doubleNumber; 
         }, 
         {
             allowsNull = Y; 
@@ -94,7 +88,6 @@
         author, 
         authorUniqname, 
         category, 
-        domainID, 
         expiryDate, 
         followers, 
         isDeleted, 
@@ -125,14 +118,6 @@
             joinSemantic = EOInnerJoin; 
             joins = ({destinationAttribute = id; sourceAttribute = categoryID; }); 
             name = category; 
-        }, 
-        {
-            destination = Category; 
-            isMandatory = Y; 
-            isToMany = N; 
-            joinSemantic = EOInnerJoin; 
-            joins = ({destinationAttribute = id; sourceAttribute = domainID; }); 
-            name = domain; 
         }, 
         {definition = "hotLinks.author"; name = followers; }, 
         {
