@@ -12,7 +12,7 @@
 	   work for either bundle type.
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-	<project name="Marketplace" default="help">			<!-- default action displays usage info -->
+	<project name="Marketplace" default="help">				<!-- default action displays usage info -->
 
     <property name="Embed_Libraries" value="true" />		<!-- embed all Apple and Local frameworks -->
 
@@ -172,7 +172,7 @@
 			</fileset>	
 			<fileset dir="${java_woc_dir}">
 				<patternset refid="WOC" />
-			</fileset>	
+			</fileset>
 		</copy>
 
         <!-- fill:  App.woa/Contents/WebServerResources/  with "WEB" -->
@@ -559,8 +559,8 @@ APPROOT/Resources/Java/activation.jar
                 
             	<include name="log4j-1.2.15.jar" />
                 <include name="commons-configuration-1.5.jar" />
-                <include name="commons-lang-2.3.jar" />
-                <include name="joda-time-1.5.2.jar" />
+                <include name="commons-lang-2.4.jar" />
+                <include name="joda-time-1.6.jar" />
             </fileset>
         </path>
 

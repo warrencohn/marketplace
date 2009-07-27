@@ -53,6 +53,7 @@
         {
             allowsNull = Y; 
             columnName = "MP_AD_PRICE"; 
+            externalType = DOUBLE; 
             name = itemPrice; 
             prototypeName = doubleNumber; 
         }, 
