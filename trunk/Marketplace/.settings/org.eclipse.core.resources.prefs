@@ -1,4 +1,4 @@
-#Thu Feb 05 12:18:39 EST 2009
+#Thu Jul 30 12:03:38 EDT 2009
 eclipse.preferences.version=1
 encoding//src/edu/umich/marketplace/woc/ActiveAdvertsDisplay.java=UTF-8
 encoding//src/edu/umich/marketplace/woc/AdminInstructionsPanel.java=UTF-8
@@ -34,6 +34,7 @@ encoding//woc/AdvertCreationPanel.wo=UTF-8
 encoding//woc/AdvertCreationPanel.wo/AdvertCreationPanel.html=UTF-8
 encoding//woc/AdvertCreationPanel.wo/AdvertCreationPanel.wod=UTF-8
 encoding//woc/AdvertCreationPanel.wo/AdvertCreationPanel.woo=UTF-8
+encoding//woc/AdvertListView.wo=UTF-8
 encoding//woc/AuthorAdvertsDisplay.wo=UTF-8
 encoding//woc/AuthorAdvertsDisplay.wo/AuthorAdvertsDisplay.html=UTF-8
 encoding//woc/AuthorAdvertsDisplay.wo/AuthorAdvertsDisplay.wod=UTF-8
@@ -109,3 +110,4 @@ encoding//woc/RecentAdvertsDisplay.wo=UTF-8
 encoding//woc/RecentAdvertsDisplay.wo/RecentAdvertsDisplay.html=UTF-8
 encoding//woc/RecentAdvertsDisplay.wo/RecentAdvertsDisplay.wod=UTF-8
 encoding//woc/RecentAdvertsDisplay.wo/RecentAdvertsDisplay.woo=UTF-8
+encoding//woc/ShowHideAllSwapper.wo=UTF-8
