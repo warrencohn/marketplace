@@ -7,3 +7,5 @@
 **/*.properties
 **/Properties
 **/*.wo
+**/*.dev
+**/*.gavin

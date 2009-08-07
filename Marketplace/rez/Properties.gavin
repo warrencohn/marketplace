@@ -1,0 +1,35 @@
+productionDeploy	  		FALSE
+testingNotification     	TRUE
+
+mailToForWatchers           ("gavineadie@localhost")
+mailToForDeveloper          ("gavineadie@localhost")
+mailToForFailures      		("gavineadie@localhost")
+
+EOM.USER.MARKETPLACE               
+EOM.PASS.MARKETPLACE               
+EOM.JDBC.MARKETPLACE        jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace
+
+adWatch.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")
+catEdit.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")
+
+# "Appropriate Use" panel
+
+appropriateUseText			"Appropriate Use" text from properties.
+
+# "Additional Resources" panel
+
+additionalResourcesText		"Additional Resources" text from properties.
+
+# ======================== SESSION =======================
+
+authenticate				TESTING
+
+session.auth.accept					("kingsumo","batbiter","woolyboy","puttputt","snoutear")
+#session.auth.reject                 ("woolyboy")
+
+session.categoriesWithAlerts			("tickets & travel : sports","automotive : SUV / Jeep")
+session.catAlertTitles				("Sales of Tickets to University Athletic Events","Gas Guzzlers")
+session.catAlertStyles				("color: #9a2f27; font-weight: bold;","color: #red; font-weight: bold;")
+session.catAlertTexts				("The User Advocate will remove all ads requesting payment of more than face \
+		value for tickets to University athletic events, because these ads are in violation of the University \
+		policy and the guidelines posted in the Help section of Marketplace.","Time to sell off those brutes!")

@@ -21,7 +21,7 @@ import edu.umich.marketplace.woc.ErrorPageFriend;
 import edu.umich.marketplace.woc.ErrorPageWicked;
 import er.extensions.appserver.ERXBrowser;
 
-public class Session extends edu.umich.marketplace.ITCSSession {
+public class Session extends com.ramsayconz.wocore.CoreSession {
 	private static final Logger			logger = Logger.getLogger(Session.class);
 
 	private Application 				_app = (Application)WOApplication.application();
@@ -75,7 +75,7 @@ public class Session extends edu.umich.marketplace.ITCSSession {
 		sessionInfo.takeValueForKey(true, "SesInUse");
 
 		if (null == _userSessionModel.getAuthor()) {		// we have no user in play yet, but someone knocked on the door
-			_timeoutMinutes = getSesProps().getInt("unusedSessionTimeout", "5");
+			_timeoutMinutes = Session.properties.getInt("session.timeout.asleepMinutes", "5");
 	 		sessionInfo.takeValueForKey(_userSessionModel.processAuthorLogin(context().request()), "uniqname");
 	 		if (_userSessionModel.isAuthorLoggedIn()) {		// they've got a uniqname, and aren't 'wicked'
 	 			_uniqname = _userSessionModel.getAuthor().uniqname();
@@ -100,7 +100,7 @@ public class Session extends edu.umich.marketplace.ITCSSession {
 		else {											// already have a good user in play ...
 			incHitCount();
 			if (getHitCount() == 1) {					// ... and has clicked in the application once
-				_timeoutMinutes = getSesProps().getInt("sessionTimeoutMins", "30");
+				_timeoutMinutes = Session.properties.getInt("session.timeout.activeMinutes", "30");
 			}
 			logger.trace("User Hit Count: " + getHitCount());
 		}

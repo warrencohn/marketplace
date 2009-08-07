@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 
 import com.ramsayconz.wocore.CoreAssistance;
+import com.ramsayconz.wocore.CoreSession;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.eoaccess.EOUtilities;
@@ -121,7 +122,7 @@ public class UserSessionModel extends Object {
 			String	authorUniqname = request.headerForKey("REMOTE_USER");		// it's a case-independent key
 			if (null == authorUniqname) {										// generate uniqname locally
 				final java.util.Random generator = new java.util.Random();
-				final NSArray<String> authorNames = Session.getSesProps().getNSArray("noauthnames", "()");
+				final NSArray<String> authorNames = CoreSession.properties.getNSArray("session.auth.accept", "()");
 				logger.trace("... processAuthorLogin(...) : author options: " + authorNames);
 				authorUniqname = authorNames.objectAtIndex(generator.nextInt(authorNames.count()));
 
@@ -135,7 +136,7 @@ public class UserSessionModel extends Object {
 
 			_loginState = LoginState.FAILED;
 
-			if (CoreAssistance.isStringInArray(authorUniqname, Session.getSesProps().getNSArray("wickedList", "()"))) {
+			if (CoreAssistance.isStringInArray(authorUniqname, CoreSession.properties.getNSArray("session.auth.reject", "()"))) {
 				logger.error("    (" + authorUniqname + ") <-- REJECT (Wicked List)");
 				_loginState = LoginState.ISWICKED;
 				return "";
