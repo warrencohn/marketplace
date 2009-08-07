@@ -87,6 +87,7 @@ public class FrameworkInitializer {
 	/**
 	 * Ignore -- implementation detail. This is the stub to translate the instance method into a static method.
 	 */
+	@SuppressWarnings("unchecked")
 	public void initializeOnNotification(NSNotification notification)
 					throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		Method initMethod = null;

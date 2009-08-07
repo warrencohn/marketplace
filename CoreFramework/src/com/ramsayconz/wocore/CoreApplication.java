@@ -31,8 +31,6 @@ import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
 import com.webobjects.jdbcadaptor.JDBCAdaptor;
 
-import er.extensions.appserver.ERXApplication;
-
 
 /**
  *  CoreApplication
@@ -42,7 +40,7 @@ import er.extensions.appserver.ERXApplication;
  *  coding container ...
  */
 
-public class CoreApplication extends ERXApplication {
+public class CoreApplication extends er.extensions.appserver.ERXApplication {
     private static final Logger     logger = Logger.getLogger (CoreApplication.class);
 /*
     static {
@@ -61,7 +59,7 @@ public class CoreApplication extends ERXApplication {
     /**
 	 * CoreApplication.properties is a static variable containing all the collected Properties
 	 */
-    public static CoreProperties    properties = null;
+    public static CoreProperties 	properties = null;
     public static CoreConfiguration configuration = null;
 
     /**
@@ -76,7 +74,7 @@ public class CoreApplication extends ERXApplication {
     public CoreApplication () {
         super ();
         
-        logger.trace("--+ constructor");
+        logger.trace("+++ constructor // establish notification catchers ...");
         
         NSNotificationCenter.defaultCenter().addObserver(this,
                 new NSSelector<Object>("applicationWillFinishLaunching", new Class[] { NSNotification.class }),
@@ -94,24 +92,24 @@ public class CoreApplication extends ERXApplication {
                 new NSSelector<Object>("sessionDidCreate", new Class[] { NSNotification.class }), 
                 WOSession.SessionDidCreateNotification, null);
 
-        properties = new CoreProperties(System.getProperties());
+        CoreApplication.properties = new CoreProperties(System.getProperties());
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMdd/yy HH:mm");		// eg: Dec04/07 22:51
-		properties.setProperty("startTimeString", sdf.format(new Date()));
+		CoreApplication.properties.setProperty("startTimeString", sdf.format(new Date()));
         
-        if (properties.getBoolean("application.begin.dumpProperties", "FALSE")) {
-            properties.alphaDump(true);
+        if (CoreApplication.properties.getBoolean("application.begin.dumpProperties", "FALSE")) {
+            CoreApplication.properties.alphaDump(true);
         }
 
-        if (properties.getBoolean("application.begin.jakartaConfigUsed", "FALSE")) {
-            configuration = new CoreConfiguration(properties.getString("application.begin.jakartaConfigFile", "Configuration"));
-            if ((null != configuration) && (properties.getBoolean("application.begin.dumpConfiguration", "FALSE")))
-            	configuration.alphaDump(true);
+        if (CoreApplication.properties.getBoolean("application.begin.jakartaConfigUsed", "FALSE")) {
+            CoreApplication.configuration = new CoreConfiguration(CoreApplication.properties.getString("application.begin.jakartaConfigFile", "Configuration"));
+            if ((null != CoreApplication.configuration) && (CoreApplication.properties.getBoolean("application.begin.dumpConfiguration", "FALSE")))
+            	CoreApplication.configuration.alphaDump(true);
         }
         
-        this._traceRequests = properties.getBoolean("application.trace.requests", "FALSE");
-        this._traceResponses = properties.getBoolean("application.trace.responses", "FALSE");
+        this._traceRequests = CoreApplication.properties.getBoolean("application.trace.requests", "FALSE");
+        this._traceResponses = CoreApplication.properties.getBoolean("application.trace.responses", "FALSE");
         
-        setSessionTimeOut(new Integer(properties.getInt("application.begin.sessionTimeoutMinutes", "5") * 60));
+        setSessionTimeOut(new Integer(CoreApplication.properties.getInt("application.begin.sessionTimeoutMinutes", "5") * 60));
     }
 
     @Override
@@ -324,13 +322,13 @@ public class CoreApplication extends ERXApplication {
     
     public String getConfProp (String key, String defaultValue) {
         String              resultConfProp = null;
-        if (null != configuration) {
-            resultConfProp = configuration.getString(key);
+        if (null != CoreApplication.configuration) {
+            resultConfProp = CoreApplication.configuration.getString(key);
             logger.trace("getConfProp : configuration.getString(" + key + ")=" + resultConfProp);
         }
         
         if (null == resultConfProp) {
-            resultConfProp = properties.getString(key);
+            resultConfProp = CoreApplication.properties.getString(key);
             logger.trace("getConfProp : properties.getString(" + key + ")=" + resultConfProp);
         }
         return (null == resultConfProp) ? defaultValue : resultConfProp;

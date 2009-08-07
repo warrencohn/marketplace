@@ -61,11 +61,15 @@ public class CoreAssistance {
         NSMutableDictionary<String, NSDictionary<String, ?>>	
         							infoPlists = new NSMutableDictionary<String, NSDictionary<String, ?>>();
         
+        // *** Application first
+        
         NSBundle					appBundle = NSBundle.mainBundle();
         logger.info("App framework: " + appBundle.name() + 
-                        "; PrincipalClass=" + ((null == appBundle.principalClass()) ? 
-                        	"none" : appBundle.principalClass().getName()) + 
-                        (appBundle.isJar() ? " [jar]" : ""));
+                    "; PrincipalClass=" + ((null == appBundle.principalClass()) ? 
+                        	               "none" : appBundle.principalClass().getName()) + 
+                                           (appBundle.isJar() ? " [jar]" : ""));
+        
+        // *** then all the frameworks
         
         for (NSBundle framework : (NSArray<NSBundle>)NSBundle.frameworkBundles()) {
             NSDictionary<String,?>	infoPlist = null;           	// dictionary for this framework
@@ -79,8 +83,8 @@ public class CoreAssistance {
                 logger.info("Got framework: " + framework.name() + 
                             "; ShortVersion=" + infoPlist.objectForKey("CFBundleShortVersionString") +
                             "; PrincipalClass=" + ((null == framework.principalClass()) ? 
-                                                     "none" : framework.principalClass().getName()) +
-                                                     (framework.isJar() ? " [jar]" : ""));
+                                                    "none" : framework.principalClass().getName()) +
+                                                    (framework.isJar() ? " [jar]" : ""));
             }
             else {                                                      // Otherwise the plist is empty
                 logger.warn("No '" + INFO_PLIST_FILENAME + "' found for framework: " + framework.name() );
@@ -125,7 +129,8 @@ public class CoreAssistance {
     
     static private NSArray<String> getmailToForFailures() {
 		if (_mailToForFailures == null)
-			_mailToForFailures = CoreApplication.properties.getNSArray("mailToForFailures", "(marketplace-developer@umich.edu)");
+			_mailToForFailures = CoreApplication.properties.getNSArray("mailToForFailures", 
+																	   "(marketplace-developer@umich.edu)");
 		return _mailToForFailures;
 	}
 
@@ -133,7 +138,8 @@ public class CoreAssistance {
 
     static private NSArray<String> getmailToForWatchers() {
         if (_mailToForWatchers == null)
-        	_mailToForWatchers = CoreApplication.properties.getNSArray("mailToForWatchers", "(marketplace-support@umich.edu)");
+        	_mailToForWatchers = CoreApplication.properties.getNSArray("mailToForWatchers", 
+        			   												   "(marketplace-support@umich.edu)");
         return _mailToForWatchers;
     }
 
@@ -141,15 +147,17 @@ public class CoreAssistance {
 
     static private NSArray<String> getmailToForDeveloper() {
         if (_mailToForDeveloper == null)
-        	_mailToForDeveloper = CoreApplication.properties.getNSArray("mailToForDeveloper", "(marketplace-developer@umich.edu)");
+        	_mailToForDeveloper = CoreApplication.properties.getNSArray("mailToForDeveloper", 
+        																"(marketplace-developer@umich.edu)");
         return _mailToForDeveloper;
     }
 
-    private static String 						_mailFromMarketplace;	// Email From: for all messages.
+    private static String 					_mailFromMarketplace;		// Email From: for all messages.
 
     protected static String getMailFromMarketplace() {
         if (_mailFromMarketplace == null)
-        	_mailFromMarketplace = System.getProperty ("mailFromMarketplace", "marketplace-support@umich.edu");
+        	_mailFromMarketplace = System.getProperty ("mailFromMarketplace", 
+        											   "marketplace-support@umich.edu");
 
         return _mailFromMarketplace;
     }
