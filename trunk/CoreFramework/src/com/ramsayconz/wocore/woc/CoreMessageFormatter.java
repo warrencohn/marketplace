@@ -65,8 +65,8 @@ import com.webobjects.foundation.NSPropertyListSerialization;
  * use.  The limit is 10 (up to index 9, since the indexes are 0-based).
  */
 
-public class WOMessageFormatter extends WOComponent {
-	private static final Logger logger = Logger.getLogger(WOMessageFormatter.class);
+public class CoreMessageFormatter extends WOComponent {
+	private static final Logger logger = Logger.getLogger(CoreMessageFormatter.class);
 	
 	@SuppressWarnings("unused")
 	private static final String	_VERSION = "1.4";
@@ -88,7 +88,7 @@ public class WOMessageFormatter extends WOComponent {
 	 * Constructor
 	 */
 
-	public WOMessageFormatter(WOContext context) {
+	public CoreMessageFormatter(WOContext context) {
 		super(context);
         logger.trace("+++ constructor");
 	}
