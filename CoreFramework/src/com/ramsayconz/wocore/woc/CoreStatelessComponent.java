@@ -10,6 +10,9 @@ package com.ramsayconz.wocore.woc;
 
 import org.apache.log4j.Logger;
 
+import com.ramsayconz.wocore.CoreApplication;
+import com.ramsayconz.wocore.CoreProperties;
+import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
@@ -21,6 +24,9 @@ import com.webobjects.appserver.WOContext;
 
 public class CoreStatelessComponent extends WOComponent {
     private static final Logger     logger = Logger.getLogger (CoreStatelessComponent.class);
+
+    public CoreApplication          application = (CoreApplication)WOApplication.application();
+    public CoreProperties           properties = CoreApplication.properties;
 
     public CoreStatelessComponent(WOContext context) {
         super(context);
