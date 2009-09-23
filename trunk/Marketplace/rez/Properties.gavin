@@ -7,7 +7,7 @@ mailToForFailures      		("gavineadie@localhost")
 
 EOM.USER.MARKETPLACE               
 EOM.PASS.MARKETPLACE               
-EOM.JDBC.MARKETPLACE        jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace
+EOM.JDBC.MARKETPLACE        jdbc:derby:/Users/gavin/Library/Databases/derby-10.5.1.1/Marketplace
 
 adWatch.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")
 catEdit.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")
