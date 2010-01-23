@@ -65,7 +65,7 @@ public class Session extends com.ramsayconz.wocore.CoreSession {
 	}
 
 	/**
-	 * If we have a virgin session awaking (no user), we need to do several things to it so it will be useful ...
+	 * If we have a virgin session awakening (no user), we need to do several things to it so it will be useful ...
 	 */
 	@Override
 	public void awake () {

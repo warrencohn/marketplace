@@ -7,33 +7,33 @@ import com.ramsayconz.wocore.CoreApplication;
 public class ColorPalette {
 	private static final Logger 	logger = Logger.getLogger (ColorPalette.class);
 
-	private static ColorPalette 	colorPalatteRef;
-	private static String			_mainPanelColor, _sidePanelColor, _editPanelColor, _helpPanelColor,
-                                	_alertColor, _errorColor, _darkAccentColor, _lightAccentColor,
-                                	_instructionsColor, _bannerBackgroundColor, _broadcastTextColor;
+	private static final String		warnColor = "#FFCC00",
+                                	failColor = "#FFCCCC",
+                                	helpColor = "#ffffff",
+                                	sideColor = "#ffffcc",
+                                	mainColor = "#ffff9d",
+                                	liteColor = "#3366AA",
+                                	editColor = "#ffffcc",
+                                	darkColor = "#003399";
 
-	private static final String		ITCS_Orange = "#FFCC00",
-                                	ITCS_Red = "#FFCCCC",
-                                	ITCS_White = "#ffffff",
-                                	ITCS_Lt_Yellow = "#ffffcc",
-                                	ITCS_Dk_Yellow = "#ffff9d",
-                                	ITCS_Lt_Blue = "#3366AA",
-                                	ITCS_Md_Blue = "#ffffcc",
-                                	ITCS_Dk_Blue = "#003399";
+	private static ColorPalette 	colorPalatteRef;
+	public static String			_mainColor, _sideColor, _editColor, _helpColor,
+                                	_warnColor, _failColor, _darkColor, _liteColor,
+                                	_bookColor, _backColor, _textColor;
 
 	private ColorPalette() {
-		_mainPanelColor = CoreApplication.properties.getProperty("marketplaceApp.mainPanelColor", ITCS_Dk_Yellow);
-		_sidePanelColor = CoreApplication.properties.getProperty("marketplaceApp.sidePanelColor", ITCS_Lt_Yellow);
-		_editPanelColor = CoreApplication.properties.getProperty("marketplaceApp.editPanelColor", ITCS_Md_Blue);
-		_helpPanelColor = CoreApplication.properties.getProperty("marketplaceApp.helpPanelColor", ITCS_White);
-		_alertColor = CoreApplication.properties.getProperty("marketplaceApp.alertColor", ITCS_Orange);
-		_errorColor = CoreApplication.properties.getProperty("marketplaceApp.errorColor", ITCS_Red);
-		_darkAccentColor = CoreApplication.properties.getProperty("marketplaceApp.darkAccentColor", ITCS_Dk_Blue);
-		_lightAccentColor = CoreApplication.properties.getProperty("marketplaceApp.lightAccentColor", ITCS_Lt_Blue);
-		_instructionsColor = CoreApplication.properties.getProperty("marketplaceApp.instructionsColor", "#000066");
+		_mainColor = CoreApplication.properties.getProperty("marketplaceApp.mainColor", mainColor);
+		_sideColor = CoreApplication.properties.getProperty("marketplaceApp.sideColor", sideColor);
+		_editColor = CoreApplication.properties.getProperty("marketplaceApp.editColor", editColor);
+		_helpColor = CoreApplication.properties.getProperty("marketplaceApp.helpColor", helpColor);
+		_warnColor = CoreApplication.properties.getProperty("marketplaceApp.warnColor", warnColor);
+		_failColor = CoreApplication.properties.getProperty("marketplaceApp.failColor", failColor);
+		_darkColor = CoreApplication.properties.getProperty("marketplaceApp.darkColor", darkColor);
+		_liteColor = CoreApplication.properties.getProperty("marketplaceApp.liteColor", liteColor);
+		_bookColor = CoreApplication.properties.getProperty("marketplaceApp.bookColor", "#000066");
 		
-		_bannerBackgroundColor = CoreApplication.properties.getProperty("bannerBgColor", "#3366cc");
-		_broadcastTextColor = CoreApplication.properties.getProperty("broadcastTextColor", "#9a2f27");
+		_backColor = CoreApplication.properties.getProperty("bannerBgColor", "#3366cc");
+		_textColor = CoreApplication.properties.getProperty("broadcastTextColor", "#9a2f27");
 	}
 
 	public static synchronized ColorPalette getColorPalette() {
@@ -49,69 +49,37 @@ public class ColorPalette {
 		throw new CloneNotSupportedException("You can't clone the singleton ColorPalette");					// that'll teach 'em
 	}
 	
-	public String getMainPanelColor() {
-		return _mainPanelColor;
-	}
-
-	public String getSidePanelColor() {
-		return _sidePanelColor;
-	}
-
-	public String getEditPanelColor() {
-		return _editPanelColor;
-	}
-	
 	public String getHelpPanelColor() {
-		return _helpPanelColor;
+		return _helpColor;
 	}
 
-	public String getAlertColor() {
-		return _alertColor;
-	}
-
-	public String getErrorColor() {
-		return _errorColor;
-	}
-
-	public String getLightAccentColor() {
-		return _lightAccentColor;
-	}
-
-	public String getDarkAccentColor() {
-		return _darkAccentColor;
-	}
-
-	public String getInstructionsColor() {
-		return _instructionsColor;
-	}
-	
 	public String getBannerBackgroundColor() {
-		return _bannerBackgroundColor;
+		return _backColor;
 	}
 	
 	public String getBroadcastTextColor() {
-		return _broadcastTextColor;
+		return _textColor;
 	}
 	
 	public String getColorForObject (String objectType) {
 		if (objectType.equals ("edit")) {
-			return getEditPanelColor();
+			return _editColor;
 		} else if (objectType.equals ("main")) {
-			return getMainPanelColor();
+			return _mainColor;
 		} else if (objectType.equals ("side")) {
-			return getSidePanelColor();
+			return _sideColor;
 		} else if (objectType.equals ("alert")) {
-			return getAlertColor();
+			return _warnColor;
 		} else if (objectType.equals ("error")) {
-			return getErrorColor();
+			return _failColor;
 		} else if (objectType.equals ("outline")) {
-			return getLightAccentColor();
+			return _liteColor;
 		} else if (objectType.equals ("lightAccent")) {
-			return getLightAccentColor();
+			return _liteColor;
 		} else if (objectType.equals ("darkAccent")) {
-			return getDarkAccentColor();
+			return _darkColor;
 		} else if (objectType.equals ("instruction")) {
-			return getInstructionsColor();
+			return _bookColor;
 		}
 
 		return "";

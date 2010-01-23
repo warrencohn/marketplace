@@ -19,7 +19,6 @@ import com.webobjects.foundation.NSTimestamp;
 
 import edu.umich.marketplace.DirectAction;
 import edu.umich.marketplace.EndCategoryMessages;
-import edu.umich.marketplace.Session;
 import edu.umich.marketplace.woc.ActiveAdvertsDisplay;
 import edu.umich.marketplace.woc.AdvertCreationPanel;
 import edu.umich.marketplace.woc.AuthorAdvertsDisplay;

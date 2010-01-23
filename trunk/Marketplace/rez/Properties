@@ -70,37 +70,21 @@ userBulletinReveal			NONE  (could be ALL, NONE or FRIEND, only first word matter
 
 # --------------------------------------------------------------- ...
 
-marketplaceApp.sidePanelColor		#ffffcc
-marketplaceApp.mainPanelColor		#ffff9d
-marketplaceApp.editPanelColor		#ffffcc
-marketplaceApp.alertColor			#FFCC00
-marketplaceApp.errorColor			#FFCCCC
-marketplaceApp.darkAccentColor		#003399
-marketplaceApp.lightAccentColor		#3366AA
-marketplaceApp.instructionsColor	#000066
-
-# --------------------------------------------------------------- ...
-
 renewalInstructions   You can renew ads you have posted for an additional week at a time. \
     Just go to the Marketplace (http://marketplace.umich.edu/), click 'change posted ad status', \
     check the box to the left of the ad that you want to renew, and click 'renew checked ad(s)'.
 
 testingNotification       	FALSE
 
-
-
-
-
-
-
+# --------------------------------------------------------------- ...
 
 #
 ### the 'session.properties' adjust the behavior of Marketplace on a session by session basis
 #
-session.timeout.activeMinutes			30
+session.timeout.activeMinutes		30
 session.timeout.asleepMinutes		5
 #
-session.categoriesWithAlerts			("tickets & travel : sports")
+session.categoriesWithAlerts		("tickets & travel : sports")
 session.catAlertTitles				("Sales of Tickets to University Athletic Events")
 session.catAlertStyles				("color: #9a2f27; font-weight: bold;")
 session.catAlertTexts				("The User Advocate will remove all ads requesting payment of more than face \

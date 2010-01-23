@@ -36,7 +36,6 @@ public class Application extends com.ramsayconz.wocore.CoreApplication {
 	private static final Logger 		logger = Logger.getLogger(Application.class);
 
 	private EOEditingContext    	    _applicationEC;
-	private ColorPalette				_colorPalette;
 	public boolean                  	_handleExceptions;
 	private ApplicationModel			_applicationModel;
 
@@ -87,28 +86,6 @@ public class Application extends com.ramsayconz.wocore.CoreApplication {
 		return _applicationEC;
 	}
 
-	// -----------------------------------------------------------------------------------------------
-
-	public ColorPalette getColors() {
-		return _colorPalette;
-	}
-
-	public String getBannerBgColor() {						// used in binding
-		return _colorPalette.getBannerBackgroundColor();
-	}
-
-	public String getDarkAccentColor() {
-		return _colorPalette.getDarkAccentColor();
-	}
-
-	public String getLightAccentColor() {
-		return _colorPalette.getLightAccentColor();
-	}
-
-	public String getInstructionsColor() {
-		return _colorPalette.getInstructionsColor();
-	}
-
 //----------------------------------------------------------------------------------------------------------------
 //  N   N      OOO      TTTTTT     III     FFFF     III      CCC      AAA      TTTTTT     III      OOO      N   N
 //  NN  N     O   O       TT        I      F         I      C        A   A       TT        I      O   O     NN  N
@@ -139,8 +116,6 @@ public class Application extends com.ramsayconz.wocore.CoreApplication {
 
 		_handleExceptions = CoreApplication.properties.getBoolean("handleExceptions", "TRUE");
 		String helpFile = CoreApplication.properties.getString("applicationHelpFile","");
-
-		_colorPalette = ColorPalette.getColorPalette();
 
 		logger.trace(EOModelGroup.defaultGroup());								// check we got them all ?
 
@@ -357,5 +332,5 @@ public class Application extends com.ramsayconz.wocore.CoreApplication {
                 logger.info("     Interrupted: ", x);
             }
         }
-    }    
+    }
 }
