@@ -19,6 +19,7 @@ import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableDictionary;
 
 import edu.umich.marketplace.Application;
+import edu.umich.marketplace.ColorPalette;
 import edu.umich.marketplace.Session;
 import edu.umich.marketplace.eof.UserSessionModel;
 
@@ -70,7 +71,7 @@ public class MPComponent extends WOComponent {
 	//----------------------------------------------------------------------------------------------------------------
 
     public String getLightAccentColor()  {
-        return app.getLightAccentColor();
+        return ColorPalette._liteColor;
     }
 
 	public boolean getBannerDisplayImageOnHelp() {
@@ -98,11 +99,11 @@ public class MPComponent extends WOComponent {
 	}
 
 	public String getBannerTableStyle() {
-		return "style=\"border-bottom: 4px solid " + app.getLightAccentColor() + ";\"";
+		return "style=\"border-bottom: 4px solid " + ColorPalette._liteColor + ";\"";
 	}
 
 	public String getBannerBgColor() {
-		return CoreApplication.properties.getProperty ("bannerBgColor");
+		return ColorPalette._backColor;
 	}
 
     public boolean isBannerImage() {

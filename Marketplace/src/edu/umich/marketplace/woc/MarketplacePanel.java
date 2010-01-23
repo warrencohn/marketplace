@@ -5,16 +5,15 @@ import org.apache.log4j.Logger;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
 
+import edu.umich.marketplace.ColorPalette;
+
 public class MarketplacePanel extends MPComponent {
-	@SuppressWarnings("unused")
 	private static final Logger 	logger = Logger.getLogger (MarketplacePanel.class);
 
 	public String 					aMessage;
 
 	private String					_panelTitle = "";
 	private String					_panelToolTip = "";
-
-	public static final String 		_SidePanelColor = "#ffffcc";	//  Default Color (Light Yellow)
 
 	public MarketplacePanel(WOContext context) {
 		super(context);
@@ -39,8 +38,8 @@ public class MarketplacePanel extends MPComponent {
 	}
 
 	public String getMainPanelColor() {
-		final String color = app.getColors().getColorForObject(getPanelType());
-		return ((color == null) ? _SidePanelColor : color);
+		final String color = ColorPalette.getColorPalette().getColorForObject(getPanelType());
+		return ((color == null) ? ColorPalette._sideColor : color);
 	}
 
 	public boolean isContainer() {
@@ -58,17 +57,17 @@ public class MarketplacePanel extends MPComponent {
 		return (String) valueForBinding("alertMessage");
 	}
 
+	public NSArray getAlertMessages() {
+		return (NSArray) valueForBinding("alertMessages");
+	}
+
 	public boolean hasAlertMessage() {
 		return ((getAlertMessage() != null) && (getAlertMessage().length() > 0))
 				|| ((getAlertMessages() != null) && (getAlertMessages().count() > 0));
 	}
 
-	public NSArray getAlertMessages() {
-		return (NSArray) valueForBinding("alertMessages");
-	}
-
 	public String getAlertColor() {
-		return app.getColors().getAlertColor();
+		return ColorPalette.getColorPalette().getColorForObject("alert");
 	}
 
 	// ---- Error methods -----------------------------------------------------------------------------
@@ -77,16 +76,16 @@ public class MarketplacePanel extends MPComponent {
 		return (String) valueForBinding("errorMessage");
 	}
 
+	public NSArray getErrorMessages() {
+		return (NSArray) valueForBinding("errorMessages");
+	}
+
 	public boolean hasErrorMessage() {
 		return ((getErrorMessage() != null) && (getErrorMessage().length() > 0))
 				|| ((getErrorMessages() != null) && (getErrorMessages().count() > 0));
 	}
 
-	public NSArray getErrorMessages() {
-		return (NSArray) valueForBinding("errorMessages");
-	}
-
 	public String getErrorColor() {
-		return app.getColors().getErrorColor();
+		return ColorPalette.getColorPalette().getColorForObject("error");
 	}
 }

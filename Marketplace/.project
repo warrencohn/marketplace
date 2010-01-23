@@ -7,7 +7,6 @@
 		<project>ERExtensions</project>
 		<project>ERJars</project>
 		<project>ERPrototypes</project>
-		<project>ITCSCore</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
