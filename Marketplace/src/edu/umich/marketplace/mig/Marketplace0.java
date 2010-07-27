@@ -62,8 +62,8 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 		categoryTable.addForeignKey("OID_PARENT", "CATEGORY", "OID");
 	}
 
-	public void postUpgrade(EOEditingContext editingContext, EOModel model)
-			throws Throwable {
+	@Override
+	public void postUpgrade(EOEditingContext editingContext, EOModel model) throws Throwable {
 		Category	baseCategory = Category.createCategory(editingContext, 1000, "Category One");
 		editingContext.saveChanges();
 

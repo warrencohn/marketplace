@@ -333,4 +333,8 @@ public class Application extends com.ramsayconz.wocore.CoreApplication {
             }
         }
     }
+    
+    public String bannerBgColor() {
+		return "..";
+	}
 }
