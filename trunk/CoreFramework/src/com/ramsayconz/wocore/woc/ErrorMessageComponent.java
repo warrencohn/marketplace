@@ -7,7 +7,12 @@ import com.webobjects.appserver.WOContext;
 @SuppressWarnings("unqualified-field-access")
 public class ErrorMessageComponent extends WOComponent {
 
-    /** The URL for a link back into the application. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7479753447358462067L;
+
+	/** The URL for a link back into the application. */
     private String _appURL;
 
     /** The text to display in a link back to the application. */

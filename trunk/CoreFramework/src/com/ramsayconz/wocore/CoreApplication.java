@@ -286,7 +286,8 @@ public class CoreApplication extends er.extensions.appserver.ERXApplication {
         eoConnStringPass = getConfProp("EOM.PASS." + modelName);
         eoConnStringJDBC = getConfProp("EOM.JDBC." + modelName, "-");
 
-        NSMutableDictionary dict = new NSMutableDictionary(model.connectionDictionary());
+        @SuppressWarnings("rawtypes")
+		NSMutableDictionary dict = new NSMutableDictionary(model.connectionDictionary());
         
         boolean         	gotEOModelAdustment = false;
     	logger.trace ("--- adjustEOModel - eoConnStringUser is: " + eoConnStringUser);                

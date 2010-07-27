@@ -66,6 +66,11 @@ import com.webobjects.foundation.NSPropertyListSerialization;
  */
 
 public class CoreMessageFormatter extends WOComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3839584012233663891L;
+
 	private static final Logger logger = Logger.getLogger(CoreMessageFormatter.class);
 	
 	@SuppressWarnings("unused")
@@ -154,7 +159,7 @@ public class CoreMessageFormatter extends WOComponent {
 	 * @return      formatter from the bindings
 	 */
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Object[] _arguments() {
 		Vector arguments = new Vector(20); // Create a vector for the values
 
@@ -262,7 +267,7 @@ public class CoreMessageFormatter extends WOComponent {
 	 * @param index         the index at which to insert the binding into the array
 	 */
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void _insertBindingIntoArrayAtIndex (Object binding, Vector vector, int index) {
 		if ((binding != null) && (vector != null)) {				// The binding and vector cannot be null
 			int limit = index + 1;

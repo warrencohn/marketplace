@@ -271,8 +271,7 @@ public final class NSLog {
     
     //------------------------------------------------------------------------
     
-	@SuppressWarnings("static-access")
-    public static class Log4JLogger extends Logger {
+	public static class Log4JLogger extends Logger {
         
         protected org.apache.log4j.Logger   logger;
         protected org.apache.log4j.Level    logLevel;
@@ -576,8 +575,7 @@ public final class NSLog {
         return PRIVATE_DEBUGGING_ENABLED && debugLoggingAllowedForLevelAndGroups(aDebugLevel, aDebugGroups);
     }
     
-    @SuppressWarnings("unchecked")
-	private static void _initDebugDefaults() {
+    private static void _initDebugDefaults() {
         System.out.println("=== NSLog._initDebugDefaults()");
         try {
             String value = NSProperties.getProperty("NSPrivateDebuggingEnabled");
@@ -648,7 +646,8 @@ public final class NSLog {
                         parsedLongValue = parseLongValueFromString(unparsedValue);
                 } 
                 else if (plistValue instanceof NSArray) {
-                    NSArray debugGroupBitIDs = (NSArray)plistValue;
+                    @SuppressWarnings("rawtypes")
+					NSArray debugGroupBitIDs = (NSArray)plistValue;
                     int count = debugGroupBitIDs.count();
                     for(int i = 0; i < count; i++) {
                         Object debugGroupBitID = debugGroupBitIDs.objectAtIndex(i);
@@ -681,8 +680,7 @@ public final class NSLog {
         _inInitPhase = flag;
     }
     
-    @SuppressWarnings("unchecked")
-	private static int parseIntValueFromString(String aDebugLevel) {
+    private static int parseIntValueFromString(String aDebugLevel) {
         int parsedIntValue = DebugLevelOff;
         if (aDebugLevel.charAt(0) >= '0' && aDebugLevel.charAt(0) <= '9') {
             try {
@@ -698,7 +696,8 @@ public final class NSLog {
             } else {
                 String className = aDebugLevel.substring(0, delimiter);
                 String fieldName = aDebugLevel.substring(delimiter + 1);
-                Class specifiedClass = _NSUtilities.classWithName(className);
+                @SuppressWarnings("rawtypes")
+				Class specifiedClass = _NSUtilities.classWithName(className);
                 if (specifiedClass == null)
                     err.appendln((new StringBuilder()).append("<NSLog> The given symbol does not indicate a loaded class -- skipping!  String: ").append(aDebugLevel).append("; class: ").append(className).append("; field: ").append(fieldName).toString());
                 else
@@ -734,8 +733,7 @@ public final class NSLog {
         return parsedIntValue;
     }
     
-    @SuppressWarnings("unchecked")
-	private static long parseLongValueFromString(String aDebugGroup) {
+    private static long parseLongValueFromString(String aDebugGroup) {
 		long parsedLongValue = 0L;
 		int rangeDelimiter = aDebugGroup.indexOf(debugGroupRangeChar);
 		if (rangeDelimiter == notFound) {
@@ -764,6 +762,7 @@ public final class NSLog {
 				} else {
 					String className = aDebugGroup.substring(0, delimiter);
 					String fieldName = aDebugGroup.substring(delimiter + 1);
+					@SuppressWarnings("rawtypes")
 					Class specifiedClass = _NSUtilities.classWithName(className);
 					if (specifiedClass == null)
 						err.appendln((new StringBuilder()).append(

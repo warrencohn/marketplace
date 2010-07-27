@@ -6,7 +6,12 @@ import com.webobjects.appserver.WOContext;
 
 public class PinkRimTable extends WOComponent {
 
-    public PinkRimTable(WOContext context) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4990157364129421122L;
+
+	public PinkRimTable(WOContext context) {
         super(context);
     }
 
