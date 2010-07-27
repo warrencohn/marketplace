@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSDictionary;
-import com.webobjects.foundation.NSKeyValueCodingAdditions;
+import com.webobjects.foundation.NSKeyValueCoding;
 import com.webobjects.foundation.NSPropertyListSerialization;
 
 /**
@@ -34,7 +34,7 @@ import com.webobjects.foundation.NSPropertyListSerialization;
  * 
  * @author gavin
  */
-public class CoreProperties extends Properties implements NSKeyValueCodingAdditions {
+public class CoreProperties extends Properties implements NSKeyValueCoding {
 	/**
 	 * 
 	 */
@@ -227,7 +227,7 @@ public class CoreProperties extends Properties implements NSKeyValueCodingAdditi
         String      v = getProperty(key);
         if (null == v) { 
             logger.fatal("valueForKey(" + key + ")");
-            throw new NSKeyValueCodingAdditions.UnknownKeyException ("CoreProperties missing valueForKey(" + key + ")", null, key);
+            throw new NSKeyValueCoding.UnknownKeyException ("CoreProperties missing valueForKey(" + key + ")", null, key);
         }
 		return v;
     }
@@ -242,7 +242,7 @@ public class CoreProperties extends Properties implements NSKeyValueCodingAdditi
         String      v = getProperty(key);
         if (null == v) { 
             logger.fatal("valueForKeyPath(" + key + ")");
-            throw new NSKeyValueCodingAdditions.UnknownKeyException ("CoreProperties missing valueForKeyPath(" + key + ")", null, key);
+            throw new NSKeyValueCoding.UnknownKeyException ("CoreProperties missing valueForKeyPath(" + key + ")", null, key);
         }
 		return v;
     }

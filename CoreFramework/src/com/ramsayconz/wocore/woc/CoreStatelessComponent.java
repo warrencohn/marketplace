@@ -23,7 +23,12 @@ import com.webobjects.appserver.WOContext;
  */
 
 public class CoreStatelessComponent extends WOComponent {
-    private static final Logger     logger = Logger.getLogger (CoreStatelessComponent.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6111662632677742968L;
+
+	private static final Logger     logger = Logger.getLogger (CoreStatelessComponent.class);
 
     public CoreApplication          application = (CoreApplication)WOApplication.application();
     public CoreProperties           properties = CoreApplication.properties;

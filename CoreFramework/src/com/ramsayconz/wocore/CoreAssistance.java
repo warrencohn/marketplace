@@ -239,7 +239,6 @@ public class CoreAssistance {
 	 * Returns an <CODE>Iterator</CODE> of all loaded <CODE>EOEntity</CODE>s. This doesn't really belong in here, 
 	 * but it's just too handy.
 	 */
-	@SuppressWarnings("unchecked")
 	public static Iterator<EOEntity> entityEnumerator(EOEditingContext ec) {
 		NSMutableArray<EOEntity> entityArray = new NSMutableArray<EOEntity>(8);
 		for (EOModel model : EOUtilities.modelGroup(ec).models()) {

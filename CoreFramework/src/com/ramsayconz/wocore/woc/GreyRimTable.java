@@ -5,7 +5,12 @@ import com.webobjects.appserver.WOContext;
 
 public class GreyRimTable extends WOComponent {
 
-    public GreyRimTable(WOContext context) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6398900558222392268L;
+
+	public GreyRimTable(WOContext context) {
         super(context);
     }
 

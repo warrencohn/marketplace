@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JavaWOExtensions"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ERJars"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ERExtensions"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/commons-configuration-1.5.jar" sourcepath="/Users/gavin/Development/apache/jakarta/commons/commons-configuration-1.5/commons-configuration-1.5-sources.jar"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaFoundation.jar">
 		<attributes>
@@ -12,10 +14,8 @@
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaEOAccess.jar"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaEOControl.jar"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaJDBCAdaptor.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="/Library/WebObjects/lib/joda-time-1.6.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/ERExtensions.jar" sourcepath="/ERExtensions/Sources"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ERJars"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

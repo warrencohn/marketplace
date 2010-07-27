@@ -33,22 +33,22 @@ public class ResetManager {
 	 * A dictionary where each entry key is the name of a stateless component class and the value is an array of type
 	 * Field that should be reset automatically.
 	 */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	protected static NSMutableDictionary    _statelessComponentFieldLibrary = new NSMutableDictionary();
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public static NSMutableDictionary getStatelessComponentFieldLibrary() {
         return _statelessComponentFieldLibrary;
     }
     
     /** Sets the NSArray of Field for the component. */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void setFieldsForComponent(NSArray fields, WOComponent component) {
         _statelessComponentFieldLibrary.setObjectForKey(fields, component.getClass().getName());
     }
     
     /** @return NSArray of Field for the component. */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes" })
 	public static NSArray fieldsForComponent(WOComponent component) {
         NSArray array = (NSArray)_statelessComponentFieldLibrary.valueForKey( component.getClass().getName() );
         if (array == null) {
@@ -91,7 +91,7 @@ public class ResetManager {
 	 *         not static 4. the field is not abstract 5. the field is not final 6. the field is not a primitive type
 	 *         The current object class hierarchy is examined for resettable fields up to and excluding this superclass
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected static NSArray fieldsToReset(WOComponent component) {
 		NSMutableArray fieldsToReset = new NSMutableArray();
 

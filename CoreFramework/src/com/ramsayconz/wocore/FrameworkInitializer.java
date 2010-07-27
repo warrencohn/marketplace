@@ -34,7 +34,7 @@ import com.webobjects.foundation.NSSelector;
 public class FrameworkInitializer {
     private static final Logger     logger = Logger.getLogger(FrameworkInitializer.class);
     
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	protected Class					_aClass;			// The class containing the static initialization method
    	protected String 				_initializerName;	// The name of the static initialization method
 
@@ -54,8 +54,7 @@ public class FrameworkInitializer {
 	 *            <CODE>ApplicationWillFinishLaunchingNotification</CODE>
 	 *            notification.
 	 */
-	@SuppressWarnings("unchecked")
-	public FrameworkInitializer(Class aClass, String initializerName, boolean initializeAfterAppConstruction) {
+	public FrameworkInitializer(@SuppressWarnings("rawtypes") Class aClass, String initializerName, boolean initializeAfterAppConstruction) {
 		this._aClass = aClass;
 		this._initializerName = initializerName;
 		NSNotificationCenter.defaultCenter().addObserver(this,
@@ -79,8 +78,7 @@ public class FrameworkInitializer {
 	 * @param aClass The class to invoke initializeFromFramework() on when the WOApplication is fully initialized.
 	 */
    	
-	@SuppressWarnings("unchecked")
-	public FrameworkInitializer(Class aClass) {
+	public FrameworkInitializer(@SuppressWarnings("rawtypes") Class aClass) {
 		this(aClass, "initializeFromFramework", false);
 	}
 

@@ -14,7 +14,12 @@ import com.webobjects.foundation.NSArray;
 
 @SuppressWarnings("unqualified-field-access")
 public class ErrorPage extends CoreStatelessComponent {
-    private static final Logger     logger = Logger.getLogger (TimeoutPage.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5682384057061988046L;
+
+	private static final Logger     logger = Logger.getLogger (TimeoutPage.class);
 
     private Exception               _exception;
     public StackTraceElement        thisSTE;

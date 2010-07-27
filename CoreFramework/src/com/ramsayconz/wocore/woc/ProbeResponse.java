@@ -13,7 +13,11 @@ import com.webobjects.appserver.WOContext;
 
 public class ProbeResponse extends CoreStatelessComponent {
 
-    public CoreProperties           properties = CoreApplication.properties;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2994665350772126609L;
+	public CoreProperties           properties = CoreApplication.properties;
 
     public ProbeResponse(WOContext context) {
         super(context);
