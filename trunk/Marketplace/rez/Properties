@@ -95,15 +95,6 @@ session.catAlertTexts				("The User Advocate will remove all ads requesting paym
 
 
 
-
-
-
-
-
-
-
-
-
 # derby.system.home				/Users/gavin/Library/Databases/derby-10.4.2.0/
 
 er.migration.migrateAtStartup			true 
