@@ -91,7 +91,7 @@ public class ResetManager {
 	 *         not static 4. the field is not abstract 5. the field is not final 6. the field is not a primitive type
 	 *         The current object class hierarchy is examined for resettable fields up to and excluding this superclass
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected static NSArray fieldsToReset(WOComponent component) {
 		NSMutableArray fieldsToReset = new NSMutableArray();
 
