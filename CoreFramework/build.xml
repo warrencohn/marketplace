@@ -14,7 +14,7 @@
 
 <project name="CoreFramework" default="help">
     <property name="BundleVers" value="1.0" />
-    <property name="javaVersion" value="1.5" />
+    <property name="javaVersion" value="1.6" />
 
     <property name="JVMOPTS" value="" />
     <property name="JDBOPTS" value="" />
@@ -59,14 +59,12 @@
         <property name="package_temp" value="${java_tmp_dir}${file.separator}(tmp)" />
         <property name="classes_temp" value="${java_tmp_dir}${file.separator}(bin)" />
 
-
         <property name="webobjects_dir" value="${local_root}${file.separator}Library${file.separator}WebObjects" />
 		<property name="webobjects_lib" value="${webobjects_dir}${file.separator}lib" />
 		<property name="webobjects_app" value="${webobjects_dir}${file.separator}Applications" />
 		
         <available file="${java_src_dir}" type="dir" property="source_exists" />
         <available file="${webobjects_lib}" type="dir" property="wo_available" />
-
 
         <pathconvert property="sourcesPath">
             <fileset dir="${java_src_dir}" /></pathconvert>
@@ -122,7 +120,7 @@
 
         <path id="ClassPath">
             <fileset dir="${webobjects_lib}">
-                <include name="ERExtensions.jar" />
+                <include name="ERExtensions-5.0.jar" />
 
                 <include name="JavaFoundation.jar" />
                 <include name="JavaWebObjects.jar" />
@@ -131,10 +129,10 @@
                 <include name="JavaJDBCAdaptor.jar" />
                 <include name="JavaXML.jar" />
 
-                <include name="commons-collections-3.2.jar" />
-                <include name="commons-configuration-1.5.jar" />
-                <include name="commons-lang-2.4.jar" />
-                <include name="joda-time-1.6.jar" />
+                <include name="commons-collections-3.2.1.jar" />
+                <include name="commons-configuration-1.6.jar" />
+                <include name="commons-lang-2.5.jar" />
+                <include name="joda-time-1.6.2.jar" />
             </fileset>
         </path>
 
@@ -537,8 +535,8 @@ APPROOT/Resources/Java
 	
 	<target name="condMacOSX" if="isMacOSX" depends="MacOSX" description="set Mac OS X properties">
 		<property name="os_environment" value="is Mac OS X ..." />
-		<property name="apple_root" value="/System" />
-		<property name="local_root" value="" />
+		<property name="apple_root" value="/Developer/WebObjects543" />
+		<property name="local_root" value="${apple_root}" />
         <property name="final_webasset" value="/Library/WebServer/Documents/WebObjects" />
 	</target>
 	
