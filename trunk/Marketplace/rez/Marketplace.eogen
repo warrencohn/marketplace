@@ -1,1 +1,1 @@
- -destination src -extension java -java -javaTemplate _Entity.java -model rez/Marketplace.eomodeld -packagedirs -refmodel ../../WonderSVC/Frameworks/Core/ERPrototypes/Resources/erprototypes.eomodeld -subclassDestination src -subclassJavaTemplate Entity.java -verbose -loadModelGroup
+ -destination src -extension java -java -javaTemplate _Entity.java -model rez/Marketplace.eomodeld -packagedirs -refmodel ../../wonder/Frameworks/Core/ERPrototypes/Resources/erprototypes.eomodeld -subclassDestination src -subclassJavaTemplate Entity.java -verbose -loadModelGroup

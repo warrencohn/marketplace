@@ -17,6 +17,10 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 	}
 
 	@Override
+	public void downgrade(EOEditingContext editingContext, ERXMigrationDatabase database) throws Throwable {
+	}
+
+	@Override
 	public void upgrade(EOEditingContext editingContext, ERXMigrationDatabase database) throws Throwable {
 		ERXMigrationTable advertTable = database.newTableNamed("ADVERT");
 		advertTable.newIntegerColumn("OID_AUTHOR", false);
@@ -27,19 +31,13 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 		advertTable.newStringColumn("AD_DELETED", 1, false);
 		advertTable.newStringColumn("MP_AD_TEXT", 1999, true);
 		advertTable.newStringColumn("AD_URL", 100, true);
-		advertTable.newDoubleColumn("MP_AD_PRICE", 2, 8, true);
+		advertTable.newDoubleColumn("MP_AD_PRICE", 8, 2, true);
 		advertTable.newStringColumn("MP_TITLE", 100, true);
 		advertTable.newTimestampColumn("LAST_MODIFIED", true);
 		advertTable.newIntegerColumn("AD_NUMBER", true);
 		advertTable.newTimestampColumn("MP_AD_POST_DATE", true);
 		advertTable.create();
 	 	advertTable.setPrimaryKey("OID");
-
-		ERXMigrationTable hotLinkTable = database.newTableNamed("HOTLINK");
-		hotLinkTable.newIntegerColumn("OID_AD", false);
-		hotLinkTable.newIntegerColumn("OID_USER", false);
-		hotLinkTable.create();
-	 	hotLinkTable.setPrimaryKey("OID_USER", "OID_AD");
 
 		ERXMigrationTable authorTable = database.newTableNamed("AUTHOR");
 		authorTable.newIntegerColumn("OID", false);
@@ -55,6 +53,12 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 		categoryTable.create();
 	 	categoryTable.setPrimaryKey("OID");
 
+		ERXMigrationTable hotLinkTable = database.newTableNamed("HOTLINK");
+		hotLinkTable.newIntegerColumn("OID_AD", false);
+		hotLinkTable.newIntegerColumn("OID_USER", false);
+		hotLinkTable.create();
+	 	hotLinkTable.setPrimaryKey("OID_AD", "OID_USER");
+
 		advertTable.addForeignKey("OID_AUTHOR", "AUTHOR", "OID");
 		advertTable.addForeignKey("OID_AD_CATEGORY", "CATEGORY", "OID");
 		hotLinkTable.addForeignKey("OID_AD", "ADVERT", "OID");
@@ -62,7 +66,6 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 		categoryTable.addForeignKey("OID_PARENT", "CATEGORY", "OID");
 	}
 
-	@Override
 	public void postUpgrade(EOEditingContext editingContext, EOModel model) throws Throwable {
 		Category	baseCategory = Category.createCategory(editingContext, 1000, "Category One");
 		editingContext.saveChanges();
@@ -84,11 +87,5 @@ public class Marketplace0 extends ERXMigrationDatabase.Migration implements IERX
 		baseCategory = Category.createCategory(editingContext, 4000, "Category Four");
 		editingContext.saveChanges();
 
-	}
-
-	@Override
-	public void downgrade(EOEditingContext editingContext,
-			ERXMigrationDatabase database) throws Throwable {
-		// DO NOTHING
 	}
 }

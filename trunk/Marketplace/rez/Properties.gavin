@@ -5,9 +5,13 @@ mailToForWatchers           ("gavineadie@localhost")
 mailToForDeveloper          ("gavineadie@localhost")
 mailToForFailures      		("gavineadie@localhost")
 
-EOM.USER.MARKETPLACE               
-EOM.PASS.MARKETPLACE               
-EOM.JDBC.MARKETPLACE        jdbc:derby:/Users/gavin/Library/Databases/derby-10.5.1.1/Marketplace
+EOM.USER.MARKETPLACE
+EOM.PASS.MARKETPLACE
+EOM.JDBC.MARKETPLACE        jdbc:derby:/Users/gavin/Library/Databases/derby/Marketplace
+
+#EOM.USER.MARKETPLACE        gavin
+#EOM.PASS.MARKETPLACE        cat4snog
+#EOM.JDBC.MARKETPLACE        jdbc:mysql://127.0.0.1/marketplace?capitalizeTypeNames=true
 
 adWatch.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")
 catEdit.adminGroup          ("kingsumo","biterbat","woolyboy","puttputt","snoutear")

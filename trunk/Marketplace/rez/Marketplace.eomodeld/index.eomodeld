@@ -2,8 +2,8 @@
     EOModelVersion = "2.1"; 
     adaptorName = JDBC; 
     connectionDictionary = {
-        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace"; 
-        driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
+        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby/Marketplace"; 
+        driver = ""; 
         password = ""; 
         username = ""; 
     }; 
@@ -20,8 +20,8 @@
                 Derby = {
                     adaptorName = JDBC; 
                     connectionDictionary = {
-                        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby-10.4.2.0/Marketplace"; 
-                        driver = "org.apache.derby.jdbc.EmbeddedDriver"; 
+                        URL = "jdbc:derby:/Users/gavin/Library/Databases/derby/Marketplace"; 
+                        driver = ""; 
                         password = ""; 
                         username = ""; 
                     }; 
@@ -32,7 +32,7 @@
                     connectionDictionary = {
                         URL = "jdbc:mysql://127.0.0.1/marketplace?capitalizeTypeNames=true"; 
                         password = cat4snog; 
-                        username = root; 
+                        username = gavin; 
                     }; 
                     prototypeEntityName = EOJDBCMySQLPrototypes; 
                 }; 

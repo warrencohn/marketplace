@@ -95,9 +95,9 @@ session.catAlertTexts				("The User Advocate will remove all ads requesting paym
 
 
 
-# derby.system.home				/Users/gavin/Library/Databases/derby-10.4.2.0/
+derby.system.home				/Users/gavin/Library/Databases/derby/
 
-er.migration.migrateAtStartup			true 
+er.migration.migrateAtStartup			true
 er.migration.createTablesIfNecessary	true
 er.migration.modelNames					Marketplace
 Marketplace.MigrationClassPrefix		edu.umich.marketplace.mig.Marketplace
@@ -108,7 +108,7 @@ WOSMTPHost                      localhost
 mail.smtp.port                  25
 
 WOStatisticsPassword            XXX
-WODirectConnectEnabled          FALSE
+WODirectConnectEnabled          TRUE
 
 SeppukuPollingInterval          0
 SeppukuDeadlockedInterval       180000
@@ -131,6 +131,8 @@ log4j.appender.A1.layout                    org.apache.log4j.PatternLayout
 log4j.appender.A1.layout.ConversionPattern  [%d{ISO8601} %15.15t] %5.5p %24.24c : %m%n
 
 # WONDER SETTINGS ##########################################################
+
+er.javamail.adminEmail		gavin@umich.edu
 
 er.extensions.ERXApplication.useSessionStoreDeadlockDetection   true
 er.extensions.ERXApplication.StatisticsBaseLogPath              /tmp
