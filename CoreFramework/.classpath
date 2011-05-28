@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ERJars"/>
+	<classpathentry kind="lib" path="lib/commons-configuration-1.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JavaWOExtensions"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Developer/WebObjects543/Library/WebObjects/Extensions/commons-configuration-1.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ERExtensions"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
