@@ -2,3 +2,4 @@
 **/*.woa/**
 **/*.framework/**
 **/*.eogen
+**/*.api

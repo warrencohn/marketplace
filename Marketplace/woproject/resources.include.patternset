@@ -1,11 +1,4 @@
-**/*.eomodeld~/
-**/*.woa/**
-**/*.framework/**
-**/*.eogen
+**/Properties*
+**/*.wo
 **/*.eomodeld
 **/*.help
-**/*.properties
-**/Properties
-**/*.wo
-**/*.dev
-**/*.gavin

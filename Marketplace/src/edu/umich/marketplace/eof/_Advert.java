@@ -1,4 +1,4 @@
-// $LastChangedRevision: 5773 $ DO NOT EDIT.  Make changes to Advert.java instead.
+// $LastChangedRevision$ DO NOT EDIT.  Make changes to Advert.java instead.
 package edu.umich.marketplace.eof;
 
 import com.webobjects.eoaccess.*;

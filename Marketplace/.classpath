@@ -5,24 +5,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ERExtensions"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ERJars"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ERPrototypes"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ERJavaMail"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DerbyPlugIn"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JavaWOExtensions"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaEOAccess.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaEOControl.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaFoundation.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Developer/Documentation/DocSets/com.apple.ADC_Reference_Library.WebObjectsReference.docset/Contents/Resources/Documents/documentation/MacOSXServer/Reference/WO54_Reference/com/webobjects/foundation/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaJDBCAdaptor.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaWebObjects.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Developer/Documentation/DocSets/com.apple.ADC_Reference_Library.WebObjectsReference.docset/Contents/Resources/Documents/documentation/MacOSXServer/Reference/WO54_Reference/com/webobjects/appserver/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/JavaXML.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/commons-lang-2.4.jar"/>
-	<classpathentry kind="lib" path="/Library/WebObjects/lib/joda-time-1.6.jar"/>
-	<classpathentry kind="lib" path="/Users/gavin/Development/apache/db-derby-10.5.1.1-lib/lib/derby.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
