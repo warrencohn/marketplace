@@ -1,15 +1,2 @@
-#Mon Jan 26 19:34:18 EST 2009
 eclipse.preferences.version=1
-encoding//woc/CauseRuntimeFault.wo/CauseRuntimeFault.wod=MacRoman
-encoding//woc/CoreBuildTime.wo/CoreBuildTime.wod=MacRoman
-encoding//woc/CoreStandardPage.wo/CoreStandardPage.wod=MacRoman
-encoding//woc/CoreStandardTitledBox.wo/CoreStandardTitledBox.wod=MacRoman
-encoding//woc/CoreVersionCode.wo/CoreVersionCode.wod=MacRoman
-encoding//woc/ErrorPage.wo/ErrorPage.wod=MacRoman
-encoding//woc/GoldRimTable.wo/GoldRimTable.wod=MacRoman
-encoding//woc/GreyRimTable.wo/GreyRimTable.wod=MacRoman
-encoding//woc/PinkRimTable.wo/PinkRimTable.wod=MacRoman
-encoding//woc/ProbeResponse.wo/ProbeResponse.wod=MacRoman
-encoding//woc/TimeoutPage.wo/TimeoutPage.wod=MacRoman
-encoding//woc/UserNotification.wo/UserNotification.wod=MacRoman
 encoding//woc/WOMessageFormatter.wo/WOMessageFormatter.wod=MacRoman

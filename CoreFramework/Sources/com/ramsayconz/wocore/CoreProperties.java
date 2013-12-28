@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSKeyValueCoding;
+import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import com.webobjects.foundation.NSPropertyListSerialization;
 
 /**
@@ -34,7 +35,7 @@ import com.webobjects.foundation.NSPropertyListSerialization;
  * 
  * @author gavin
  */
-public class CoreProperties extends Properties implements NSKeyValueCoding {
+public class CoreProperties extends Properties implements NSKeyValueCodingAdditions {
 	/**
 	 * 
 	 */

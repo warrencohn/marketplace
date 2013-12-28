@@ -217,7 +217,8 @@ public final class NSLog {
 				synchronized (_stream) {
 					if (isVerbose) {
                         _stream.println((new StringBuilder()).append(_verbosePrefix()).append(aValue).toString());
-					} else {
+          }
+          else {
                         _stream.println(aValue);
 					}
 					_stream.flush();
@@ -324,7 +325,7 @@ public final class NSLog {
         
         protected static int convertNSLogLevelToLog4JLevel(int anNSLogDebugLevel) {
             int log4jDebugLevel;
-            switch(anNSLogDebugLevel) {
+      switch (anNSLogDebugLevel) {
                 case DebugLevelOff:
                     log4jDebugLevel = org.apache.log4j.Level.OFF_INT;
                     break;

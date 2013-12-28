@@ -37,7 +37,7 @@ public class ErrorPage extends CoreStatelessComponent {
         return _exception.toString();
     }
     
-    public NSArray<StackTraceElement> getExceptionStacktrace () {
-        return new NSArray<StackTraceElement> (_exception.getStackTrace());
-    }
+  public NSArray<?> getStackTraces () {
+      return new NSArray<Object> (_exception.getStackTrace());
+}
 }

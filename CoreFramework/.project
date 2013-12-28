@@ -3,7 +3,8 @@
 	<name>CoreFramework</name>
 	<comment></comment>
 	<projects>
-		<project>JakartaCommons</project>
+		<project>ERExtensions</project>
+		<project>ERJars</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

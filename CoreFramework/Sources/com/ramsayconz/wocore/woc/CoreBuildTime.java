@@ -25,5 +25,4 @@ public class CoreBuildTime extends CoreStatelessComponent {
     public String getBuildTime () {
         return ((CoreApplication)WOApplication.application()).getConfProp ("application.buildTime", "<< no build time >>");
     }
-    
 }
