@@ -29,6 +29,7 @@ import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
+import com.webobjects.foundation._NSUtilities;
 import com.webobjects.jdbcadaptor.JDBCAdaptor;
 
 
@@ -42,12 +43,12 @@ import com.webobjects.jdbcadaptor.JDBCAdaptor;
 
 public class CoreApplication extends er.extensions.appserver.ERXApplication {
     private static final Logger     logger = Logger.getLogger (CoreApplication.class);
-/*
+
     static {
         _NSUtilities.setClassForName(NSLog.class, "com.ramsayconz.wocore.NSLog");
 		logger.info ("CoreApplication static initializer -- fired from NSPrincipalClass");
     }
-*/
+
 	private boolean                 _traceRequests,
                                     _traceResponses;
 

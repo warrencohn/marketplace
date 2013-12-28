@@ -1,0 +1,19 @@
+<html>
+  <head><title>Error Page</title></head>
+  <body>
+    <table cellspacing = "0" border = "0" cellpadding = "4">
+      <tr><td width = "10%">
+          <wo:WOActiveImage directActionName = "default" 
+                            filename = "restart.png" framework = "CoreFramework"/></td>
+          <td></td>
+          <td width = "10%"></td></tr>
+      <tr><td></td>
+          <td bgcolor="#ff6164">
+          <font face="Courier,Fixed">A fatal error occurred in this application ...<br />
+            <wo:string value="[exceptionMessage]" /><br /><font size="-2">
+            <wo:repeat list="[stackTraces]" item="[thisSTE]">
+              &nbsp;&nbsp;&nbsp;<wo:string value="[thisSTE]" /><br /></wo:repeat></font></font></td>
+          <td></td>
+          <td></td></tr></table>
+  </body>
+</html>
