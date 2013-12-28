@@ -1,0 +1,11 @@
+ -destination Sources \
+ -extension java \
+ -java \
+ -javaTemplate _Entity.java \
+ -model Resources/Marketplace.eomodeld \
+ -packagedirs \
+ -refmodel ../../wonder/Frameworks/Core/ERPrototypes/Resources/erprototypes.eomodeld \
+ -subclassDestination Sources \
+ -subclassJavaTemplate Entity.java \
+ -verbose \
+ -loadModelGroup

@@ -1,647 +1,223 @@
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	Documentation of this build.xml file:
+<project name="Marketplace" default="build" basedir=".">
+	<target name="build" depends="init.build,build.woapp,javaclient,ssdd,war,split,package" />
 
-	This started life a long time ago as the Wonder build.xml file.  It's been transformed in several
-	ways to try and clarify its operation.
+	<target name="install" depends="init.install,build.woapp,javaclient,ssdd,war,split,package" />
 
-	1) the WebObjects specific ant tasks WOApplication, WOFramework, WO... have been replaced by core
-	   ant tasks.  The build is more portable at the expense of being more elaborate.
-
-	2) the xml files to build frameworks and applications have been unified - the same xml file should
-	   work for either bundle type.
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-	<project name="Marketplace" default="help">				<!-- default action displays usage info -->
-
-    <property name="Embed_Libraries" value="true" />		<!-- embed all Apple and Local frameworks -->
-
-	<property name="BundleVers" value="1.0" />
-    <property name="javaVersion" value="1.5" />
-
-    <property name="JVMOPTS" value="" />					<!-- for use in the xxxClassPath.txt file -->
-    <property name="JDBOPTS" value="" />
-
-    <tstamp><format property="timestamp" pattern="MMMdd/yy HH:mm" /></tstamp>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	HELP: prints usage message
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-		<target name="help">
-		<echo message="ant [help] -- this message ..." />
-		<echo message="ant package -- builds the ${ant.project.name} package" />
-        <echo message="ant install -- cleans, builds and installs the ${ant.project.name} package" />
-    </target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	INSTALL: empties and refills the bundle (application or framework) in deployment location
-	  unless we're building on Window, when this doesn't execute (better safe than sorry)
-	  depends on
-	    package : moves all the built code and other files into the package ...
-
-	    prepare : prepare deployment locations and removing existing deployments
-	    install_jar : [framework only]
-	    install_app : [application only]
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <target name="install" unless="isWindows" depends="package,prepare,install_jar,install_app"
-     description="empties and refills the bundle (application or framework) in deployment location">
-    </target>
-
-    <target name="prepare"
-            description="prepare deployment locations and removing existing deployments">
-        <delete quiet="true" dir="${final_codepath}${file.separator}${package_name}" />
-        <delete quiet="true" file="${final_codepath}${file.separator}${package_name}" />
-        <delete quiet="true" dir="${final_webasset}${file.separator}${package_name}" />
-        <delete quiet="true" file="${final_webasset}${file.separator}${package_name}" />
-    </target>
-
-    <target name="install_jar" unless="isApplication">
-        <jar basedir="${package_temp}/${package_name}" destfile="${final_codepath}/${ant.project.name}.jar" />
-
-        <mkdir dir="${final_webasset}/Frameworks/${package_name}/WebServerResources" />
-        <copy todir="${final_webasset}/Frameworks/${package_name}/WebServerResources">
-            <fileset dir="${pack_web_dir}" />
-		</copy>
-   <!-- <delete dir="${pack_web_dir}" /> -->
-        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
-    </target>
-
-    <target name="install_app" if="isApplication">
-        <copy todir="${final_codepath}/${package_name}">
-            <fileset dir="${package_temp}/${package_name}" />
-        </copy>
-
-        <mkdir dir="${final_webasset}/${package_name}${contents_dir}/WebServerResources" />
-        <copy todir="${final_webasset}/${package_name}${contents_dir}/WebServerResources">
-            <fileset dir="${pack_content}/WebServerResources" />
-		</copy>
-
-		<chmod file="${final_codepath}/${package_name}/${ant.project.name}" perm="a+x"/>
-        <echo message="--- chmod ${final_codepath}/${package_name}/${ant.project.name} a+x" />
-        <echo message="--- WebObjects Version: ${woversion} ---------------------" />
-    </target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	PACKAGE: empties and refills the bundle (application or framework) in deployment location
-	  unless we're building on Window, when this doesn't execute (better safe than sorry)
-	  depends on
-	    compile : ...
-
-	    package_setup     : if app {"/Contents"   ""              "APPL"}
-	                          else {""            "/Frameworks"   "FWRK"}
-	                           and create lots of directories (lib, rez, web)
-
-	    package_build     : fill the above directories
-
-	    package_extra_app : copy app-only files (WOBootstrap.jar, deploy.properties, ...)
-	                        and the platform classpath.txt files, etc
-
-	    package_close     : [framework] copy *.class files to bundle
-	    package_close_app : [application] copy lib jars and zips, and embeds ####
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <target name="package"
-	        depends="compile, package_setup, package_build, package_extra_app,
-	                                         package_close, package_close_app" />
-
-	<target name="package_setup">
-
-		<condition property="contents_dir" value="${file.separator}Contents"
-		                                    else="">
-            <isset property="isApplication" /></condition>
-
-		<condition property="package_type" value="APPL"
-		                                    else="FWRK">
-            <isset property="isApplication" /></condition>
-
-		<condition property="final_webasset" value="${final_webasset}"
-		                                      else="${final_webasset}${file.separator}Frameworks">
-            <isset property="isApplication" /></condition>
-
-		<!--
-		      this next part generates the package directory naming structure as follows:
-
-              Application:
-
-                pack_content = (temp)/App.woa/Contents/
-                pack_lib_dir = (temp)/App.woa/Contents/Library/               <== for embedded libraries
-                pack_rez_dir = (temp)/App.woa/Contents/Resources/
-                pack_jar_dir = (temp)/App.woa/Contents/Resources/Java/
-                pack_jar_dir = (temp)/App.woa/Contents/WebServerResources/
-                package_info = (temp)/App.woa/Contents/Info.plist
-
-              Framework:
-
-                pack_content = (temp)/Fwk.framework/
-                pack_lib_dir = (temp)/Fwk.framework/Library/                  <== never used in a framework
-                pack_rez_dir = (temp)/Fwk.framework/Resources/
-                pack_jar_dir = (temp)/Fwk.framework/Resources/Java/
-                pack_jar_dir = (temp)/Fwk.framework/WebServerResources/
-                package_info = (temp)/Fwk.framework/Resources/Info.plist
-
-              the platform files are still to come:
-        -->
-
-		<property name="pack_content" value="${package_temp}${file.separator}${package_name}${contents_dir}" />
-        <property name="pack_lib_dir" value="${pack_content}${file.separator}Library" />
-        <property name="pack_rez_dir" value="${pack_content}${file.separator}Resources" />
-        <property name="pack_jar_dir" value="${pack_rez_dir}${file.separator}Java" />
-        <property name="pack_web_dir" value="${pack_content}${file.separator}WebServerResources" />
-
-
-		<condition property="package_info" value="${pack_content}${file.separator}Info.plist"
-		                                    else="${pack_rez_dir}${file.separator}Info.plist" >
-            <isset property="isApplication" /></condition>
-
-    </target>
-
-
-	<target name="package_build" description="create the bundle/package in temporary space ...">
-        <echo message="create package ${package_name} in ${package_temp}" />
-
-        <delete dir="${package_temp}" />
-		<mkdir dir="${pack_rez_dir}" />
-		<mkdir dir="${pack_web_dir}" />
-
-        <!-- fill:  App.woa/Contents/Resources/  with "REZ" and WOC" -->
-		<copy todir="${pack_rez_dir}" preservelastmodified="true">
-			<fileset dir="${java_rez_dir}">
-				<patternset refid="REZ" />
-			</fileset>
-			<fileset dir="${java_woc_dir}">
-				<patternset refid="WOC" />
-			</fileset>
-		</copy>
-
-        <!-- fill:  App.woa/Contents/WebServerResources/  with "WEB" -->
-		<copy todir="${pack_web_dir}" preservelastmodified="true">
-			<fileset dir="${java_web_dir}">
-				<patternset refid="WEB" />
-			</fileset>
-		</copy>
-
-		<echoxml file="${package_info}" append="false">
-<!-- %DTD% -->
-<plist version="1.0">
-<dict>
-  <key>CFBundleDevelopmentRegion</key>        	<string>English</string>
-  <key>CFBundleExecutable</key>                 <string>%CFBundleExecutable%</string>
-  <key>CFBundleGetInfoString</key>              <string>${ant.project.name} ${BundleVers} ${timestamp}</string>
-  <key>CFBundleIconFile</key>                   <string>WOAfile.icns</string>
-  <key>CFBundleIdentifier</key>                 <string>%CFBundleIdentifier%</string>
-  <key>CFBundleInfoDictionaryVersion</key>      <string>6.0</string>
-  <key>CFBundleName</key>                       <string>%CFBundleName%</string>
-  <key>CFBundlePackageType</key>                <string>%APPL/FWRK%</string>
-  <key>CFBundleShortVersionString</key>         <string>${BundleVers}</string>
-  <key>CFBundleSignature</key>                  <string>webo</string>
-  <key>CFBundleVersion</key>                    <string>${BundleVers}</string>
-
-  <key>Java</key>                               <dict>
-                                                  <key>JVMVersion</key>      <string>${javaVersion}+</string>
-                                                </dict>
-
-  <key>NSJavaClientRoot</key>                   <string>Contents/WebServerResources/Java</string>
-  <key>NSJavaNeeded</key>                       <true/>
-  <key>NSJavaPath</key>                         <array>
-      <string>%NSJavaPath%.jar</string>
-    </array>
-  <key>NSJavaPathClient</key>                   <string>%NSJavaPathClient%.jar</string>
-  <key>NSJavaRoot</key>                         <string>Contents/Resources/Java</string>
-  <key>NSExecutable</key>                       <string>%NSExecutable%</string>
-
-<!-- application-plist -->
-
-  <key>NSJavaUserPath</key>                     <array/>
-</dict>
-</plist>
-</echoxml>
-
-		<replace file="${package_info}"
-              token="%CFBundleExecutable%" value="${ant.project.name}" />
-
-		<replace file="${package_info}"
-                token="%CFBundleIdentifier%" value="${ant.project.name}" />
-
-	     <replace file="${package_info}"
-	             token="%CFBundleName%" value="${ant.project.name}" />
-
-        <replace file="${package_info}"
-		      token="%NSExecutable%" value="${ant.project.name}" />
-
-		<replace file="${package_info}"
-                token="%NSJavaPath%" value="..." />
-
-        <replace file="${package_info}"
-                token="%NSJavaPathClient%" value="..." />
-
-		<replace file="${package_info}"
-		      token="%NSPrincipalClass%" value="${application_classname}" />
-
-		<replace file="${package_info}"
-		      token="%APPL/FWRK%" value="${package_type}" />
-
-        <replace file="${package_info}"
-                token="%WOMainBundle%" value="${ant.project.name}" />
-
+	<target name="clean" depends="init.properties">
+		<delete dir="bin" />
+		<delete dir="dist" />
 	</target>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    package_extra_app:
-             (0.5) get the subversion build number
-              (1) create a "deploy.properties" with build timestamp and svn version #
-              (2) copy "WOBootstrap.jar" to *.woa directory
-              (3) copy "UnixLaunch.sh" and "WinLaunch.CMD" to *.woa directory
-             (3.1) permit "UnixLaunch.sh" executable
-              (4) create platform directories
-              (5) copy "UnixLaunch.sh" to MacOS and UNIX directories
-              (6) copy "WinLaunch.CMD" to Windows directory
-              (7) copy classpath.txt
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <target name="package_extra_app" if="isApplication">
-
-    	<exec executable="svnversion"
-    		         dir="."
-          outputproperty="svnversion.property"
-    		    logError="yes"/> 								    	 			  <!-- (0.5) -->
-
-    	<touch file="${pack_rez_dir}/deploy.properties" />                            <!-- (1) -->
-        <echo file="${pack_rez_dir}/deploy.properties"
-              message="buildTimeString = ${timestamp}${line.separator}svnVersion = ${svnversion.property}${line.separator}" />
-
-        <copy file="/Developer/WebObjects543/System/Library/WebObjects/JavaApplications/JavaMonitor.woa/WOBootstrap.jar"
-	       	  verbose="true" preservelastmodified="true"
-		      todir="${package_temp}/${package_name}" />                              <!-- (2) -->
-
-		<copy file="/Developer/WebObjects543/System/Library/WebObjects/JavaApplications/JavaMonitor.woa/JavaMonitor"
-	       	  verbose="true" preservelastmodified="true"
-		      tofile="${package_temp}/${package_name}/${ant.project.name}" />
-		<chmod file="${package_temp}/${package_name}/${ant.project.name}" perm="a+x"/>
-
-		<copy file="/Developer/WebObjects543/System/Library/WebObjects/JavaApplications/JavaMonitor.woa/JavaMonitor.CMD"
-	       	  verbose="true" preservelastmodified="true"
-		      tofile="${package_temp}/${package_name}/${ant.project.name}.CMD" />     <!-- (3) -->
-
-		<mkdir dir="${pack_content}/MacOS" />
-		<mkdir dir="${pack_content}/UNIX" />
-		<mkdir dir="${pack_content}/Windows" />                                       <!-- (4) -->
-
-		<copy file="${package_temp}/${package_name}/${ant.project.name}"
-	       	  verbose="true" preservelastmodified="true"
-              tofile="${pack_content}/MacOS/${ant.project.name}" />
-		<chmod file="${pack_content}/MacOS/${ant.project.name}" perm="a+x"/>
-
-		<copy file="${package_temp}/${package_name}/${ant.project.name}"
-	       	  verbose="true" preservelastmodified="true"
-	       	  tofile="${pack_content}/UNIX/${ant.project.name}" />
-		<chmod file="${pack_content}/UNIX/${ant.project.name}" perm="a+x"/>           <!-- (5) -->
-
-		<copy file="${package_temp}/${package_name}/${ant.project.name}.CMD"
-	       	  verbose="true" preservelastmodified="true"
-              tofile="${pack_content}/Windows/${ant.project.name}.CMD"/>              <!-- (6) -->
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    (8) this is sneaky, so needs explanation:
-
-        First, we make a reference to a fileset including any "Application.class"
-        files in the compiled classes ('binaries') folder - usually just our one.
-
-        Then, we establish a property that is the path to the 'binaries' dir.
-
-        Next, we construct the path of all (just our one) the "Application.class"
-        files found in our project.  Note that this will be of the form:
-
-                "....(bin)/edu.umich.appname.Application.class"
-
-        and the mapper isolates the class name: "edu.umich.appname.Application"
-        which we use to establish the "application_classname" property
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-		<fileset dir="${classes_temp}" id="application-pathname">
-			<include name="**/Application.class" />
-		</fileset>
-
-		<dirname property="classes_temp_path" file="${classes_temp}" />
-
-		<pathconvert property="application_classname" refid="application-pathname">
-			<mapper type="package" from="${classes_temp_path}/(bin)/*.class" to="*"/>
-		</pathconvert>
-
-		<pathconvert property="tester" targetos="unix" refid="ClassPath" />
-        <echo message="ClassPath: ${tester}" />                                       <!-- (8) -->
-
-
-        <condition property="library_path" value="APPROOT/Library"
-                                            else="LOCALROOT${webobjects_lib}">
-            <isset property="Embed_Libraries" /></condition>
-
-		<pathconvert property="wobootstrap_classpath" targetos="unix" refid="ClassPath">
-			<map from="${webobjects_lib}" to="${library_path}"/>
-			<map from="/System" to="WOROOT"/>
-		</pathconvert>
-        <echo message="ClassPath: ${wobootstrap_classpath}" />
-
-		<!-- WARNING: parts of this generation are whitespace sensitive -->
-
-		<echo file="${pack_content}/MacOS/MacOSClassPath.txt"
-			  append="false">#
-# JVM              == java
-# JVMOptions       == %JVMOPTS%
-# JDB              == jdb
-# JDBOptions       == %JDBOPTS%
-# ApplicationClass == ${application_classname}
-
-APPROOT/Resources/Java/${ant.project.name}.jar
-APPROOT/Resources/Java/ojdbc14.jar
-APPROOT/Resources/Java/mail.jar
-APPROOT/Resources/Java/activation.jar
-
-</echo>
-
-		<replace file="${pack_content}/MacOS/MacOSClassPath.txt"
-		      token="%JVMOPTS%" value="" />
-
-		<replace file="${pack_content}/MacOS/MacOSClassPath.txt"
-		      token="%JDBOPTS%" value="" />
-
-		<echo file="${pack_content}/MacOS/MacOSClassPath.txt"
-		      append="true" message="${wobootstrap_classpath}"/>
-
-		<replace file="${pack_content}/MacOS/MacOSClassPath.txt"
-		      token="${path.separator}" value="${line.separator}"/>
-
-		<echo file="${pack_content}/MacOS/MacOSClassPath.txt"
-		      append="true">
-
-</echo>
-
-        <copy file="${pack_content}/MacOS/MacOSClassPath.txt"
-               verbose="true"
-               tofile="${pack_content}/UNIX/UNIXClassPath.txt" />                 <!-- (7) -->
-
-    </target>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-	<target name="package_close" unless="isApplication">
-<!--
-		<mkdir dir="${pack_jar_dir}" />
-		<copy todir="${pack_jar_dir}">
-			<fileset dir="${java_lib_dir}">
-				<include name="*.jar" />
-				<include name="*.zip" />
-			</fileset>
-		</copy>
- -->
-        <copy todir="${package_temp}/${package_name}">
-            <fileset dir="${classes_temp}" />
-        </copy>
-   <!-- <delete dir="${pack_rez_dir}" /> -->
-    </target>
-
-	<target name="package_close_app" depends="package_embed_app" if="isApplication">
-		<mkdir dir="${pack_jar_dir}" />
-		<copy todir="${pack_jar_dir}" preservelastmodified="true">
-			<fileset dir="${java_lib_dir}">
-				<include name="*.jar" />
-				<include name="*.zip" />
-			</fileset>
-		</copy>
-        <jar basedir="${classes_temp}" destfile="${pack_jar_dir}/${ant.project.name}.jar" />
-    </target>
-
-	<target name="package_embed_app" if="isApplication">
-        <mkdir dir="${pack_lib_dir}" />
-        <copy todir="${pack_lib_dir}" preservelastmodified="true" flatten="true">
-            <path refid="ClassPath" />
-        </copy>
-    </target>
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <patternset id="WOC">
-        <include name="*.wo/*" />
-    </patternset>
-
-    <patternset id="REZ">
-        <exclude name="build/**" />
-        <exclude name="${package_temp}/**" />
-
-        <include name="Properties*" />
-        <include name="*.xml" />
-        <include name="*.eomodeld/*" />
-        <include name="*.help" />
-    </patternset>
-
-    <patternset id="WEB">
-        <include name="**/*.css" />
-        <include name="**/*.gif" />
-        <include name="**/*.jpg" />
-        <include name="**/*.jpeg" />
-        <include name="**/*.png" />
-        <include name="**/*.mov" />
-        <include name="**/*.js" />
-    </patternset>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	INIT:
-	  depends on
-	    determine_os : discover which operating system we're running on
- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <target name="init" depends="determine_os,
-                                 set_environs" unless="init"
-            description="initialize environment and summarize to console">
-
-        <echo message="-------------------------------------------------" />
-        <echo message="  WebObjects Package: ${package_name}" />
-        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
-        <echo message="Ant Init executed at: ${timestamp}" />
-        <echo message="Run Time Environment: ${os_environment}" />
-        <echo message="Java Runtime Version: ${java.version}" />
-        <echo message="- - - - - - - - - - - - - - - - - - - - - - - - -" />
-        <echo message="  WebObjects Library: ${webobjects_lib}" />
-        <echo message="     WebObjects Apps: ${webobjects_app}" />
-        <echo message="  Web Root Directory: ${final_webasset}" />
-        <echo message="-------------------------------------------------" />
-
-    </target>
-
-	<target name="set_environs" depends="bunny_check_T, bunny_check_F" description="">
-
-        <property name="java_tmp_dir" value="${file.separator}tmp" />
-		<property name="package_temp" value="${java_tmp_dir}${file.separator}(tmp)" />
-        <property name="classes_temp" value="${java_tmp_dir}${file.separator}(bin)" />
-
-
-        <property name="webobjects_dir" value="${local_root}${file.separator}Library${file.separator}WebObjects" />
-		<property name="webobjects_lib" value="${webobjects_dir}${file.separator}lib" />
-		<property name="webobjects_app" value="${webobjects_dir}${file.separator}Applications" />
-
-        <available file="${java_src_dir}" type="dir" property="source_exists" />
-        <available file="${webobjects_lib}" type="dir" property="wo_available" />
-
-
-        <pathconvert property="sourcesPath">
-            <fileset dir="${java_src_dir}" /></pathconvert>
-        <condition property="isApplication">
-            <contains string="${sourcesPath}" substring="${file.separator}Application.java" /></condition>
-
-        <condition property="package_name" value="${ant.project.name}.woa"
-                                            else="${ant.project.name}.jar">
-            <isset property="isApplication" /></condition>
-
-        <condition property="final_codepath" value="${webobjects_app}"
- 		                                      else="${webobjects_lib}">
-            <isset property="isApplication" />
-        </condition>
-
-    </target>
-
-    <target name="bunny_check_T" if="Fluffy_Bunnies" description="">
-
-        <property name="java_src_dir" value=".${file.separator}Sources" />
-        <property name="java_lib_dir" value=".${file.separator}Libraries" />
-        <property name="java_rez_dir" value=".${file.separator}Resources" />
-        <property name="java_woc_dir" value=".${file.separator}Components" />
-        <property name="java_web_dir" value=".${file.separator}WebServerResources" />
-
-    </target>
-
-    <target name="bunny_check_F" unless="Fluffy_Bunnies" description="">
-
-        <property name="java_src_dir" value=".${file.separator}src" />
-        <property name="java_lib_dir" value=".${file.separator}lib" />
-        <property name="java_rez_dir" value=".${file.separator}rez" />
-        <property name="java_woc_dir" value=".${file.separator}woc" />
-        <property name="java_web_dir" value=".${file.separator}web" />
-
-    </target>
-
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <target name="compile" depends="init,compile_setup" if="source_exists"
-            description="compile all java source to classes">
-
-        <javac debug="on" deprecation="on" includeAntRuntime="no"
-                source="${javaVersion}" target="${javaVersion}"
-                srcdir="${java_src_dir}" destdir="${classes_temp}">
-            <classpath refid="ClassPath" />
-            <compilerarg value="-Xlint:unchecked" />
-        </javac>
-
-    </target>
-
-    <target name="compile_setup">
-
-        <path id="ClassPath">
-            <fileset dir="${webobjects_lib}">
-                <include name="CoreFramework.jar" />
-
-            	<include name="ERExtensions-5.0.jar" />
-                <include name="ERPrototypes-5.0.jar" />
-                <include name="erxwo54.jar" />
-
-            	<include name="JavaFoundation.jar" />
-                <include name="JavaWebObjects.jar" />
-                <include name="JavaEOControl.jar" />
-                <include name="JavaEOAccess.jar" />
-                <include name="JavaJDBCAdaptor.jar" />
-                <include name="JavaWOExtensions.jar" />
-                <include name="JavaXML.jar" />
-
-                <include name="commons-collections-3.2.1.jar" />
-                <include name="commons-configuration-1.6.jar" />
-                <include name="commons-lang-2.5.jar" />
-                <include name="joda-time-1.6.2.jar" />
-   	        </fileset>
-        </path>
-
-        <delete dir="${classes_temp}" />
-        <mkdir dir="${classes_temp}" />
-    </target>
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <target name="determine_os"
-            depends="condWindows,condLinux,condUNIX,condMacOSX"
-            unless="determine_os"
-            description="determine which operating system we're building on." />
-
-<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
-
-	<target name="MacOSX" description="set isMacOSX conditional">
-		<condition property="isMacOSX">
-			<and><os family="mac" /><os family="unix" /></and>
+	<!-- basic initializations  -->
+	<target name="init.install" depends="init.properties">
+		<tstamp />
+		<property name="dest.dir" value="${wo.apps.root}" />
+	</target>
+
+	<target name="init.build" depends="init.properties">
+		<tstamp />
+		<property name="dest.dir" value="dist" />
+	</target>
+	
+	<!-- property determination  -->
+	<target name="init.properties">
+		<property file="build.properties" />
+
+		<property name="wolips.properties" value="${user.home}${file.separator}Library${file.separator}Application Support${file.separator}WOLips${file.separator}wolips.properties" />
+		<property file="${wolips.properties}" />
+		<condition property="wo.properties.check.failed">
+			<not>
+				<and>
+					<isset property="wo.system.frameworks" />
+					<isset property="wo.local.frameworks" />
+				</and>
+			</not>
 		</condition>
+		<fail message="The properties 'wo.system.frameworks' and 'wo.local.frameworks' must be set. Check that your ${wolips.properties} is correct." if="wo.properties.check.failed" />
+
+		<property name="build.app.name" value="${project.name}" />
+		<property name="build.app.name.lowercase" value="${project.name.lowercase}" />
 	</target>
 
-	<target name="condMacOSX" if="isMacOSX" depends="MacOSX" description="set Mac OS X properties">
-		<property name="os_environment" value="is Mac OS X ..." />
-		<property name="apple_root" value="/Developer/WebObjects543" />
-		<property name="local_root" value="${apple_root}" />
-        <property name="final_webasset" value="/Library/WebServer/Documents/WebObjects" />
+	<!-- This copies webserver resources from app.woa's embedded frameworks into split install bundle -->
+	<target name="split" description="Adds embedded framework webserver resources to the split install bundle by copying from deployment build bundle" unless="servletDeployment">
+		<property name="wsdest.dir" value="${dest.dir}/Split" />
+		<mkdir dir="${wsdest.dir}"/>
+		<copy todir="${wsdest.dir}/WebObjects/${build.app.name}.woa" verbose="true">
+			<fileset dir="${dest.dir}/${build.app.name}.woa/Contents">
+				<include name="Frameworks/*.framework/WebServerResources/**"/>
+			</fileset>
+			<fileset dir="${dest.dir}/${build.app.name}.woa">
+				<include name="Contents/WebServerResources/**"/>
+			</fileset>
+		</copy>
 	</target>
 
-<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
-
-	<target name="UNIX" description="set isUNIX conditional">
-		<condition property="isUNIX">
-			<and>
-				<os family="unix" />
-				<not><os name="Linux" /></not>
-				<not><os family="mac" /></not>
-			</and>
-		</condition>
+  <target name="package" unless="servletDeployment">
+    <tar destfile="${dest.dir}/${build.app.name}-Application.tar.gz"
+        compression="gzip"
+        longfile="gnu">
+      <tarfileset dir="${dest.dir}" mode="750">
+        <include name="${build.app.name}.woa/${build.app.name}"/>
+      </tarfileset>
+      <tarfileset dir="${dest.dir}">
+        <exclude name="${build.app.name}.woa/${build.app.name}"/>
+        <include name="${build.app.name}.woa/**"/>
+      </tarfileset>
+    </tar>
+    <tar destfile="${dest.dir}/${build.app.name}-WebServerResources.tar.gz"
+        compression="gzip"
+        basedir="${wsdest.dir}/WebObjects"
+        longfile="gnu"
+        includes="${build.app.name}.woa/**">
+    </tar>
 	</target>
 
-	<target name="condUNIX" if="isUNIX" depends="UNIX" description="set UNIX properties">
-		<property name="os_environment" value="is UNIX ..." />
-		<property name="apple_root" value="/opt/Apple" />
-		<property name="local_root" value="${apple_root}/Local" />
-		<condition property="final_webasset" value="/usr/local/projects/web">
-			<not><isset property="unix_web_docroot" /></not></condition>
-		<condition property="final_webasset" value="${unix_web_docroot}">
-			<isset property="unix_web_docroot" /></condition>
+	<!-- woproject tasks -->
+	<target name="build.woapp" depends="compile">
+		<taskdef name="woapplication" classname="org.objectstyle.woproject.ant.WOApplication"/>
+
+		<woapplication name="${build.app.name}" frameworksBaseURL="/WebObjects/${build.app.name}.woa/Frameworks" destDir="${dest.dir}" customInfoPListContent="${customInfoPListContent}" principalClass="${principalClass}" webXML="${webXML}" webXML_CustomContent="${webXML_CustomContent}" servletAdaptor="er.extensions.jspservlet.ERXServletAdaptor">
+			<classes dir="${classes.dir}">
+				<includesfile name="woproject/classes.include.patternset" />
+				<excludesfile name="woproject/classes.exclude.patternset" />
+        <exclude if="javaClient" name="**/client/**/*.*"/>
+			</classes>
+
+			<wsresources dir=".">
+				<includesfile name="woproject/wsresources.include.patternset" />
+				<excludesfile name="woproject/wsresources.exclude.patternset" />
+			</wsresources>
+
+			<resources dir=".">
+				<includesfile name="woproject/resources.include.patternset" />
+				<excludesfile name="woproject/resources.exclude.patternset" />
+        <exclude if="javaClient" name="**/client/**/*.*"/>
+			</resources>
+
+			<frameworks root="ProjectLocal" embed="${embed.ProjectLocal}" eclipse="true" />
+			<frameworks root="External" embed="${embed.External}" eclipse="true" />
+			<frameworks root="Local" embed="${embed.Local}" eclipse="true" />
+			<frameworks root="User" embed="${embed.User}" eclipse="true" />
+			<frameworks root="System" embed="${embed.System}" eclipse="true" />
+			<frameworks root="Network" embed="${embed.Network}" eclipse="true" />
+
+			<lib dir="Libraries">
+				<include name="*.jar" />
+			</lib>
+		</woapplication>
+	</target>
+	
+	<target name="javaclient" if="javaClient" depends="build.woapp">
+		<mkdir dir="${dest.dir}/${build.app.name}.woa/Contents/WebServerResources/Java" />
+		<jar basedir="${classes.dir}" excludes="**/server/**/*.*, **/server/**/" jarfile="${dest.dir}/${build.app.name}.woa/Contents/WebServerResources/Java/${build.app.name}.jar"/>
 	</target>
 
-<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
-
-    <target name="Linux" description="set isLinux conditional">
-        <condition property="isLinux"><os name="Linux" /></condition>
-    </target>
-
-    <target name="condLinux" if="isLinux" depends="Linux" description="set Linux properties">
-        <property name="os_environment" value="is Linux ..." />
-
-        <property name="apple_root" value="/opt/Apple" />
-        <property name="local_root" value="${apple_root}/Local" />
-
-		<condition property="final_webasset" value="${unix_web_docroot}"
-		                                      else="/usr/local/projects/web">
-			<isset property="unix_web_docroot" /></condition>
-    </target>
-
-<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
-
-	<target name="Windows" description="set isWindows conditional">
-		<condition property="isWindows"><os family="windows" /></condition>
+	<target name="war" if="servletDeployment" depends="ssdd">
+		<war destfile="${dest.dir}/${build.app.name}.war" webxml="${dest.dir}/${build.app.name}/WEB-INF/web.xml">
+			<fileset dir="${dest.dir}/${build.app.name}">
+				<include name="**" />
+			</fileset>
+		</war>
 	</target>
 
-	<target name="condWindows" if="isWindows" depends="Windows" description="set Windows properties">
-		<property name="os_environment" value="is Windows ..." />
-		<property environment="env" />
-	<!--<property name="apple_root" value="${env.NEXT_ROOT}" />-->
-		<property name="apple_root" value="c:\apple" />
-		<property name="local_root" value="${apple_root}/Local" />
-        <property name="final_webasset" value="/Library/WebServer/Documents/WebObjects" />
+	<!-- To use this target
+    	1) create the LICENSE in your project directory
+    	2) add JavaWOJSPServlet in your WOFrameworks build path
+    	3) set servlet deployment to true in WOLips Properties
+    -->
+	<target name="ssdd" if="servletDeployment" depends="build.woapp">
+		<mkdir dir="${dest.dir}/${build.app.name}/WEB-INF/classes" />
+		<mkdir dir="${dest.dir}/${build.app.name}/WEB-INF/tlds" />
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/">
+			<fileset dir="${dest.dir}/${build.app.name}.woa/Contents/">
+				<include name="web.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/">
+			<fileset dir="..">
+				<include name="LICENSE" />
+			</fileset>
+		</copy>
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/">
+			<fileset dir="${dest.dir}">
+				<include name="${build.app.name}.woa/**" />
+			</fileset>
+		</copy>
+		<!-- copy the frameworks to the WEBINFROOT/Library directory -->
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/">
+			<fileset dir="${dest.dir}/${build.app.name}.woa/Contents">
+				<include name="Library/**" />
+			</fileset>
+		</copy>
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/">
+			<fileset dir="${dest.dir}/${build.app.name}.woa">
+				<include name="Resources/**" />
+			</fileset>
+		</copy>
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/lib/">
+			<fileset dir="${dest.dir}/${build.app.name}/WEB-INF">
+				<include name="**/Resources/**/*.jar" />
+			</fileset>
+			<mapper type="flatten" />
+		</copy>
+
+		<!--  Get the necessary Frameworks from the webobjects system root instead of the project wrapper -->
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/lib" file="${wo.system.frameworks}/JavaWOJSPServlet.framework/WebServerResources/Java/JavaWOJSPServlet_client.jar" />
+
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/tlds">
+			<fileset dir="${wo.system.frameworks}/JavaWOJSPServlet.framework/Resources/">
+				<include name="WOtaglib_1_0.tld" />
+			</fileset>
+		</copy>
+
+		<!-- the WebObject Extensions -->
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/lib">
+			<fileset dir="${wo.extensions}">
+				<include name="*.jar" />
+				<exclude name="servlet.jar" />
+			</fileset>
+			<mapper type="flatten" />
+		</copy>
+		
+		<!-- the Java Client Client-Side Classes 	  -->
+		<copy todir="${dest.dir}/${build.app.name}/WEB-INF/${build.app.name}.woa/Contents/WebServerResources/Java">
+			<fileset dir="${wo.local.frameworks}"> 
+				<include name="**/WebServerResources/Java/*.jar"/> 
+			</fileset> 
+			<mapper type="flatten"/>
+		</copy>
+		
+		<!-- fix the Macos*ClassPath.txt files  -->
+		<replaceregexp file="${dest.dir}/${build.app.name}/WEB-INF/${build.app.name}.woa/Contents/MacOS/MacOSClassPath.txt" match="APPROOT/Resources/Java/${build.app.name.lowercase}.jar" replace="APPROOT/${build.app.name}.woa/Contents/Resources/Java/${build.app.name.lowercase}.jar" byline="true" />
+		<replaceregexp file="${dest.dir}/${build.app.name}/WEB-INF/${build.app.name}.woa/Contents/MacOS/MacOSXServerClassPath.txt" match="APPROOT/Resources/Java/${build.app.name.lowercase}.jar" replace="APPROOT/${build.app.name}.woa/Contents/Resources/Java/${build.app.name.lowercase}.jar" byline="true" />
+
+		<!-- fix the web.xml file:  the app itself needs build.app.name/Contents -->
+		<replaceregexp file="${dest.dir}/${build.app.name}/WEB-INF/web.xml" match="WEBINFROOT/Resources/Java/${build.app.name.lowercase}.jar" replace="WEBINFROOT/${build.app.name}.woa/Contents/Resources/Java/${build.app.name.lowercase}.jar" byline="true" />
+
+		<!-- fix the web.xml file to remove the extra Frameworks/ directory level for the frameworks -->
+		<replaceregexp file="${dest.dir}/${build.app.name}/WEB-INF/web.xml" match="WEBINFROOT/Frameworks//" replace="WEBINFROOT/" byline="true" />
 	</target>
 
-	<!--  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -->
+	<target name="compile" depends="init.properties">
+		<taskdef name="wocompile" classname="org.objectstyle.woproject.ant.WOCompile" />
 
+		<mkdir dir="bin" />
+		<wocompile srcdir="Sources" destdir="bin">
+			<frameworks root="ProjectLocal" embed="false" eclipse="true" />
+			<frameworks root="External" embed="false" eclipse="true" />
+			<frameworks root="Local" embed="false" eclipse="true" />
+			<frameworks root="User" embed="false" eclipse="true" />
+			<frameworks root="System" embed="false" eclipse="true" />
+			<frameworks root="Network" embed="false" eclipse="true" />
+			<classpath>
+				<fileset dir="Libraries">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${wo.extensions}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</wocompile>
+	</target>
 </project>
